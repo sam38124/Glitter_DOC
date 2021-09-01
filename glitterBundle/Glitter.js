@@ -97,7 +97,9 @@ class Glitter {
 
         this.setHome = function (url, tag, obj) {
             var search=setSearchParam(removeSearchParam(window.location.search,"page"),"page",tag)
-            window.history.pushState({}, document.title, search);
+            try {
+                window.history.pushState({}, document.title, search);
+            }catch (e){}
             this.showLoadingView();
             glitter.pageIndex = glitter.pageIndex + 1;
             var map = {};
@@ -176,7 +178,9 @@ class Glitter {
 
         this.changePage = function (link, tag, goBack, obj) {
             var search=setSearchParam(removeSearchParam(window.location.search,"page"),"page",tag)
-            window.history.pushState({}, document.title, search);
+            try {
+                window.history.pushState({}, document.title, search);
+            }catch (e){}
             this.showLoadingView();
             glitter.pageIndex = glitter.pageIndex + 1;
             var map = {};
@@ -1518,7 +1522,9 @@ function glitterInitial() {
             glitter.goBack();
             if (glitter.iframe.length > 0) {
                 var search=setSearchParam(removeSearchParam(window.location.search,"page"),"page",glitter.iframe[glitter.iframe.length - 1].id)
-                window.history.pushState(null, null, search);
+                try {
+                    window.history.pushState(null, null, search);
+                }catch (e){}
             }
         });
     }
