@@ -100,7 +100,7 @@ class DataBase {
             switch (glitter.deviceType){
                 case appearType.Web:
                     var map = {}
-                    map.rout = window.location.pathname.replace("/Glitter", "Glitter").replace("/glitterBundle/home.html", "/") + rout
+                    map.rout = window.location.pathname.replace("/Glitter", "Glitter").replace("/glitterBundle/index.html", "/") + rout
                     map.dataBase = dataBase
                     $.ajax({
                         type: "POST",
@@ -196,7 +196,7 @@ class DataBase {
             switch (glitter.deviceType){
                 case appearType.Web:
                     var map = {}
-                    map.rout = window.location.pathname.replace("/Glitter", "Glitter").replace("/glitterBundle/home.html", "/") + rout
+                    map.rout = window.location.pathname.replace("/Glitter", "Glitter").replace("/glitterBundle/index.html", "/") + rout
                     map.dataBase = "Glitter"
                     $.ajax({
                         type: "POST",
