@@ -1,0 +1,28 @@
+@media screen and (max-width: 769px) {
+    .navBar{
+        width:0;
+        height: 100%;
+    }
+}
+
+
+
+@media screen and (min-width: 769px) {
+    .navBar{
+        background-color: #F9F9F9;
+        width: 300px;
+        height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        letter-spacing: 1px
+    }
+    .tit{
+        font-weight: 500;
+        font-size: 20px;
+    }
+    .spi{
+        height: 1px;width: calc(100% + 40px);background-color: rgba(148,151,155,0.2);margin-left: -20px;
+        margin-right: -20px;
+        margin-top:20px;
+    }
+}
