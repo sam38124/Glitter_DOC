@@ -1,6 +1,7 @@
 @media screen and (max-width: 769px) {
     .navBar{
         width:0;
+        display: none;
         height: 100%;
     }
 }
@@ -14,15 +15,76 @@
         height: 100%;
         padding: 20px;
         box-sizing: border-box;
-        letter-spacing: 1px
+
     }
     .tit{
         font-weight: 500;
         font-size: 20px;
+        height: 100px;
+        letter-spacing: 1px
     }
     .spi{
         height: 1px;width: calc(100% + 40px);background-color: rgba(148,151,155,0.2);margin-left: -20px;
         margin-right: -20px;
         margin-top:20px;
     }
+    .folderClose{
+        height: 30px;
+        overflow: hidden;
+        font-size: 12px;
+        color: black;
+        margin: 10px 0px 0px;
+
+    }
+    .folderOpen{
+        height: auto !important;
+    }
+    .folder{
+        height: 30px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        color: #233659;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .folder:hover{
+        color: dodgerblue !important;
+    }
+    .item{
+        height: 30px;
+        font-size: 12px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-top: 5px;
+        margin-bottom: 0px;
+        color: #233659;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .item:hover{
+        color: dodgerblue !important;
+    }
+    .open{
+        color: dodgerblue !important;
+        opacity: 1 !important;
+    }
+    .close{
+        color: dodgerblue;margin-right: 10px;
+        opacity: 0.4 ;
+    }
+    .doClose{
+        color: lightgray;
+    }
+    .doOpen{
+        color: dodgerblue !important;
+    }
+    .doIcon{
+        margin-left: 10px;
+        margin-right: 15px;
+        font-size: 16px;
+    }
+
 }

@@ -5,6 +5,7 @@
     <title>Title</title>
   <script src="../glitterBundle/ControlInstance.js"></script>
     <link href="../glitterBundle/bootstrap.css" rel="stylesheet">
+    <link href="../fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
     <link href="Doc_Index.css" rel="stylesheet">
 </head>
 <style>
@@ -23,11 +24,21 @@
   }
   lifeCycle.onCreateView=function (){
     return `
-<div style="height: 50px;background-color:#233659;"></div>
+<div style="height: 60px;background-color:wheat;display: flex;align-items: center;">
+<img src="../img/glitter.png" style="height: 40px;width: 40px;margin-left: 20px;">
+<h3 style="color:  #233659;font-size: 18px;margin-left: 10px;margin-top: 0;margin-bottom: 0;letter-spacing: 1px;">Glitter Docs</h3>
+</div>
 <div style="display: flex;flex: auto;width: 100%;height: 100%;">
 <div class="navBar">
-<span class="tit">Glitter DOC.</span>
+<span class="tit">Glitter Tutorials</span>
 <div class="spi"></div>
+<div style="width: 100%;height: calc(100% - 40px);overflow-y: scroll;">
+<div class="folderClose"  >
+<div class="folder" onclick="$(this).parent().toggleClass('folderOpen');$(this).children('i').toggleClass('open');"><i class="fas fa-folder-open close"></i> Getting Started</div>
+<div class="item" onclick="$('.doOpen').removeClass('doOpen');$(this).addClass('doOpen');"><i class="fas fa-file-alt doIcon" ></i>About Glitter</div>
+<div class="item" onclick="$('.doOpen').removeClass('doOpen');$(this).addClass('doOpen');"><i class="fas fa-file-alt doIcon" ></i>About Glitter2</div>
+</div>
+</div>
 </div>
 </div>
     `
