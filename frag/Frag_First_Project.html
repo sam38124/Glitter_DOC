@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+    <link href="../glitterBundle/bootstrap.css" rel="stylesheet">
+    <link href="../fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/railscasts.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"></script>
+</head>
+<style>
+    html{
+        user-select: text;
+        -webkit-user-select:text;
+        height: 100%;
+        background-color: transparent;
+        width: calc(100% - 20px);
+        overflow-y: scroll;
+        margin-top: 20px;
+        text-align: left;
+        padding-top: 50px !important;
+
+    }
+    body{
+        width: 100%;
+        transform: translateX(-50%);
+        left: 50%;
+        position: relative;
+        user-select: text;
+        -webkit-user-select:text;
+        max-width: 800px;
+        height: 100%;
+        background-color: transparent;
+    }
+    span{
+        font-size: 15px;
+        letter-spacing: 1px;
+        color: #233659;
+    }
+    .js{
+        text-align: left;
+    }
+    pre{
+        text-align: left;
+    }
+</style>
+<body>
+<script>
+    lifeCycle.onCreate=function (){
+        hljs.highlightAll();
+        getData();
+    }
+    lifeCycle.onCreateView=function (){
+        return `
+        <h3 style="font-size: 39px;font-weight: 400;">Start your first project</h3>
+    <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
+ <span>Create a directory and create a html file and name it helloworld.html</span>
+ <br><br>
+ <div style="border-radius: 10px;background-color: whitesmoke;max-width: 100%;padding: 10px;">
+ <img src="../img/helloWorld.png" style="width: 100%;border-radius: 10px;">
+</div>
+ <br>
+<span>Step1. Copy the code and paste to helloWorld.html</span>
+ <br> <br>
+<div style="background-color: whitesmoke"></div>
+<pre>
+<code id="codeInside" class="javascript" style="text-align: left;"></code>
+</pre>
+ <br>
+<span>Step2. Copy the code and paste to Entry.js</span>
+ <br> <br>
+${glitter.share.code.js(`"use strict";
+function onCreate() {
+  glitter.setHome('page/HelloWorld.html','HelloWorld',{})
+}
+`)}
+ <br>
+<span>Finish. Open home.html in the web browser</span> <br> <br>
+ <img src="../img/web_browser.png" style="width: 100%;border-radius: 10px;">
+`
+    }
+    function getData(){
+        $.ajax({
+            url: '../text/HelloWorld.html',
+            timeout: 60000,
+            contentType: "application/text; charset=utf-8;",
+            type: "get",
+            dataType: "text",
+            success: function (data) {
+                $('#codeInside').text(data)
+            },
+            error: function (data) {
+                error()
+                console.log("error:" + data)
+            }
+        });
+    }
+</script>
+</body>
+</html>

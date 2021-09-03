@@ -1394,13 +1394,6 @@ class Glitter {
         this.print=function (fun){
             return fun()
         }
-        //設定Url
-        this.setUrlParameter=function (tag,value){
-            var search=setSearchParam(removeSearchParam(window.location.search,tag),tag,value)
-            try {
-                window.history.pushState({}, document.title, search);
-            }catch (e){}
-        }
 
 
     }

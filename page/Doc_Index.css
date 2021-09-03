@@ -4,11 +4,19 @@
         display: none;
         height: 100%;
     }
+    #frag {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
 }
 
 
 
 @media screen and (min-width: 769px) {
+    #frag {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
     .navBar{
         background-color: #F9F9F9;
         width: 300px;

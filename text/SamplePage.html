@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../glitterBundle/ControlInstance.js"></script>
+</head>
+<body>
+<script>
+  lifeCycle.onCreate=function (){
+    //Triggered when the page onCreateView finish
+  }
+  lifeCycle.onCreateView=function (){
+    //Return your body content
+    return `<h3>Hello World</h3>`
+  }
+
+  lifeCycle.onResume=function (){
+    //Triggered when the page is reappear
+  }
+  lifeCycle.onDestroy=function (){
+    //Triggered when the page is about to disappear
+  }
+</script>
+</body>
+</html>
