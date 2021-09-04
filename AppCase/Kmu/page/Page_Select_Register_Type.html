@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+  html {
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    width: 100%;
+    height: 100%;
+    background-color: #0d86c6;
+    background-image: url("../img/backGroung.png");
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: bottom;
+  }
+
+  .topBar {
+    width: 100%;
+    height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+  }
+.bottonPlace{
+  width: 100%;
+  height: calc(100% - 50px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.bottonPlace div{
+  width: 200px;
+  height: 50px;
+  background-color: dodgerblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+  margin-top: 30px;
+  font-size: 20px;
+  border: 2px solid white;
+}
+</style>
+<body>
+<script>
+  lifeCycle.onCreate=function (){
+
+  }
+  lifeCycle.onCreateView=function (){
+    return `
+${(pageType===glitter.htmlType.Page) ? `<div class="topBar" >
+    <img  src="../img/btn_back_normal.png" style="width: 50px;height: 50px;" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 16px;margin-left: 5px;flex: auto;">申請辦法</h3>
+    ${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? `<canvas id="edit" width="25" height="25"  style="width: 25px;height: 25px;margin-right: 10px;" onmousedown="
+glitter.changePage('publicResource/page/Page_Post_Activity.html','Page_Post_Activity',true,{})
+"></canvas>`:``}
+
+</div>`:``}
+<div class="bottonPlace">
+<div onclick="
+glitter.runJsInterFace('OutWeb',{data:'https://storage.googleapis.com/squarestudio/個人會員申請表.docx'},function (){})
+">個人會員</div>
+<div onclick="
+glitter.runJsInterFace('OutWeb',{data:'https://storage.googleapis.com/squarestudio/團體會員申請表.docx'},function (){})
+">團體會員</div>
+</div>
+    `
+  }
+</script>
+</body>
+</html>

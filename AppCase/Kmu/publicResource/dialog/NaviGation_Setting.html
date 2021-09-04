@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    html {
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(45deg, #9dc66b 5%, #4fa49a 30%, dodgerblue);
+        align-content: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .item {
+        color: white;
+        font-size: 16px;
+        margin-left: 10px;
+        cursor: pointer;
+        height: 40px;
+        display: flex;
+        align-content: center;
+        flex-direction: column;
+        border-bottom: 1px white solid;
+        width: 90%;
+    }
+</style>
+<script src="../../glitterBundle/ControlInstance.js"></script>
+<body>
+
+</body>
+</html>
+<script>
+
+    lifeCycle.onCreate = function () {
+     $('')
+    }
+    lifeCycle.onCreateView = function () {
+        return `
+        <h3 class="item" onclick="glitter.changePage('publicResource/page/Page_Policy.html','Page_Policy',true,{});glitter.closeNavigation();">隱私權政策</h3>
+        <h3 class="item" onclick="
+        glitter.runJsInterFace('clearScrible',{},function (){})
+        glitter.setPro('account','',function (){
+          glitter.setHome('page/Page_Logo.html', 'Page_Logo', '{}')
+          glitter.closeNavigation();
+        })">登出</h3>
+        `
+    }
+
+</script>

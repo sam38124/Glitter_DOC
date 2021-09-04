@@ -1,42 +1,94 @@
 @media screen and (max-width: 769px) {
-    .navBar{
-        width:0;
+    .github {
+        width:auto;
+        background-color: black;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 10px;
+        color: white;
+    }
+    .navBar {
+        width: 0;
         display: none;
         height: 100%;
     }
+
     #frag {
         margin-left: 20px;
         margin-right: 20px;
     }
+
+    #sample {
+        width: 0;
+        display: none;
+    }
 }
 
-
+@media screen and (max-width: 900px) {
+    #sample {
+        width: 0;
+        display: none;
+    }
+}
 
 @media screen and (min-width: 769px) {
+    .github {
+        width: 400px;
+        background-color: black;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 10px;
+        color: white;
+    }
+
+    #sample {
+        width: 400px;
+        min-width: 400px;
+        background-color: #1c1c1c;
+        text-align: left;
+        height: 100%;
+    }
+
     #frag {
         margin-left: 50px;
         margin-right: 50px;
     }
-    .navBar{
+
+    .navBar {
         background-color: #F9F9F9;
-        width: 300px;
+        width: 250px;
+        min-width: 250px;
         height: 100%;
         padding: 20px;
         box-sizing: border-box;
 
     }
-    .tit{
+
+    .tit {
         font-weight: 500;
         font-size: 20px;
         height: 100px;
         letter-spacing: 1px
     }
-    .spi{
-        height: 1px;width: calc(100% + 40px);background-color: rgba(148,151,155,0.2);margin-left: -20px;
+
+    .spi {
+        height: 1px;
+        width: calc(100% + 40px);
+        background-color: rgba(148, 151, 155, 0.2);
+        margin-left: -20px;
         margin-right: -20px;
-        margin-top:20px;
+        margin-top: 20px;
     }
-    .folderClose{
+
+    .folderClose {
         height: 30px;
         overflow: hidden;
         font-size: 12px;
@@ -44,10 +96,12 @@
         margin: 10px 0px 0px;
 
     }
-    .folderOpen{
+
+    .folderOpen {
         height: auto !important;
     }
-    .folder{
+
+    .folder {
         height: 30px;
         margin: 0;
         display: flex;
@@ -57,10 +111,12 @@
         font-weight: 600;
         cursor: pointer;
     }
-    .folder:hover{
+
+    .folder:hover {
         color: dodgerblue !important;
     }
-    .item{
+
+    .item {
         height: 30px;
         font-size: 12px;
         width: 100%;
@@ -72,27 +128,38 @@
         font-weight: 600;
         cursor: pointer;
     }
-    .item:hover{
+
+    .item:hover {
         color: dodgerblue !important;
     }
-    .open{
+
+    .open {
         color: dodgerblue !important;
         opacity: 1 !important;
     }
-    .close{
-        color: dodgerblue;margin-right: 10px;
-        opacity: 0.4 ;
+
+    .close {
+        color: dodgerblue;
+        margin-right: 10px;
+        opacity: 0.4;
     }
-    .doClose{
+
+    .doClose {
         color: lightgray;
     }
-    .doOpen{
+
+    .doOpen {
         color: dodgerblue !important;
     }
-    .doIcon{
+
+    .doIcon {
         margin-left: 10px;
         margin-right: 15px;
         font-size: 16px;
     }
 
+}
+
+.custom-select {
+    background: white none;
 }

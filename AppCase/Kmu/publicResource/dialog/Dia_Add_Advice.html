@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+    html {
+        width: 100%;
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .smallTitle {
+        margin-top: 5px;
+        width: calc(100% - 30px);
+        color: black;
+        font-size: 15px;
+        margin-bottom: 0;
+    }
+
+    input {
+        min-height: 40px;
+        height: 40px;
+        color: black;
+        font-weight: 400;
+        font-size: 15px;
+        width: calc(100% - 35px);
+        border-color: #aaaaaa;
+        border-width: 1px;
+        border-style: solid;
+        padding-left: 5px;
+        border-radius: 2px;
+        margin-top: 5px;
+    }
+
+    #introduce {
+        width: calc(100% - 30px);
+        margin-top: 10px;
+        border-radius: 5px;
+        border: 1px solid lightgray;
+        height: 200px;
+        padding: 5px;
+        line-height: 20px;
+        letter-spacing: 2px;
+    }
+</style>
+<body>
+<script>
+    lifeCycle.onCreate = function () {
+
+    }
+    lifeCycle.onCreateView = function () {
+        return `
+     <div style="width: 300px;background-color: white;border-radius: 10px;display: flex;flex-direction: column;align-items: center;">
+        <h3 style="height:40px;font-size:20px;color: dodgerblue;margin-top: 5px;margin-bottom: 5px;border-bottom: #8e8e8e solid 1px;width: 100%;display: flex;align-items: center;justify-content: center;flex-direction: column;">發佈推播</h3>
+<h3 class="smallTitle">訊息內容</h3>
+<textarea id="introduce" placeholder="請輸入推播訊息，會將此訊息推播給所有用戶!!"></textarea>
+<div style="display: flex;width: 100%;justify-content: space-around;">
+<div style="height:40px;margin-bottom:15px;margin-top:15px;border-radius: 5px;border:1px solid gray;color: gray;width: calc(50% - 25px);display: flex;align-items: center;
+justify-content: center;" onclick="glitter.closeDiaLog()">取消</div>
+<div style="height:40px;margin-bottom:15px;margin-top:15px;border-radius: 5px;background-color: dodgerblue;color: white;width: calc(50% - 25px);display: flex;align-items: center;
+justify-content: center;" onclick="setting()">設定完成</div>
+</div>
+
+</div>
+    `
+    }
+
+    function setting() {
+        glitter.share.dataLoading(true)
+        glitter.publicBeans.publicLogic.postNotification({
+            message: ($('#introduce').val())
+        }, function () {
+            glitter.share.dataLoading(false)
+            glitter.share.hint("發布成功!!")
+            glitter.closeDiaLogWithTag(getTag())
+        })
+    }
+</script>
+</body>
+</html>

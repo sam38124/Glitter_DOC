@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../../glitterBundle/ControlInstance.js"></script>
+  <script src="../jslib/moment.js"></script>
+</head>
+<style>
+  html{
+    background-image: url("../../img/backGroung.png");
+    background-color: #0d86c6;
+    background-size: auto 120%;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+  }
+  body {
+
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+  }
+  .topBar {
+    width: 100%;
+    height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+  }
+  .wrapper {
+    padding-top: 10px;
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: auto;
+    justify-content: space-around;
+    grid-gap: 5px;;
+    overflow-y: scroll;
+    width: 100%;
+    height: calc(100% - 60px);
+    overflow-x: hidden;
+    z-index: 4;
+  }
+  .itemCount {
+    border-radius: 50%;
+    background-color: red;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    color: white;
+    font-size: 11px;
+    position: absolute;
+    top: 0;
+    transform: translateX(15px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .itemDiv {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .itemDiv .mon{
+    width: 70px;
+    background-color: darkgrey;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    border-radius: 50%;
+  }
+  .itemDiv span {
+    color: white;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  .wrapper img {
+    width: 30px;
+    height: 30px;
+  }
+  .textLoading{
+      width: 100vh;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #212529;
+      font-size: 13px;
+      background-size: 100px 100px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url("../../img/loading.gif");
+  }
+</style>
+<body>
+<script>
+  var date=moment(moment().format('YYYY'))
+  var code=gBundle.code
+  var mounthData={}
+  lifeCycle.onCreate=function (){
+    setTimeout(function (){
+    if(glitter.publicBeans.publicLogic.customDefine.isManager()&&!gBundle.hideEdit){updatePencilColor()}
+    },1000)
+   getData()
+  }
+function getData(){
+      for(let a=0;a<12;a++){
+          get(a)
+}
+}
+  var success=0
+  function get(a){
+      glitter.publicBeans.publicLogic.getArticleCount({
+          index:'-1',
+          startTime:(new Date(`${date.format('YYYY')}-0${a+1}-01`).getTime()),
+          code:glitter.share.defineCode.calender,
+          endTime:(new Date(`${date.format('YYYY')}-0${a+2}-01`).getTime())
+      },function (response){
+          if(response===undefined){get(a)}else{
+              success+=1
+              mounthData[a+1]=response.data[0]["count(1)"]
+              //   updateView()
+              if(success===12){
+                  updateView()
+              }
+          }
+      })
+  }
+function updateView(){
+    var data=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+    var html=``
+    data.map(function (data,pos){
+        var position=pos+1
+        html+=` <div class="itemDiv" onmousedown="
+ gBundle.select=${position};
+ glitter.changePage('publicResource/page/Page_Calendar_Type_2.html','Page_Calendar_Type_2',true,gBundle);
+ ">
+            <div class="mon" style="${(mounthData[position]==="0") ? ``:`background-color: orangered;`}">${data}</div>
+            <span style="${(mounthData[position]==="0") ? ``:`color: red;`}">${(mounthData[position]==="0") ? `無待辦`:mounthData[position]+`則待辦`}</span>
+</div>`
+    })
+$('.wrapper').html(`
+<div style="background-color: black;opacity: 0.7;width: 100%;height: 100%;position: absolute;">dddd</div>
+ ${html}
+</div>
+`)
+}
+  lifeCycle.onCreateView=function (){
+    return `
+    ${(pageType===glitter.htmlType.Page) ? `<div class="topBar" >
+    <img  src="../img/btn_back_normal.png" style="width: 50px;height: 50px;" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 16px;margin-left: 5px;flex: auto;">${gBundle.title}</h3>
+    ${(glitter.publicBeans.publicLogic.customDefine.isManager()&&(!gBundle.hideEdit)) ? `<canvas id="edit" width="25" height="25"  style="width: 25px;height: 25px;margin-right: 10px;" onmousedown="
+glitter.changePage('publicResource/page/Page_Post_Activity.html','Page_Post_Activity',true,{
+title:gBundle.title,
+code:gBundle.code
+})
+"></canvas>`:``}
+
+</div>`:``}
+  <div class="wrapper">
+  <div style="background-color: black;opacity: 0.7;width: 100%;height: 100%;position: absolute;">dddd</div>
+   <div class="textLoading" style="z-index: 1;"> </div>
+</div>
+
+
+    `
+  }
+  function updatePencilColor() {
+    var _canvas = document.getElementById("edit");
+    var ctx = _canvas.getContext('2d');
+    //建立canvas物件
+    var img = new Image();
+    img.onload = function () {
+      ctx.canvas.width = img.width
+      ctx.canvas.height = img.height
+      draw(this, 0, 0);
+      //draw function
+    };
+    img.src = '../img/pencil.png';
+
+    //圖片載入的事件(與上次同)
+    function draw(imgObj, w, h) {
+      var x = 0;
+      var y = 0;
+//先定義圖片的x,p坐標位置
+      ctx.drawImage(imgObj, x, y);
+//將原始的圖片匯入
+      var imgData = ctx.getImageData(x, y, imgObj.width, imgObj.height);
+//取得canvas物件的資訊(需要完整的坐標及範圍)
+      var data = imgData.data;
+//再將資訊轉存出來
+      console.log(data);
+//這時候用console.log(data)，就可以看到RGB的值
+      for (var i = 0; i < data.length; i += 4) {
+        data[i] = 255;
+        // green
+        data[i + 1] = 255;
+        // blue
+        data[i + 2] = 255;
+
+      }
+      ctx.putImageData(imgData, 0, 0)
+      //重新將新的影像資訊覆蓋上去
+    }
+  }
+
+</script>
+</body>
+</html>

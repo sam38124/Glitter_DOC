@@ -1,7 +1,5 @@
 "use strict";
-
 function onCreate() {
-
     glitter.share.code = {
         kotlin: function (text) {
             return this.getCode('kotlin', text)

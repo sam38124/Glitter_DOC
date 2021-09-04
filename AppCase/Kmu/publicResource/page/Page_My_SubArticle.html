@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../../glitterBundle/ControlInstance.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../glitterBundle/layout/css/flexslider.css"/>
+  <script type="text/javascript" src="../../glitterBundle/layout/js/jquery.flexslider.js"></script>
+  <script src="../../publicResource/reactJS/MySubArticle.js" type="text/babel"></script>
+  <script src="../../glitterBundle/babel.min.js"></script>
+  <script src="../../glitterBundle/react.production.min.js" crossorigin></script>
+  <script src="../../glitterBundle/react-dom.production.min.js" crossorigin></script>
+  <script src="../../glitterBundle/create-react-class.min.js" crossorigin></script>
+  <script src="../../prop-types/prop-types.js"></script>
+  <script src="../../dist/react-infinite.js"></script>
+  <link href="../../publicResource/reactJS/ListArticle.css" rel="stylesheet">
+</head>
+<style>
+  .topBar {
+    display: flex;
+    height: 50px;
+    background-color: dodgerblue;
+  }
+</style>
+<body>
+
+<script>
+  lifeCycle.onCreate=function (){}
+  lifeCycle.onCreateView=function (){
+    return  `
+<div class="topBar" >
+    <img  src="../img/btn_back_normal.png" style="width: 50px;height: 50px;" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 16px;margin-left: 5px;">我的收藏</h3>
+</div>
+    <div id="infinite-example-two" class="content_div" style="width: 100%;height: calc(100vh - 50px);"></div>
+    `
+  }
+</script>
+</body>
+</html>

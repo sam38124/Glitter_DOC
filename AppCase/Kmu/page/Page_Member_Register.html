@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+  html {
+    width: 100%;
+    height: 100%;
+      overflow: hidden;
+  }
+
+  body {
+    width: 100%;
+    height: 100%;
+    background-color: #0d86c6;
+    background-image: url("../img/backGroung.png");
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: bottom;
+      overflow: hidden;
+  }
+
+  .topBar {
+    width: 100%;
+    height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+  }
+.bottonPlace{
+  width: 100%;
+  height: calc(100% - 50px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+    overflow-y: scroll;
+}
+.bottonPlace div{
+  width: 200px;
+  height: 50px;
+  background-color: darkgrey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+  margin-top: 30px;
+  font-size: 20px;
+  border: 2px solid white;
+}
+</style>
+<body>
+<script>
+  lifeCycle.onCreate=function (){
+
+  }
+  lifeCycle.onCreateView=function (){
+    return `
+${(pageType===glitter.htmlType.Page) ? `<div class="topBar" >
+    <img  src="../img/btn_back_normal.png" style="width: 50px;height: 50px;" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 16px;margin-left: 5px;flex: auto;">申請辦法</h3>
+    ${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? `<canvas id="edit" width="25" height="25"  style="width: 25px;height: 25px;margin-right: 10px;" onmousedown="
+"></canvas>`:``}
+
+</div>`:``}
+<div style="position:absolute;background-color: black;opacity: 0.6;width: 100%;height: 100%;"></div>
+<div class="bottonPlace" style="position: relative;">
+${
+        (glitter.publicBeans.publicLogic.customDefine.isManager()) ? `<div onclick="
+glitter.changePage('publicResource/page/Page_Show_User.html','Page_Show_User',true,{
+                  titleBar:true,
+                  showSubTitle:true,
+                  textTitle:'申請請求',
+                  excute:glitter.publicBeans.publicLogic.searchUser,
+                  data:{
+                     serchElement: [
+                        {search:'register',value:1}
+                      ],
+                      inMe:true
+                  },
+                  userSelect:function (data){
+                      glitter.changePage('page/Page_Grant_Register.html','Page_Grant_Register',true,data)
+                  }
+              })
+" style="background-color: red;">申請請求(管理員)</div>`:``
+    }
+<div onclick="
+glitter.changePage('page/Page_Register_Member.html','Page_Register_Member',true,{
+    singlePermisson:0,
+     title:'個人會員申請'
+})
+" style="background-color: dodgerblue;">個人會員(線上申請)</div>
+<div onclick="
+glitter.changePage('page/Page_Register_Member.html','Page_Register_Member',true,{
+    singlePermisson:3,
+     title:'團體會員申請'
+})
+" style="background-color: dodgerblue;">團體會員(線上申請)</div>
+<div onclick="
+glitter.changePage('page/Page_Register_Member.html','Page_Register_Member',true,{
+     singlePermisson:2,
+      title:'自然會員申請'
+})
+" style="background-color: dodgerblue;">自然會員(線上申請)</div>
+<div onclick="
+glitter.runJsInterFace('OutWeb',{data:'https://storage.googleapis.com/squarestudio/個人會員申請表.docx'},function (){})
+">個人會員(紙本申請)</div>
+<div onclick="
+glitter.runJsInterFace('OutWeb',{data:'https://storage.googleapis.com/squarestudio/團體會員申請表.docx'},function (){})
+">團體會員(紙本申請)</div>
+</div>
+    `
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../glitterBundle/ControlInstance.js"></script>
+    <script src="../jslib/index.umd.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../glitterBundle/layout/css/flexslider.css"/>
+    <script type="text/javascript" src="../../glitterBundle/layout/js/jquery.flexslider.js"></script>
+    <script src="../../publicResource/reactJS/ListArticle_Dcard.js" type="text/babel"></script>
+    <script src="../../glitterBundle/babel.min.js"></script>
+    <script src="../../glitterBundle/react.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/react-dom.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/create-react-class.min.js" crossorigin></script>
+    <script src="../../prop-types/prop-types.js"></script>
+    <script src="../../dist/react-infinite.js"></script>
+    <link href="../../publicResource/reactJS/ListArticle_Dcard.css" rel="stylesheet">
+    <script type="text/javascript" src="../../glitterBundle/slick/slick.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../glitterBundle/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="../../glitterBundle/slick/slick-theme.css"/>
+</head>
+<style>
+    .select{
+        border-radius: 10px;
+        background-color: dodgerblue;
+        padding: 5px;
+        color: white;
+        min-width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .select2 {
+        border-radius: 10px;
+        background-color: lightgray;
+        padding: 5px;
+        color: white;
+        min-width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .titleBarH {
+        min-height: 50px;
+        width: 100%;
+        height: 50px;
+        background-color: dodgerblue;
+        display: flex;
+        align-items: center;
+    }
+    .topBar {
+        width: 100%;
+        height: 50px;
+        background-color: dodgerblue;
+        display: flex;
+        align-items: center;
+    }
+</style>
+<body>
+
+<script>
+    var lastSelect={
+        position:0
+    }
+    lifeCycle.onCreate=function (){
+        setTimeout(function (){
+            glitter.addObserver(lastSelect,'position',function (data){
+                let timer=setInterval(function (){
+                    if(listArticleView!==undefined){
+                        if(gBundle.request!==undefined){
+                            listArticleView.startRequest(gBundle.request)
+                        }else{
+                            listArticleView.startRequest({index:'-1',code:gBundle.code})
+                        }
+                        clearInterval(timer)
+                    }
+                },100)
+            })
+            //當發佈完文章時通知更新
+            glitter.share.updateArt=function (){
+                reloadData()
+            }
+            if((glitter.publicBeans.publicLogic.customDefine.isManager()||(gBundle.code==glitter.share.defineCode.users))&&!gBundle.hideEdit){
+                updatePencilColor()
+            }
+        },1000)
+    }
+    lifeCycle.onResume=function (){
+       listArticleView.theView.setState({})
+    }
+    lifeCycle.onCreateView=function (){
+        return `
+${(pageType===glitter.htmlType.Page) ? `<div class="topBar" >
+    <img  src="../img/btn_back_normal.png" style="width: 50px;height: 50px;" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 16px;margin-left: 5px;flex: auto;">${gBundle.title}</h3>
+    ${(glitter.publicBeans.publicLogic.customDefine.isManager()||(gBundle.code==glitter.share.defineCode.users)) ? `<canvas id="edit" width="25" height="25"  style="width: 25px;height: 25px;margin-right: 10px;" onmousedown="
+glitter.changePage('publicResource/page/Page_Post_Article.html','Page_Post_Article',true,{
+    code:gBundle.code
+})
+"></canvas>`:``}
+
+</div>`:``}
+<div id="infinite-example-two" class="wrapper" style="width: 100%;height: 100%;"></div>`
+    }
+    function updatePencilColor() {
+        var _canvas = document.getElementById("edit");
+        var ctx = _canvas.getContext('2d');
+        //建立canvas物件
+        var img = new Image();
+        img.onload = function () {
+            ctx.canvas.width = img.width
+            ctx.canvas.height = img.height
+            draw(this, 0, 0);
+            //draw function
+        };
+        img.src = '../img/pencil.png';
+
+        //圖片載入的事件(與上次同)
+        function draw(imgObj, w, h) {
+            var x = 0;
+            var y = 0;
+//先定義圖片的x,p坐標位置
+            ctx.drawImage(imgObj, x, y);
+//將原始的圖片匯入
+            var imgData = ctx.getImageData(x, y, imgObj.width, imgObj.height);
+//取得canvas物件的資訊(需要完整的坐標及範圍)
+            var data = imgData.data;
+//再將資訊轉存出來
+            console.log(data);
+//這時候用console.log(data)，就可以看到RGB的值
+            for (var i = 0; i < data.length; i += 4) {
+                data[i] = 255;
+                // green
+                data[i + 1] = 255;
+                // blue
+                data[i + 2] = 255;
+
+            }
+            ctx.putImageData(imgData, 0, 0)
+            //重新將新的影像資訊覆蓋上去
+        }
+    }
+
+</script>
+</body>
+
+</html>

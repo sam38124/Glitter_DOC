@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="width=device-width">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+        height: 100vw;
+    }
+    .topBar {
+        width: 100%;
+        height: 50px;
+        background-color: dodgerblue;
+        display: flex;
+        align-items: center;
+    }
+</style>
+<body>
+<script>
+
+    lifeCycle.onCreate=function (){
+        if(glitter.publicBeans.publicLogic.customDefine.isManager()){
+            updatePencilColor()
+        }
+        getData()
+    }
+    var data=undefined
+    function getData(){
+        glitter.publicBeans.publicLogic.getArticle({
+            code:""+glitter.share.defineCode.priceInfo
+        },function (response){
+          if(response===undefined){
+              getData()
+          }else{
+              if(response.result){
+                  data=response.data[0].content
+                  $('#content').html(response.data[0].content)
+              }
+          }
+        })
+        glitter.share.updateArt=function (){
+            glitter.removePage('Page_Manager_Article')
+            glitter.changePage('page/Page_Manager_Article.html','Page_Manager_Article',true,{
+                title:'會員資格',
+                code:glitter.share.defineCode.priceInfo,
+            })
+        }
+    }
+    lifeCycle.onCreateView=function (){
+        return `
+        <div class="topBar" >
+    <img  src="../img/btn_back_normal.png" style="width: 50px;height: 50px;" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 16px;margin-left: 5px;flex: auto;">會員資格</h3>
+    ${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? `<canvas id="edit" width="25" height="25"  style="width: 25px;height: 25px;margin-right: 10px;" onmousedown="
+glitter.changePage('publicResource/page/Page_Post_Board.html','Page_Post_Board',true,{
+    title:'會員資格',
+    content:data,
+    code:glitter.share.defineCode.priceInfo
+})
+"></canvas>`:``}
+
+</div>
+<div style="margin: 10px;border-radius: 10px;padding:10px;border-color: whitesmoke;border-width: 1px;border-style:solid;width: calc(100vw - 40px);height: calc(100vh - 150px);overflow: scroll;">
+    <div style="color: black;margin: 10px;" id="content">
+加載中....
+    </div>
+</div>
+<h3 style="margin-bottom:0;bottom:0;position:fixed;font-size:16px;text-align:center;line-height:50px;background-color: dodgerblue;color: white;width: 100vw;height: 50px;float: bottom;" onclick="glitter.goBack()">確認</h3>
+        `
+    }
+    function updatePencilColor() {
+        var _canvas = document.getElementById("edit");
+        var ctx = _canvas.getContext('2d');
+        //建立canvas物件
+        var img = new Image();
+        img.onload = function () {
+            ctx.canvas.width = img.width
+            ctx.canvas.height = img.height
+            draw(this, 0, 0);
+            //draw function
+        };
+        img.src = '../img/pencil.png';
+
+        //圖片載入的事件(與上次同)
+        function draw(imgObj, w, h) {
+            var x = 0;
+            var y = 0;
+//先定義圖片的x,p坐標位置
+            ctx.drawImage(imgObj, x, y);
+//將原始的圖片匯入
+            var imgData = ctx.getImageData(x, y, imgObj.width, imgObj.height);
+//取得canvas物件的資訊(需要完整的坐標及範圍)
+            var data = imgData.data;
+//再將資訊轉存出來
+            console.log(data);
+//這時候用console.log(data)，就可以看到RGB的值
+            for (var i = 0; i < data.length; i += 4) {
+                data[i] = 255;
+                // green
+                data[i + 1] = 255;
+                // blue
+                data[i + 2] = 255;
+
+            }
+            ctx.putImageData(imgData, 0, 0)
+            //重新將新的影像資訊覆蓋上去
+        }
+    }
+</script>
+
+</body>
+</html>

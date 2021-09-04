@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../../glitterBundle/ControlInstance.js"></script>
+  <link rel="stylesheet" type="text/css" href="../reactJS/ReplyUserContent.css"/>
+  <script src="../../glitterBundle/babel.min.js"></script>
+  <script src="../../glitterBundle/react.production.min.js" crossorigin></script>
+  <script src="../../glitterBundle/react-dom.production.min.js" crossorigin></script>
+  <script src="../../glitterBundle/create-react-class.min.js" crossorigin></script>
+  <script src="../../prop-types/prop-types.js"></script>
+  <script src="../../dist/react-infinite.js"></script>
+  <script src="../reactJS/ReplyUserContent.js" type="text/babel"></script>
+</head>
+<style>
+  html {
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+  .titleBar {
+    min-height: 50px;
+    width: 100%;
+    height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+  }
+  .title {
+    font-size: 20px;
+    color: black;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .replayBox {
+    height: 40px;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+  }
+  .more{
+    min-width: 40px;
+    cursor: pointer;
+    display: flex;
+    font-size: 25px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #8e8e8e;
+    font-weight: 600;
+    height: 100%;
+    width: 40px;
+  }
+  .flexPencil{
+    padding: 0;
+    display: flex;
+    flex: auto;
+    background-color: whitesmoke;
+    height: 30px;
+    font-size: 14px;
+    align-items: center;
+  }
+  .flexPencil img{
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+    margin-left: 3px;
+  }
+  .loveBar{
+    margin-left: 5px;
+    height: 100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    min-width: 50px;
+    color: gray;
+  }
+  .loveBar img{
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+  }
+
+  .flexPencil input{
+    padding: 0;
+    background-color: transparent;
+    flex: auto;
+    width: calc(100% - 60px);
+    margin-left: 5px;
+    font-size: 14px;
+    border: 0 none;
+    height: 30px;
+  }
+  .toTop{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    margin-right: 5px;
+    height: 100%;
+  }
+  .toTop img{
+    width: 15px;
+    height: 15px;
+  }
+  .toTop span{
+    font-size: 10px;
+    margin-top: -3px;
+    color: gray;
+  }
+  .replayBox {
+    height: 40px;
+    width: 100%;
+    padding-left: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    z-index: 3;
+  }
+
+  .head{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+  }
+  input{
+    padding: 0;
+    background-color: ghostwhite;
+    flex: auto;
+    width: calc(100% - 60px);
+    margin-left: 5px;
+    font-size: 14px;
+    border: 0 none;
+    height: 30px;
+  }
+  .topBar{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .replayBox {
+    height: 40px;
+    width: 100%;
+    padding-left: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    z-index: 3;
+  }
+
+</style>
+<body>
+
+</body>
+<script>
+  var head=glitter.publicBeans.publicLogic.customDefine.head
+  lifeCycle.onCreate=function (){
+  }
+  lifeCycle.onCreateView=function (){
+    return `
+   <div class="topBar">
+    <img src="../img/arrow_left.png" style="width: 30px;height: 30px;" onmousedown="glitter.goBack();">
+    <h3 style="font-size: 18px;margin-left: 10px;color: black;">回覆留言</h3>
+    <div style="flex: auto;"></div>
+</div>
+<div style="height: calc(100% - 100px);" id="ReplyUserContent" class="replyContent"></div>
+<div class="replayBox">
+<img class="head" src="${glitter.publicBeans.publicLogic.customDefine.user_data.head}">
+<input id="replyText" type="text" onfocus="textOnFocus()" onblur="disableFocus()">
+<h3 style="color: dodgerblue;width: 50px;font-size: 16px;" onclick="snedMessage()">發佈</h3>
+</div>
+    `
+  }
+
+  //鍵盤輸入監聽
+  function textOnFocus(){
+    $('#pencil').hide()
+    $('#sendBt').show()
+  }
+  //鍵盤停止輸入監聽
+  function disableFocus(){
+    if($('#replyText').val()===''){
+      $('#pencil').show()
+      $('#sendBt').hide()
+    }
+  }
+  //傳送留言
+  function snedMessage(){
+    if($('#replyText').val()===''){
+      glitter.share.hint('請輸入回覆內容!!')
+      return
+    }
+    glitter.share.dataLoading(true)
+    glitter.publicBeans.publicLogic.replyMessage(gBundle.replyId,{
+      message:$('#replyText').val()
+    },function (response){
+      glitter.share.dataLoading(false)
+      if(response===undefined){
+        glitter.share.hint('請檢查網路連線!!')
+      }else{
+        if(response.result){
+          reloadMessage()
+          gBundle.replyCount=(parseInt(gBundle.replyCount,10)+1)
+          if(gBundle.callback!==undefined){
+            gBundle.subMessage={
+              account:glitter.publicBeans.publicLogic.customDefine.account,
+              message:$('#replyText').val(),
+              head:glitter.publicBeans.publicLogic.customDefine.user_data.head,
+              pick:glitter.publicBeans.publicLogic.customDefine.user_data.pick,
+            }
+            gBundle.callback()
+          }
+          $('#replyCount').html(`${gBundle.replyCount}則留言`)
+          $('#replyText').val('')
+        }else{
+          glitter.share.hint('回覆留言失敗!!')
+        }
+      }
+    })
+  }
+
+</script>
+</html>

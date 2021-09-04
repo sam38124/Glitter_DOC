@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../../glitterBundle/ControlInstance.js"></script>
+
+</head>
+<style>
+  html {
+    width: 100%;
+    height: 100%;
+      overflow-y: hidden;
+  }
+
+  body {
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+  }
+  .topBar {
+    width: 100%;
+    height: 50px;
+    min-height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+  }
+  .addContent{
+    width: 100%;
+    height: calc(100% - 50px);
+  }
+  .gridItem{
+    width: calc(100vw);
+      max-height: calc(100% - 140px);
+    margin-top: 10px;
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: auto;
+    overflow-y: scroll;
+  }
+  input{
+    border: none;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-left: 10px;
+    width: calc(100% - 20px);
+  }
+  .countHint{
+    font-size: 13px;
+    color: #8e8e8e;
+    margin-left: 12px;
+    margin-top: 5px;
+  }
+  .gridItem .imagePlace{
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    height: calc(100vw/3);
+      border: 1px solid whitesmoke;
+  }
+  .gridItem img{
+    width: 100%;
+    height: auto;
+  }
+  .delete{
+      width: 30px !important;
+      height: 30px !important;
+      position: absolute;
+      right: 0;
+      top:5px;
+  }
+  .onLoading{
+      position: absolute;
+      width: 100%;
+      height: 30px;
+      transform: translateY(-50%);
+      top:50%;
+      background-color: black;
+      opacity: 0.8;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+  }
+</style>
+<body>
+<script>
+    var item=[]
+  lifeCycle.onCreate=function (){
+      updateItem()
+  }
+  function updateItem(){
+      $('#gridItem').html('')
+      $('#gridItem').append(`<div class="imagePlace" onclick="selectImage()"><img src="../img/add.png" style="width: 40px;height: 40px;"></div>`)
+        item.map(function (data,position){
+            if(!data.result){
+                if(data.type==='video'){
+                    $('#gridItem').append(`<div class="imagePlace"> <video id="hls-video" autoplay loop muted playsinline style="width:  100%; height:100%;background-color: black;margin: 0;"  class="video-js vjs-big-play-centered">
+    <source src="${data.file}" type="application/x-mpegURL" id="source">
+</video>
+<div class="onLoading">影片上傳中...</div>
+</div>`)
+                }else{
+                    $('#gridItem').append(`<div class="imagePlace"><img src="${data.link}"><img class="delete" src="../img/close.png"
+onclick="item=item.filter(function (data){
+    return data.link!==item[${position}].link
+})
+updateItem()
+">
+<div class="onLoading">圖片上傳中...</div>
+</div>`)
+                }
+
+            }else{
+                $('#gridItem').append(`<div class="imagePlace">
+${(data.url.indexOf('HLS_ROUT')!==-1) ? `
+  <video id="hls-video" autoplay loop muted playsinline style="width:  100%; height:100%;background-color: black;margin: 0;"  class="video-js vjs-big-play-centered"
+      poster="${data.url}/thumb.jpg">
+    <source src="${data.url}/root.m3u8" type="application/x-mpegURL" id="source">
+</video>
+`:`<img src="${data.link}">`}
+<img class="delete" src="../img/close.png"
+onclick="item=item.filter(function (data){
+    return data.link!==item[${position}].link
+})
+updateItem()
+">
+</div>`)
+            }
+        })
+      $('.countHint').html(item.length+'張圖片')
+  }
+    function selectImage(){
+        glitter.openBottomSheet('publicResource/dialog/Dia_Select_Option.html','Dia_Select_Option',[
+            {title:'選擇影片',callback:function (){
+                    glitter.chooseVideo(function (data){
+                        data.map(function (data2){item.push(data2)})
+                        updateItem()
+                        uploadIMage()
+                    })
+                    glitter.closeBottomSheet()
+                }},
+            {title:'選擇照片',callback:function (){
+                    glitter.chooseImage(function (data){
+                        data.map(function (data2){item.push(data2)})
+                        updateItem()
+                        uploadIMage()
+                    })
+                    glitter.closeBottomSheet()
+                }}
+        ],10,true,true)
+
+    }
+    function uploadIMage(){
+        var data=item.filter(function (data){return !data.result})
+        data.map(function (data){
+            updateSingle(data)
+        })
+    }
+    function updateSingle(data){
+        if(data.type==='video'){
+            glitter.publicBeans.publicLogic.uploadVideo(data.file,function (response){
+                    if(response!==undefined && (response.result)){
+                        data.result=true
+                        data.url=response.url
+                        updateItem()
+                    }else{
+                        updateSingle(data)
+                    }
+                }
+            )
+        }else{
+            glitter.publicBeans.publicLogic.uploadImage([data.file],function (response){
+                    if(response!==undefined && (response.result)){
+                        data.result=true
+                        data.url=response.url[0]
+                        updateItem()
+                    }else{
+                        updateSingle(data)
+                    }
+                }
+            )
+        }
+
+    }
+  lifeCycle.onCreateView=function (){
+    return `
+ <div class="topBar">
+     <img src="../img/btn_back_normal.png" style="height: 50px;width: 50px;margin: 0" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 18px;flex:auto;">
+        建立相簿</h3>
+    <h3 style="color: white;width: 50px;font-size: 18px;text-align: center;"
+        onclick="post()">
+        建立</h3>
+</div>
+<input id="title" type="text" placeholder="相簿名稱">
+<div class="countHint">0</div>
+${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? `<div style="border-top:1px solid whitesmoke;border-bottom:1px solid whitesmoke;display: flex;padding-left: 10px;height: 30px;align-items: center;margin-top: 10px;">
+<div id="topSelect" onmousedown="toggleTopArticle()" style="width: 20px;height: 20px;display: flex;align-items: center;justify-content: center;border: 1px solid whitesmoke;">
+</div>
+<span style="color: #6a6a6a;font-size: 14px;margin-left: 10px;">是否設為置頂文章</span>
+</div>`:` <div class="spi"></div>`}
+<div class="gridItem" id="gridItem">
+</div>
+
+`
+  }
+    let isTopArticle=false
+    function toggleTopArticle(){
+        isTopArticle=!isTopArticle
+        if(isTopArticle){
+            $('#topSelect').html(`<img src="../img/check_mark_red.png" style="width: 16px;height: 16px;">`)
+        }else{
+            $('#topSelect').html(``)
+        }
+    }
+  function post(){
+        if(item.length===0){
+            glitter.share.hint('請選擇至少一張照片!!')
+            return
+        }
+        if(item.filter(function (data){
+            return !data.result
+        }).length!==0){
+            glitter.share.hint('請先等待照片上傳完畢!!')
+            return
+        }
+      var postMap={}
+      postMap.topArticle=(isTopArticle) ? 1:0
+      postMap.title = $('#title').val()
+      postMap.content =  $('#title').val()
+      postMap.circle=glitter.share.defineCode.album
+      postMap.image=[]
+      item.map(function (data){
+          postMap.image.push(data.url)
+      })
+      if (postMap.title === '') {
+          glitter.share.hint('請輸入相簿名稱!!')
+          return
+      }
+      glitter.share.dataLoading(true)
+      glitter.publicBeans.publicLogic.uploadArticle(postMap,function (response){
+          glitter.share.dataLoading(false)
+          if(response===undefined){
+              glitter.share.internetError()
+          }else{
+              if(response.result){
+                  glitter.removePage('Page_Album')
+                  glitter.changePage('publicResource/page/Page_Album.html', 'Page_Album',true, {})
+                  glitter.removePage('Page_Add_Albumn')
+                  glitter.share.hint("相簿發佈成功!!")
+              }else{
+                  glitter.share.hint("相簿發佈失敗!!")
+              }
+          }
+      })
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../../glitterBundle/ControlInstance.js"></script>
+    <script src="../jslib/moment.js"></script>
+</head>
+<style>
+  .topBar {
+    width: 100%;
+    height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+  }
+  .voteList {
+    padding-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    position: relative;
+    overflow: hidden;
+      display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    grid-gap: 10px;;
+    overflow-y: scroll;
+    width: calc(100% - 20px);
+    max-height: calc(100% - 50px);
+    overflow-x: hidden;
+    z-index: 4;
+    background-color: white;
+  }
+  html{
+      width: 100%;
+      height: 100%;
+  }
+  body{
+      width: 100%;
+      height: 100%;
+  }
+  .item{
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    box-shadow:  0 1px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 5px;
+      margin-top: 0;
+  }
+  .imagePlace{
+    width: 100%;
+    height: 25vw;
+    background-color:beige;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .imagePlace img{
+    max-height: 100%;
+    max-width: 100%;
+  }
+  .userFlex{
+    display: flex;
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .head{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+  .pick{
+    font-size: 11px;
+    color: black;
+    margin-left: 5px;
+  }
+  .title{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    font-size: 13px;
+      line-height: 20px;
+      min-height: 40px;
+    color: black;
+      word-break: break-all;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .vote{
+    width: calc(100% - 20px);
+    height: 30px;
+    border-radius: 10px;
+    background-color: #07b107;
+    margin-left: 10px;
+    margin-top: 10px;
+    color: white;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+<body>
+
+</body>
+<script>
+  lifeCycle.onCreate=function (){
+      if(glitter.publicBeans.publicLogic.customDefine.isManager()){
+          updatePencilColor()
+      }
+      getData()
+
+  }
+  function getData(){
+      glitter.share.dataLoading(true)
+      glitter.publicBeans.publicLogic.getArticle({
+          code:""+glitter.share.defineCode.vote,
+          orderString:'order by endTime desc limit 0,50'
+      },function (response){
+          glitter.share.dataLoading(false)
+          if(response===undefined){
+              glitter.share.goBack()
+              glitter.share.internetError()
+          }else {
+              if(response.result){
+                  response.data.map(function (data,pos){
+                      try {
+                          if(typeof(data.image)==='string'){
+                              data.image=JSON.parse(data.image)
+                          }
+                      }catch (e) {
+                          data.image = ["../img/voteImage.jpeg"]
+                      }
+                      if(data.image===undefined){ data.image = ["../img/voteImage.jpeg"]}
+                      var canVote=(new Date().getTime() < new Date(moment(data.endTime).format()).getTime())
+                      $('#voteList').append(`<div class="item" id="vote${pos}" >
+<div class="imagePlace"><img  src="${data.image[0]}"></div>
+<div class="userFlex">
+<img class="head" src="${data.head}">
+<h3 class="pick">${data.pick}</h3></div>
+<div class="title" >${data.title}</div>
+<h3 style="color: red;font-size: 13px;margin-top: 0px;margin-bottom: 0;margin-left: 5px;margin-right: 5px;text-align: center;">投票截止:${data.endTime.substring(0,16)}</h3>
+<div class="vote" style="${(canVote)?'':'background-color: orangered;'}">${(canVote) ? '前往投票':'投票結束'}</div>
+</div>`)
+                      $('#vote'+pos).click(function (){
+                          glitter.share.dataLoading(true)
+                          glitter.publicBeans.publicLogic.getArticle({
+                              defineId: data.id,
+                              index: '-1'
+                          }, function (response) {
+                              glitter.share.dataLoading(false)
+                              if (response === undefined) {
+                                  glitter.share.internetError()
+                              } else {
+                                  if (response.result) {
+                                      if (response.data.length > 0) {
+                                          response.data[0].image=data.image
+                                          glitter.changePage('publicResource/page/Page_Show_Vote.html','Page_Show_Vote',true,response.data[0])
+                                      }
+                                  }
+                              }
+                          })
+
+                      })
+                  })
+                  if(response.data.length===0){
+                      $('body').append(`<div style="width:100%;position:absolute;transform: translateX(-50%);left: 50%;top: 100px;z-index: 10;"><img src="../img/emptyFile.gif" style="width: 100%;margin: 0;min-height: 50px;">
+                <h3 style="color: grey;margin-top: -100px;width: 100%;display: flex;align-items: center;justify-content: center;font-size: 14px;">尚無內容...</h3></div>`)
+                  }
+              }
+          }
+      })
+  }
+  lifeCycle.onCreateView=function (){
+    return `${(pageType===glitter.htmlType.Page) ? `<div class="topBar" >
+    <img  src="../img/btn_back_normal.png" style="width: 50px;height: 50px;" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 16px;margin-left: 5px;flex: auto;">投票</h3>
+    ${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? `<canvas id="edit" width="25" height="25"  style="width: 25px;height: 25px;margin-right: 10px;" onmousedown="
+glitter.changePage('publicResource/page/Page_Post_Vote.html','Page_Post_Vote',true,{})
+"></canvas>`:``}
+
+</div>`:``}
+<div class="voteList" id="voteList">
+</div>
+`
+  }
+  function updatePencilColor() {
+    var _canvas = document.getElementById("edit");
+    var ctx = _canvas.getContext('2d');
+    //建立canvas物件
+    var img = new Image();
+    img.onload = function () {
+      ctx.canvas.width = img.width
+      ctx.canvas.height = img.height
+      draw(this, 0, 0);
+      //draw function
+    };
+    img.src = '../img/pencil.png';
+
+    //圖片載入的事件(與上次同)
+    function draw(imgObj, w, h) {
+      var x = 0;
+      var y = 0;
+//先定義圖片的x,p坐標位置
+      ctx.drawImage(imgObj, x, y);
+//將原始的圖片匯入
+      var imgData = ctx.getImageData(x, y, imgObj.width, imgObj.height);
+//取得canvas物件的資訊(需要完整的坐標及範圍)
+      var data = imgData.data;
+//再將資訊轉存出來
+      console.log(data);
+//這時候用console.log(data)，就可以看到RGB的值
+      for (var i = 0; i < data.length; i += 4) {
+        data[i] = 255;
+        // green
+        data[i + 1] = 255;
+        // blue
+        data[i + 2] = 255;
+
+      }
+      ctx.putImageData(imgData, 0, 0)
+      //重新將新的影像資訊覆蓋上去
+    }
+  }
+</script>
+</html>

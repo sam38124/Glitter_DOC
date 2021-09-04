@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../glitterBundle/ControlInstance.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../glitterBundle/layout/css/flexslider.css"/>
+    <script type="text/javascript" src="../../glitterBundle/layout/js/jquery.flexslider.js"></script>
+    <link rel="stylesheet" type="text/css" href="../reactJS/Page_IG_Reply.css"/>
+    <script src="../../glitterBundle/babel.min.js"></script>
+    <script src="../../glitterBundle/react.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/react-dom.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/create-react-class.min.js" crossorigin></script>
+    <script src="../../prop-types/prop-types.js"></script>
+    <script src="../../dist/react-infinite.js"></script>
+    <script src="../reactJS/Page_IG_Reply.js" type="text/babel"></script>
+</head>
+<style>
+  html{
+    width: 100%;
+    height: 100%;
+  }
+  body{
+    width: 100%;
+    height: 100%;
+  }
+  .topBar{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .replayBox {
+      height: 40px;
+      width: 100%;
+      padding-left: 10px;
+      background-color: white;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      display: flex;
+      align-items: center;
+      position: fixed;
+      bottom: 0;
+      z-index: 3;
+  }
+
+  .head{
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+  }
+
+  input{
+      padding: 0;
+      background-color: ghostwhite;
+      flex: auto;
+      width: calc(100% - 60px);
+      margin-left: 5px;
+      font-size: 14px;
+      border: 0 none;
+      height: 30px;
+  }
+</style>
+<body>
+
+</body>
+<script>
+  lifeCycle.onCreate=function (){}
+  lifeCycle.onCreateView=function (){
+    return `
+    <div class="topBar">
+    <img src="../img/arrow_left.png" style="width: 30px;height: 30px;" onmousedown="glitter.goBack();">
+    <h3 style="font-size: 18px;margin-left: 10px;">留言</h3>
+    <div style="flex: auto;"></div>
+    ${(gBundle.account!==glitter.publicBeans.publicLogic.customDefine.account) ? ` <img src="../img/send.png" style="width: 25px;height: 25px;transform: rotate(-20deg);
+" onclick="  glitter.share.dataLoading(true)
+                    glitter.publicBeans.publicLogic.addChat({
+                        toAccount:gBundle.account
+                    },function (response){
+                        glitter.share.dataLoading(false)
+                        if(response===undefined){
+                            glitter.share.hint('請檢察網路連線!!')
+                        }else{
+                            if(response.result){
+                                gBundle.link=response.link
+                                glitter.changePage('publicResource/page/Page_Show_User_Message_0.html','Page_Show_User_Message_0',true,gBundle)
+                            }else{
+                                glitter.share.hint('發生錯誤!!')
+                            }
+                        }
+                    })">`:``}
+</div>
+<div id="ArticleContent" style="width: 100%;height: calc(100% - 50px);"></div>
+<div class="replayBox">
+<img class="head" src="${gBundle.head}">
+<input id="replyText" type="text" onfocus="textOnFocus()" onblur="disableFocus()">
+<h3 style="color: dodgerblue;width: 50px;font-size: 16px;" onclick="snedMessage()">發佈</h3>
+</div>
+    `
+  }
+  //鍵盤輸入監聽
+  function textOnFocus(){
+      $('#pencil').hide()
+      $('#sendBt').show()
+  }
+  //鍵盤停止輸入監聽
+  function disableFocus(){
+      if($('#replyText').val()===''){
+          $('#pencil').show()
+          $('#sendBt').hide()
+      }
+  }
+  //傳送留言
+  function snedMessage(){
+      if($('#replyText').val()===''){
+          glitter.share.hint('請輸入回覆內容!!')
+          return
+      }
+      glitter.share.dataLoading(true)
+      glitter.publicBeans.publicLogic.replyMessage(gBundle.id,{
+          message:($('#replyText').val())
+      },function (response){
+          glitter.share.dataLoading(false)
+          if(response===undefined){
+              glitter.share.hint('請檢查網路連線!!')
+          }else{
+              if(response.result){
+                  reloadMessage()
+                  gBundle.replyCount=(parseInt(gBundle.replyCount,10)+1)
+                  $('#replyCount').html(`${gBundle.replyCount}則留言`)
+                  $('#replyText').val('')
+              }else{
+                  glitter.share.hint('回覆留言失敗!!')
+              }
+          }
+      })
+  }
+
+</script>
+</html>

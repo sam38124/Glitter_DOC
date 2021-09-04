@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+    html {
+        height: 100%;
+        width: 100%;
+        overflow-y: scroll;
+        background-image: url("../img/backGroung.png");
+        background-color: #0d86c6;
+        background-size: auto 120%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    body {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100%;
+    }
+
+    .logo {
+        width: 150px;
+        height: 150px;
+        min-height: 100px;
+        min-width: 100px;
+    }
+
+    .logoTitle {
+        color: white;
+        font-size: 18px;
+        margin-bottom: 0;
+    }
+
+    .logoMin {
+        color: white;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    .signPlace {
+        position: relative;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .signTittle {
+        color: white;
+        font-size: 14px;
+        background-color: #0056b3;
+        width: 100%;
+        margin: 0;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+    }
+
+    input {
+        padding-left: 10px;
+        width: calc(100% - 40px);
+        height: 40px;
+        font-size: 16px;
+        stroke-width: 1px;
+        border-radius: 5px;
+        border-width: 1px;
+        border-color: white;
+        color: white;
+        background-color: rgba(0, 86, 179, 0);
+        margin-top: 10px;
+    }
+
+    .inmemory {
+        display: flex;
+        height: 30px;
+        align-items: center;
+        width: calc(100% - 30px);
+        margin-top: 10px;
+    }
+
+    .checkBox {
+        border-width: 2px;
+        border-style: solid;
+        border-color: white;
+        margin-left: 0;
+        width: 20px;
+        background-size: 20px 20px;
+        height: 20px;
+    }
+
+    .check {
+        background-image: url("../img/checkbox_check.png");
+    }
+
+    span {
+        font-size: 13px;
+        margin-left: 10px;
+        color: white;
+    }
+
+    .bottomBar {
+        display: flex;
+        align-items: center;
+        width: calc(100% - 30px);
+        height: 40px;
+    }
+
+    .barItem {
+        border-color: white;
+        border-style: solid;
+        width: 33%;
+        border-width: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: white;
+        height: 30px;
+    }
+
+    .loginBt {
+        width: calc(100% - 30px);
+        height: 35px;
+        color: dodgerblue;
+        display: flex;
+        font-size: 16px;
+        align-items: center;
+        justify-content: center;
+        border-width: 1px;
+        border-color: white;
+        border-style: solid;
+        border-radius: 5px;
+        margin-top: 10px;
+        background-color: white;
+    }
+    .signItem img {
+        width: 20px;
+        margin-left: 10px;
+        height: 20px;
+    }
+
+    .signItem span {
+        color: gray;
+        font-size: 12px;
+        margin-left: 15px;
+        font-weight: 400;
+    }
+    .signItem {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        height: 35px;
+        border-radius: 5px;
+        width: 212px;
+    }
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: white;
+        opacity: 1; /* Firefox */
+        font-size: 16px;
+    }
+
+    :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: white;
+        font-size: 16px;
+    }
+
+    ::-ms-input-placeholder { /* Microsoft Edge */
+        color: white;
+        font-size: 16px;
+    }
+</style>
+<body>
+
+</body>
+</html>
+<script>
+    lifeCycle.onCreate = function () {
+        if(glitter.share.settingObj.storeAccount){
+            glitter.getPro("account",function (response){
+                try {
+                    console.log(response.data)
+                    if(response.data!==undefined && (response.data!=='')){
+                        var account=JSON.parse(response.data)
+                        $('#admin').val(account.userID)
+                        $('#password').val(account.password)
+                    }
+                }catch (e){
+                }
+            })
+        }
+        getData()
+    }
+    lifeCycle.onCreateView = function () {
+        return `
+    <img class="logo" src="../img/logo.png">
+    <h3 class="logoTitle">台灣高雄醫學大學全球校友總會</h3>
+    <h3 class="logoMin">
+    Taiwan KMU Global Alumni Association
+</h3>
+<div class="signPlace">
+<div style="background-color: black;opacity: 0.5;width: 100%;height: 100%;position: absolute;z-index: -1;"></div>
+ <input id='admin' placeholder="帳號" >
+ <input id='password' type="password" placeholder="密碼" >
+  <div class="inmemory">
+  <div class="checkBox ${(glitter.share.settingObj.storeAccount) ? 'check':''}" onclick="$('.checkBox').toggleClass('check');glitter.share.storeSetting(function (data){data.storeAccount=!data.storeAccount});"></div>
+  <span>記住帳密</span>
+</div>
+<div class="bottomBar">
+<div class="barItem" onclick="glitter.changePage('page/Page_Forget_Password.html','Page_Forget_Password',true,{})">忘記密碼</div>
+<div class="barItem" onclick="glitter.changePage('page/Page_Register.html','Page_Register',true,{})">註冊會員</div>
+<div class="barItem" onclick="glitter.changePage('page/Page_Manager_Article.html','Page_Manager_Article',true,{
+    title:'隱私權政策',
+    code:glitter.share.defineCode.privacyInfo,
+});">同意條款</div>
+</div>
+<div class="loginBt" onclick="login()">會員登入</div>
+<div style="width: 100%;height: 1px;background-color: white;margin-top: 10px;"></div>
+<div style="display: flex;align-items: center;justify-content: center;flex-direction: column;" id="customer">
+
+</div>
+<span style="margin-top: 15px;">首次使用，建議您先註冊成為會員再使用</span>
+<span style="">服務專線:+886-7-3221500</span>
+<span style="margin-bottom:15px;margin-top: 5px;">版本號碼:${glitter.share.version}</span>
+</div>
+    `
+    }
+function getData(){
+        if(glitter.deviceType===glitter.deviceTypeEnum.Ios){
+            glitter.postRequest("Kmu", "getPro", {
+                name: 'cantShowFacebook'
+            },function (response){
+                if(response===undefined){getData()
+                    return}
+                if(response.data!==glitter.share.version){
+                    $('#customer').html(` <h3 style="margin-bottom:5px;font-size:13px;color:white;margin-top: 10px;display: flex;align-items: center;justify-content: center;width: 100px;">訪客登入</h3>
+<div class="signItem" style="background-color: #465992;margin-top: 5px;" onclick="
+glitter.share.dataLoading(true)
+glitter.publicBeans.publicLogic.faceBookLogin(function (response){
+ glitter.share.dataLoading(false)
+   if(response.result!=='cancel'){
+       if(response.result){
+            glitter.setHome('page/Page_Home.html','Page_Home',{})
+   }else{
+           glitter.changePage('page/Page_Register.html','Page_Register',true,response.socialData.data)
+   } }
+})">
+    <img src="../img/fbicon.svg" style="width: 30px;height: 30px;margin-left: 5px;">
+    <span style="color: white;margin-left: 10px;">使用臉書登入</span>
+</div>`)
+                }else {
+                    glitter.needBlock=true
+                    $('#customer').html(``)
+                }
+            })
+        }else{
+            $('#customer').html(` <h3 style="margin-bottom:5px;font-size:13px;color:white;margin-top: 10px;display: flex;align-items: center;justify-content: center;width: 100px;">訪客登入</h3>
+<div class="signItem" style="background-color: #465992;margin-top: 5px;" onclick="
+glitter.share.dataLoading(true)
+glitter.publicBeans.publicLogic.faceBookLogin(function (response){
+ glitter.share.dataLoading(false)
+   if(response.result!=='cancel'){
+       if(response.result){
+            glitter.setHome('page/Page_Home.html','Page_Home',{})
+   }else{
+           glitter.changePage('page/Page_Register.html','Page_Register',true,response.socialData.data)
+   } }
+})">
+    <img src="../img/fbicon.svg" style="width: 30px;height: 30px;margin-left: 5px;">
+    <span style="color: white;margin-left: 10px;">使用臉書登入</span>
+</div>`)
+        }
+
+}
+    function login() {
+        if($('#admin').val()===''){
+            glitter.share.hint('請輸入帳號')
+            return
+        }else if($('#password').val()===''){
+            glitter.share.hint('請輸入密碼')
+            return
+        }
+        glitter.share.dataLoading(true)
+        glitter.publicBeans.publicLogic.sign($('#admin').val(),$('#password').val(),function (response){
+            glitter.share.dataLoading(false)
+            if(response===undefined){
+                glitter.share.internetError()
+            }else{
+                glitter.closeDiaLog()
+                if(response.result){
+                    var userdata=glitter.publicBeans.publicLogic.customDefine.user_data
+                    if(userdata.updatePassword==="1"){
+                        glitter.changePage('page/Page_Reset_Password.html','Page_Reset_Password',true,{})
+                    }else{
+                        glitter.setHome('page/Page_Home.html','Page_Home',{})
+                    }
+                }else{
+                    glitter.share.hint("請檢查密碼是否輸入正確!!")
+                }
+            }
+        })
+    }
+</script>

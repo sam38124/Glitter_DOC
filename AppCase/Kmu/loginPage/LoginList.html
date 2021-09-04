@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-analytics.js"></script>
+</head>
+<style>
+    html {
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .logoPlace {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .bottomPlace {
+        position: absolute;
+        bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .signItem {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        height: 35px;
+        border-radius: 5px;
+        width: 212px;
+    }
+
+    #phone {
+        width: 20px;
+        margin-left: 10px;
+        height: 20px;
+    }
+
+    .signItem img {
+        width: 20px;
+        margin-left: 10px;
+        height: 20px;
+    }
+
+    .signItem span {
+        color: gray;
+        font-size: 12px;
+        margin-left: 15px;
+        font-weight: 400;
+    }
+</style>
+<body bgcolor="transparent">
+<div class="signItem" style="background-color: white;margin-top: 220px;" onclick="signWithGoogle()">
+    <img src="../img/google-icon.svg">
+    <span>Sign in with Google</span>
+</div>
+<div class="signItem" style="background-color: #465992;" onclick="signWithFaceBook()">
+    <img src="../img/fbicon.svg" style="width: 30px;height: 30px;margin-left: 5px;">
+    <span style="color: white;margin-left: 10px;">Sign in with Facebook</span>
+</div>
+<div class="signItem" style="background-color: #6ecbc4;" onclick="signPhone()">
+    <canvas id="phone" width="25" height="25" ></canvas>
+    <span style="color: white;margin-left: 15px;">Sign in with Phone</span>
+</div>
+<div class="signItem" style="background-color: #ee0707;">
+    <img src="../img/envelope.png" style="width: 30px;height: 30px;margin-left: 5px;">
+    <span style="color: white;margin-left: 10px;">Sign in with email</span>
+</div>
+<div id="recaptcha-container" style="background-color: #212529;"></div>
+</body>
+</html>
+<script>
+    lifeCycle.onCreate=function (){
+        updateView()
+    }
+    //反向顏色
+    function updateView() {
+        var _canvas = document.getElementById('phone');
+        var ctx = _canvas.getContext('2d');
+        //建立canvas物件
+        var img = new Image();
+        img.onload = function () {
+            ctx.canvas.width = img.width
+            ctx.canvas.height = img.height
+            draw(this, 0, 0);
+            //draw function
+        };
+        img.src = '../img/phone.png';
+
+        //圖片載入的事件(與上次同)
+        function draw(imgObj, w, h) {
+            var x = 0;
+            var y = 0;
+//先定義圖片的x,p坐標位置
+            ctx.drawImage(imgObj, x, y);
+//將原始的圖片匯入
+            var imgData = ctx.getImageData(x, y, imgObj.width, imgObj.height);
+//取得canvas物件的資訊(需要完整的坐標及範圍)
+            var data = imgData.data;
+//再將資訊轉存出來
+            console.log(data);
+//這時候用console.log(data)，就可以看到RGB的值
+            for (var i = 0; i < data.length; i += 4) {
+                data[i] = 255;
+                // green
+                data[i + 1] = 255;
+                // blue
+                data[i + 2] = 255;
+            }
+            ctx.putImageData(imgData, 0, 0)
+            //重新將新的影像資訊覆蓋上去
+        }
+    }
+</script>
+
+<!------------------------------------------------------FireBase---------------------------------------------------------------->
+<script>
+    // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
+    var firebaseConfig = {
+        apiKey: "AIzaSyCzToPV2n1RpjDgj1lDPFswoQ-rBomCK3A",
+        authDomain: "iamstarttv.firebaseapp.com",
+        projectId: "iamstarttv",
+        storageBucket: "iamstarttv.appspot.com",
+        messagingSenderId: "779214176135",
+        appId: "1:779214176135:web:4d57d21e7ab5ed2bc49d22",
+        measurementId: "G-GRC8T73DXG"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    function signWithGoogle(){
+        var provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+        signInWithFireBase(provider)
+    }
+
+    function signInWithFireBase(provider){
+        firebase.auth()
+            .signInWithPopup(provider)
+            .then((result) => {
+                /** @type {firebase.auth.OAuthCredential} */
+                var credential = result.credential;
+
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                var token = credential.accessToken;
+                // The signed-in user info.
+                var user = result.user;
+                alert(JSON.stringify(result))
+            }).catch((error) => {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+        });
+    }
+
+    /*電話號碼登入*/
+    function signPhone(){
+        var appVerifier  = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+        firebase.auth().signInWithPhoneNumber('+886978028730', appVerifier)
+            .then(function (confirmationResult) {
+                // confirmationResult can resolve with the fictional testVerificationCode above.
+                $('#recaptcha-container').hide()
+                confirmationResult.confirm('123456').then((result) => {
+                    // User signed in successfully.
+                    const user = result.user;
+                    signInSuccess(user.id)
+                }).catch((error) => {
+                    signInSuccess(user.id)
+                });
+                //return confirmationResult.confirm('12345')
+                return true
+            }).catch(function (error) {
+            $('#recaptcha-container').hide()
+        });
+    }
+</script>
+<script>
+    function signWithFaceBook(){
+        FB.login(function(response) {
+            FB.api('/me', function(response) {
+                if(response.id !== undefined){
+                    glitter.reloadPage()
+                    console.log('Successful login for: ' + response.name);
+                }
+            });
+        }, {scope: 'public_profile,email'});
+    }
+
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '294830995472155',
+            cookie: true,                     // Enable cookies to allow the server to access the session.
+            xfbml: true,                     // Parse social plugins on this webpage.
+            version: 'v10.0'           // Use this Graph API version for this call.
+        });
+    };
+</script>
+<script>
+    function signInSuccess(id){
+        alert(id)
+        glitter.reloadPage()
+    }
+</script>

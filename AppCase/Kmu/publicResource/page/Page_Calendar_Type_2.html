@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../glitterBundle/ControlInstance.js"></script>
+    <script src="../jslib/index.umd.min.js"></script>
+    <script src="../../glitterBundle/babel.min.js"></script>
+    <script src="../../glitterBundle/react.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/react-dom.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/create-react-class.min.js" crossorigin></script>
+    <script src="../../prop-types/prop-types.js"></script>
+    <script src="../../dist/react-infinite.js"></script>
+    <script src="../jslib/moment.js"></script>
+    <script src="../reactJS/Calendar.js" type="text/babel"></script>
+    <link rel="stylesheet" type="text/css" href="../reactJS/Calender.css"/>
+</head>
+<style>
+    html {
+        width: 100%;
+        height: 100%;
+    }
+
+    body {
+        width: 100%;
+        height: 100%;
+    }
+
+    .serch {
+        margin-top: 10px;
+        width: calc(100% - 70px);
+        height: 40px;
+        border-radius: 10px;
+        margin-left: 10px;
+        outline: none;
+        border-width: 1px;
+        font-size: 16px;
+        padding-right: 10px;
+        background-image: url("../img/zoomgray.png");
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        background-position: top 10px left 10px;
+        border-style: none;
+        padding-left: 40px;
+        background-color: whitesmoke;
+    }
+
+    .topBar {
+        width: 100%;
+        height: 50px;
+        background-color: dodgerblue;
+        display: flex;
+        align-items: center;
+    }
+.SelectDate{
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    font-size: 16px;
+    color: #1a4064;
+    border-bottom: 1px solid whitesmoke;
+}
+</style>
+<body>
+<script>
+    var date=moment(moment(new Date()).format('YYYY-MM'))
+    var code=(gBundle.code+"")
+    lifeCycle.onCreate = function () {
+        if(gBundle.date!==undefined){
+            date=moment(moment(gBundle.date).format('YYYY-MM'))
+        }
+        setTimeout(function (){
+            glitter.addTextChangeListener($("#serch"), function () {
+                searchText = $("#serch").val()
+                filterText()
+            })
+            //當發佈完文章時通知更新
+            glitter.share.updateArt = function () {
+                reloadData()
+            }
+            if(glitter.publicBeans.publicLogic.customDefine.isManager()&&!gBundle.hideEdit){
+                updatePencilColor()
+            }
+           // let inter=parseInt(moment().format('MM').replace('0',''),10)
+
+            // if(gBundle.select<inter){
+            //      for(var a=0;a<inter-gBundle.select;a++){
+            //          date.add(-1, 'M')
+            //      }
+            // }else{
+            //     for(var a=0;a<gBundle.select-inter;a++){
+            //         date.add(1, 'M')
+            //     }
+            // }
+            updateTime()
+        },1000)
+
+    }
+    function updateTime(){
+        if(gBundle.allDate){
+            $('#date').html(date.format('YYYY-MM'))
+            filterTime.startTime=undefined
+            filterTime.endTime=undefined
+            if(reloadData!==undefined){
+                canLoading=true
+                reloadData()
+            }
+        }else{
+            $('#date').html(date.format('YYYY-MM'))
+            var ends=moment(date.valueOf())
+            ends.add(1, 'M')
+            filterTime.startTimeFilter={
+                start:date.valueOf(),
+                end:ends.valueOf()
+            }
+            if(reloadData!==undefined){
+                canLoading=true
+                reloadData()
+            }
+        }
+
+    }
+    lifeCycle.onCreateView = function () {
+        return `
+${(pageType===glitter.htmlType.Page) ? `<div class="topBar" >
+    <img  src="../img/btn_back_normal.png" style="width: 50px;height: 50px;" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 16px;margin-left: 5px;flex: auto;">${gBundle.title}</h3>
+    ${(glitter.publicBeans.publicLogic.customDefine.isManager()&&(!gBundle.hideEdit)) ? `<canvas id="edit" width="25" height="25"  style="width: 25px;height: 25px;margin-right: 10px;" onmousedown="
+glitter.changePage('publicResource/page/Page_Post_Activity.html','Page_Post_Activity',true,{
+title:gBundle.title,
+code:gBundle.code
+})
+"></canvas>`:``}
+
+</div>`:``}
+${(gBundle.allDate) ? '':`
+<div class="SelectDate">
+<div style="font-size: 20px;font-weight: bold;width: 50px;display: flex;align-items: center;justify-content: center;" onclick="
+date.add(-1, 'M')
+updateTime()
+"><</div>
+<h3 id="date" style="flex: auto;display: flex;align-items: center;justify-content: center;"></h3>
+<div style="font-size: 20px;font-weight: bold;width: 50px;display: flex;align-items: center;justify-content: center;" onclick="
+date.add(1, 'M')
+updateTime()
+">></div>
+</div>
+`}
+
+<div id="Calendar" style="height: ${(gBundle.allDate) ? `calc(100% - 50px)`:`calc(100% - 100px)`};width: 100%;"></div>
+`
+    }
+    function updatePencilColor() {
+        var _canvas = document.getElementById("edit");
+        var ctx = _canvas.getContext('2d');
+        //建立canvas物件
+        var img = new Image();
+        img.onload = function () {
+            ctx.canvas.width = img.width
+            ctx.canvas.height = img.height
+            draw(this, 0, 0);
+            //draw function
+        };
+        img.src = '../img/pencil.png';
+
+        //圖片載入的事件(與上次同)
+        function draw(imgObj, w, h) {
+            var x = 0;
+            var y = 0;
+//先定義圖片的x,p坐標位置
+            ctx.drawImage(imgObj, x, y);
+//將原始的圖片匯入
+            var imgData = ctx.getImageData(x, y, imgObj.width, imgObj.height);
+//取得canvas物件的資訊(需要完整的坐標及範圍)
+            var data = imgData.data;
+//再將資訊轉存出來
+            console.log(data);
+//這時候用console.log(data)，就可以看到RGB的值
+            for (var i = 0; i < data.length; i += 4) {
+                data[i] = 255;
+                // green
+                data[i + 1] = 255;
+                // blue
+                data[i + 2] = 255;
+
+            }
+            ctx.putImageData(imgData, 0, 0)
+            //重新將新的影像資訊覆蓋上去
+        }
+    }
+
+</script>
+</body>
+</html>

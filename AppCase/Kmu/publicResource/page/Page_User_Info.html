@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../glitterBundle/ControlInstance.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../glitterBundle/layout/css/flexslider.css"/>
+    <script type="text/javascript" src="../../glitterBundle/layout/js/jquery.flexslider.js"></script>
+    <script src="../../publicResource/reactJS/IG_MY_INFO.js" type="text/babel"></script>
+    <script src="../../glitterBundle/babel.min.js"></script>
+    <script src="../../glitterBundle/react.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/react-dom.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/create-react-class.min.js" crossorigin></script>
+    <script src="../../prop-types/prop-types.js"></script>
+    <script src="../../dist/react-infinite.js"></script>
+    <link href="../../publicResource/reactJS/IG_MY_INFO.css" rel="stylesheet">
+</head>
+<style>
+    html {
+        width: 100%;
+        height: 100%;
+
+    }
+    .topBar{
+        display: flex;
+        align-items: center;
+        height: 50px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    body {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .topFlex {
+        height: 77px;
+        width: calc(100% - 32px);
+        margin-top: 16px;
+        margin-bottom: 24px;
+        display: flex;
+    }
+
+    .be6sR {
+        width: 77px;
+        height: 77px;
+        border-radius: 39px;
+        margin-right: 28px;
+    }
+
+    .intopFlex {
+        height: 20px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    .intopFlex h3 {
+        width: 33%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+    .intopFlex h4 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 33%;
+        color: black;
+        font-size: 14px;
+    }
+
+    .-vDIg {
+        cursor: pointer;
+        width: calc(100% - 32px);
+        margin-bottom: 21px;
+        margin-top: 0;
+        overflow-y: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+        font-size: 14px;
+        line-height: 20px;
+    }
+    .visible{
+        max-height:10000px;
+        -webkit-line-clamp: 1000;
+    }
+    .-vDIg h1 {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .-vDIg h2 {
+        font-size: 14px;
+        font-weight: 300;
+        margin: 0;
+    }
+
+    .bt_in3 {
+        display: flex;
+        width: calc(100% - 32px);
+        height: 40px;
+        justify-content: space-between;
+    }
+
+    .bt_in3 div {
+        width: calc(100% / 2 - 5px);
+        height: 100%;
+        border-radius: 5px;
+        border: 1px solid rgba(var(--ca6, 219, 219, 219), 1);
+        color: black;
+        font-size: 15px;
+        font-weight: 600;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+
+    .fx7hk {
+        margin-top: 10px;
+        height: 1px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-bottom: 1px solid rgba(var(--b38, 219, 219, 219), 1);
+    }
+
+    .content_div .itemFlex {
+        display: flex;
+        align-items: center;
+        margin-top: 1px;
+    }
+
+    .content_div .itemFlex div {
+        position: relative;
+        width: 33%;
+        padding-top: 33%;
+        background-color: black;
+        white-space: nowrap;
+        word-break: break-all;
+        overflow: hidden;
+        display: inline-block;
+        margin-right: 1px;
+    }
+
+    .content_div .itemFlex div img {
+        position:  absolute;
+        height: 100%;
+        width: auto;
+        left: -33%;
+        top: 0;
+        bottom: 0;
+    }
+    .reView {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .item {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+        background-color: white;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .itemBlock {
+        display: flex;
+        width: calc(100% - 20px);
+        align-items: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .itemBlock img {
+        width: 60px;
+        height: 60px;
+        border-radius: 5px;
+    }
+
+    .itemBlock .leftBlock {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+        max-width: calc(100% - 50px);
+    }
+
+    .leftBlock .h1 {
+        color: black;
+        font-size: 18px;
+        margin-top: 5px;
+        margin-bottom: 0;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+        overflow-y: hidden;
+    }
+
+    .leftBlock .h2 {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+
+    .leftBlock .h3 {
+        color: hsla(0, 0%, 6.7%, .6);
+        font-size: 14px;
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+
+    .btFlex {
+        display: flex;
+        margin-bottom: 10px;
+        align-items: center;
+        width: 90%;
+        height: 20px;
+    }
+
+    .btFlex img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .btFlex h3 {
+        font-size: 13px;
+        color: gray;
+        margin-left: 10px;
+    }
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, calc(50vw));
+        grid-auto-rows: calc(50vw + 50px);
+        padding-right: 10px;
+        width: calc(100% - 10px);
+        overflow-y: hidden;
+        padding-bottom: 20px;
+        overflow-x: hidden;
+    }
+
+
+    .wrapper .item2 .itemImg {
+        position: relative;
+        width: calc(100vw / 2 - 20px);
+        height: calc(100vw / 2 - 20px);
+        box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-color: black;
+        background-repeat: no-repeat;
+    }
+
+    .wrapper .item2 .itemTitle {
+        font-size: 14px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+        overflow: hidden;
+    }
+
+    .headFlex {
+        top: 0;
+        height: 40px;
+        position: absolute;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+    }
+
+    .headImg {
+        width: 25px;
+        height: 25px;
+        border-radius: 12px;
+    }
+
+    .pick {
+        color: white;
+        font-size: 14px;
+        margin-left: 10px;
+        font-weight: 600;
+    }
+    .item2{
+        width: calc(100% - 20px);
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 10px;
+        margin-top: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        padding-bottom: 5px;
+    }
+    .ListItem{
+        background-color: white;
+    }
+</style>
+
+<body>
+
+</body>
+</html>
+<script>
+    lifeCycle.onCreate = function () {
+        getUserInfo()
+    }
+    function getUserInfo(){
+        glitter.share.dataLoading(true)
+        glitter.publicBeans.publicLogic.getUserInfo(gBundle,function (response){
+            glitter.share.dataLoading(false)
+            if(response===undefined){
+                glitter.share.internetError()
+            }
+            if(response.result){ userData=response.data
+                userJson=JSON.parse((userData.json))}
+            createView()
+        })
+    }
+    lifeCycle.onCreateView = function () {
+        return `
+${(pageType===glitter.htmlType.Page) ? `<div class="topBar">
+    <img src="../img/arrow_left.png" style="width: 30px;height: 30px;" onmousedown="glitter.goBack();">
+    <h3 style="font-size: 18px;margin-left: 10px;color: black;">用戶檔案</h3>
+    <div style="flex: auto;"></div>
+</div>`:``}
+<div id="infinite-example-two" class="content_div" style="width: 100%;height: 100%;"></div>
+`
+    }
+</script>

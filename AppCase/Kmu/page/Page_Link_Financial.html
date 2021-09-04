@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+  html{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-image: url("../img/backGroung.png");
+    background-color: #0d86c6;
+    background-size: auto 120%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  body{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .topBar {
+    width: 100%;
+    height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+  }
+  #content div{
+    width: calc(100%);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    color: black;
+    border-bottom: 1px solid whitesmoke;
+  }
+  #content{
+    background-size: 40px 40px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../img/loading.gif");
+  }
+  .SelectDate{
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    font-size: 16px;
+    color: #1a4064;
+    border-bottom: 1px solid whitesmoke;
+  }
+  .hintPlace{
+    font-size: 16px;
+    color: black;
+    font-weight: bold;
+    width: 100%;
+    height: 40px;
+    align-items: center;
+  }
+  .careerSpace{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    border-bottom: 1px solid whitesmoke;
+  }
+  .careerSpace span{
+    color: #6a6a6a;
+    width: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+  }
+</style>
+<body>
+<script>
+  var data=[]
+  lifeCycle.onCreate=function (){
+    getData()
+  }
+  lifeCycle.onResume=function (){
+    //   getData()
+  }
+  lifeCycle.onCreateView=function (){
+    return `
+    <div class="topBar">
+      <img src="../img/btn_back_normal.png" style="width: 40px;height: 40px;" onmousedown="glitter.goBack();">
+    <h3 style="color: white;width: calc(100% - 80px);font-size: 16px;text-align: center;">財務報表</h3>
+   ${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? `<h3 style="color: white;font-size: 24px;margin-right: 10px;" onclick="
+     glitter.openDiaLog('dialog/Dia_Set_Finacial.html','Dia_Set_Finacial',false,false,{
+         data:data,
+         callback:function (){
+             getData()
+         }
+     },function (){   getData()})
+    ">+</h3>` : ``}
+    </div>
+   <div class="SelectDate">
+<div style="font-size: 20px;font-weight: bold;width: 50px;display: flex;align-items: center;justify-content: center;" onclick="
+
+"><</div>
+<h3 id="date" style="flex: auto;display: flex;align-items: center;justify-content: center;">第一年度</h3>
+<div style="font-size: 20px;font-weight: bold;width: 50px;display: flex;align-items: center;justify-content: center;" onclick="
+
+">></div>
+</div>
+    <div  style="width:100%;height: calc(100% - ${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? '150px':'100px'});overflow-y: scroll;position: relative;" id="content">
+</div>
+${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? `
+<h3 style="margin-bottom:0;bottom:0;position:fixed;font-size:16px;text-align:center;line-height:50px;background-color: red;color: white;width: 100vw;height: 50px;float: bottom;" onclick="
+glitter.openDiaLog('publicResource/dialog/Check_Yes_Not.html','Check_Yes_Not',false,false,{
+    title:'是否確認移除報表!?',
+    callback:function (result){
+    if(result){
+      data[link[select]]=undefined
+      setting()
+    }
+    glitter.closeDiaLogWithTag('Check_Yes_Not')
+  }
+  },function (){})
+">移除報表</h3>
+`:''}
+    `
+  }
+  var link=[]
+  var select=undefined
+  function getData(){
+    $('#content').html('')
+    glitter.share.dataLoading(true)
+    glitter.postRequest("Kmu", "getPro", {
+      name: 'setFinacial'
+    }, function (response) {
+      glitter.share.dataLoading(false)
+      if (response === undefined) {
+        glitter.closeDiaLog()
+        glitter.share.internetError()
+      } else {
+        if (response.result) {
+          if(response.data!==''){
+            data=JSON.parse(response.data)
+            var key = Object.keys(data);
+            for (var a = 0; a < key.length; a++) {
+              if(data[key[a]]!==undefined){
+                link.push(parseInt(key[a],10))
+              }
+            }
+            link.sort(function(a, b) {
+              return a - b;
+            });
+
+            if(link.length>0){
+              select=(link.length-1)
+            }
+            setDisplay()
+          }else{
+            data=[]
+          }
+        }
+      }
+    })
+  }
+  function setDisplay(){
+    $('#content').html('')
+    $('#content').append(`<iframe style="width: 100%;height: 100%;" src="https://docs.google.com/viewer?url=${data[link[select]]}&embedded=true"></iframe>`)
+    var cn=['0','一','二','三','四','五','六','七','八','九','十']
+
+    $('.SelectDate').html(`<div style="font-size: 20px;font-weight: bold;width: 50px;display: flex;align-items: center;justify-content: center;" onclick="
+if(select-1>=0){
+    select=select-1
+    setDisplay()
+}
+">${(select-1>=0) ? '<':''}</div>
+<h3 id="date" style="flex: auto;display: flex;align-items: center;justify-content: center;">第${cn[link[select]]}年度</h3>
+<div style="font-size: 20px;font-weight: bold;width: 50px;display: flex;align-items: center;justify-content: center;" onclick="
+if(select+1<link.length){
+    select=select+1
+    setDisplay()
+}
+">${(select+1<link.length) ? '>':''}</div>`)
+  }
+  function setting() {
+    glitter.share.dataLoading(true)
+    glitter.postRequest("Kmu", "setPro", {
+      data:{
+        name: 'setFinacial',
+        string: JSON.stringify(data)
+      }
+    }, function (response) {
+      glitter.share.dataLoading(false)
+      if (response === undefined) {
+        glitter.share.internetError()
+      } else {
+        if (response.result) {
+          glitter.share.hint("設定成功")
+        } else {
+          glitter.share.hint("設定失敗")
+        }
+      }
+    })
+  }
+
+</script>
+</body>
+</html>

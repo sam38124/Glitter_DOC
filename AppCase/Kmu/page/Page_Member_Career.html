@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+  html{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+      background-image: url("../img/backGroung.png");
+      background-color: #0d86c6;
+      background-size: auto 120%;
+      background-repeat: no-repeat;
+      background-position: center;
+  }
+  body{
+      position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .topBar {
+    width: 100%;
+    height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+  }
+  #content div{
+    width: calc(100%);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    color: black;
+  }
+  .SelectDate{
+      height: 50px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      font-size: 16px;
+      color: #1a4064;
+  }
+  .hintPlace{
+      font-size: 16px;
+      color: black;
+      font-weight: bold;
+      width: 100%;
+      height: 40px;
+      align-items: center;
+  }
+  .careerSpace{
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 30px;
+  }
+  .careerSpace span{
+      color: #6a6a6a;
+      width: 24%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+  }
+</style>
+<body>
+<script>
+  var data=[]
+  lifeCycle.onCreate=function (){
+    getData()
+  }
+  lifeCycle.onResume=function (){
+ //   getData()
+  }
+  lifeCycle.onCreateView=function (){
+    return `
+    <div class="topBar">
+      <img src="../img/btn_back_normal.png" style="width: 40px;height: 40px;" onmousedown="glitter.goBack();">
+    <h3 style="color: white;flex: auto;font-size: 16px;text-align: center;width: calc(100% - 80px);">理監事名錄</h3>
+    ${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? `<h3 style="color: white;font-size: 24px;margin-right: 10px;" onclick="
+     glitter.openDiaLog('dialog/Dia_Add_Carrear.html','Dia_Add_Carrear',false,false,{
+         data:data,
+         callback:function (){
+             getData()
+         }
+     },function (){   getData()})
+    ">+</h3>` : ``}
+
+    </div>
+   <div class="SelectDate">
+<div style="font-size: 20px;font-weight: bold;width: 50px;display: flex;align-items: center;justify-content: center;" onclick="
+
+"><</div>
+<h3 id="date" style="flex: auto;display: flex;align-items: center;justify-content: center;">第一屆</h3>
+<div style="font-size: 20px;font-weight: bold;width: 50px;display: flex;align-items: center;justify-content: center;" onclick="
+
+">></div>
+</div>
+<div style="display: flex;background-color: white;" class="careerSpace">
+<span style="color: black;">職位</span>
+<span style="color: black;width: 75%;">名稱</span>
+
+</div>
+    <div style="height: calc(100% - 130px);overflow-y: scroll;position: relative;background-color: rgba(0,0,0,0.6);" id="content">
+
+</div>
+    `
+  }
+  // ${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? '<span  style="color: darkcyan;">操作</span>':''}
+  function getData(){
+    $('#content').html('<div style="background-color: black;opacity: 0.6;width: 100%;height: 100%;position: fixed;"></div>')
+    glitter.share.dataLoading(true)
+    glitter.postRequest("Kmu", "getPro", {
+      name: 'memberCareer'
+    }, function (response) {
+      glitter.share.dataLoading(false)
+      if (response === undefined) {
+        glitter.closeDiaLog()
+        glitter.share.internetError()
+      } else {
+        if (response.result) {
+          if(response.data!==''){
+              data=JSON.parse(response.data)
+              data.map(function (data){
+                  if(cpList.indexOf(parseInt(data.whereC,10))===-1){
+                      cpList.push(parseInt(data.whereC,10))
+                  }
+              })
+              cpList.sort(function(a, b) {
+                  return a - b;
+              });
+              if(wherePlace===undefined){wherePlace=(cpList.length-1)}
+              setDisplay()
+          }else{
+              data=[]
+          }
+        }
+      }
+    })
+  }
+  function setting() {
+    glitter.share.dataLoading(true)
+    glitter.postRequest("Kmu", "setPro", {
+      data:{
+        name: 'inviteUsers',
+        string: JSON.stringify(data)
+      }
+    }, function (response) {
+      glitter.share.dataLoading(false)
+      if (response === undefined) {
+        glitter.share.internetError()
+      } else {
+        if (response.result) {
+          glitter.share.hint("設定成功")
+          getData()
+        } else {
+          glitter.share.hint("設定失敗")
+        }
+      }
+    })
+  }
+  var cpList=[]
+  var wherePlace=undefined
+  function setDisplay(){
+      $('#content').html('')
+      let index=['榮譽理事長','理事長','監事召集人','常務理事','常務監事','理事','監事']
+      let colorl=['white','white','white','white','white','white']
+      var thedata=data
+      index.map(function (data3,position){
+          var data=thedata.filter(function (data){
+              return (data.carrer===data3) && data.whereC===(cpList[wherePlace]+"")
+          })
+          for(var a=0;a<Math.ceil(data.length/3);a++) {
+              var html = ``
+              var index = a * 3
+              var color=colorl[position]
+              for (var b = 0; b < 3; b++) {
+                  if (data[index + b] !== undefined) {
+                      var data2=data[index + b]
+                      html+=`<span style="color: white;border: 1px solid orange;height: calc(100% - 10px);" id="${thedata.indexOf(data2)}">${data2.name}</span>`
+
+                  }else{
+                      html+=`<span style="color: white;"></span>`
+                  }
+              }
+              $('#content').append(`
+                  <div style="display: flex;position: relative;z-index: 1;" class="careerSpace">
+<span style="font-size: 14px;font-weight: bold;color: powderblue;">${(a === 0) ? data3 : ''}</span>
+${html}
+</div>
+                  `)
+              for (var b = 0; b < 3; b++) {
+                  if (data[index + b] !== undefined) {
+                      let data2=data[index + b]
+
+
+                      if(glitter.publicBeans.publicLogic.customDefine.isManager()){
+                          $('#'+thedata.indexOf(data2)).click(function (){
+                              deleteit(data2)
+                          })
+                      }
+
+                  }else{
+                      html+=`<span style="color: white;"></span>`
+                  }
+              }
+
+          }
+          if(Math.ceil(data.length/3)>0){       $('#content').append('<div style="width: 100%;height: 1px;background-color: white;z-index: 2;position: relative;"></div>')}
+
+      })
+ //      ${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? `<span  style="color: red;" onclick="
+ // deleteit(${position2})
+ //  ">移除</span>`:''}
+      var cn=['0','一','二','三','四','五','六','七','八','九','十']
+
+      $('.SelectDate').html(`<div style="font-size: 20px;font-weight: bold;width: 50px;display: flex;align-items: center;justify-content: center;" onclick="
+if(wherePlace-1>=0){
+    wherePlace=wherePlace-1
+    setDisplay()
+}
+">${(wherePlace-1>=0) ? '<':''}</div>
+<h3 id="date" style="flex: auto;display: flex;align-items: center;justify-content: center;">第${cn[cpList[wherePlace]]}屆</h3>
+<div style="font-size: 20px;font-weight: bold;width: 50px;display: flex;align-items: center;justify-content: center;" onclick="
+if(wherePlace+1<cpList.length){
+    wherePlace=wherePlace+1
+    setDisplay()
+}
+">${(wherePlace+1<cpList.length) ? '>':''}</div>`)
+  }
+  function deleteit(data2){
+      var position=data.indexOf(data2)
+      glitter.openDiaLog('publicResource/dialog/Check_Yes_Not.html','Check_Yes_Not',false,false,{
+          title:'是否確認刪除!?',
+          callback:function (result){
+              if(result){
+                  glitter.share.dataLoading(true)
+                  data.splice(position, 1);
+                  glitter.postRequest('Kmu', 'setPro', {
+                      data:{
+                          name: 'memberCareer',
+                          string: JSON.stringify(data)
+                      }
+                  }, function (response) {
+                      glitter.share.dataLoading(false)
+                      if (response === undefined) {
+                          glitter.share.internetError()
+                      } else {
+                          if (response.result) {
+                              setDisplay()
+                              glitter.share.hint('設定成功')
+                          } else {
+                              glitter.share.hint('設定失敗')
+                          }
+                      }
+                  })
+              }
+              glitter.closeDiaLogWithTag('Check_Yes_Not')
+          }},function(){})
+
+  }
+</script>
+</body>
+</html>

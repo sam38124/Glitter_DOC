@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+    <link href="../glitterBundle/bootstrap.css" rel="stylesheet">
+    <link href="../fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"></script>
+</head>
+<style>
+    html{
+        user-select: text;
+        -webkit-user-select:text;
+        height: 100%;
+        background-color: transparent;
+        width: calc(100% - 20px);
+        overflow-y: scroll;
+        margin-top: 20px;
+        text-align: left;
+        padding-top: 50px !important;
+
+    }
+    body{
+        width: 100%;
+        transform: translateX(-50%);
+        left: 50%;
+        position: relative;
+        user-select: text;
+        -webkit-user-select:text;
+        max-width: 800px;
+        height: 100%;
+        background-color: transparent;
+    }
+    span{
+        font-size: 15px;
+        letter-spacing: 1px;
+        color: #233659;
+    }
+    .js{
+        text-align: left;
+    }
+    h3{
+        display: flex;
+        align-items: center;
+    }
+    span{
+        font-size: 15px;
+        letter-spacing: 1px;
+        color: #233659;
+    }
+</style>
+<body>
+<script>
+    lifeCycle.onCreate=function (){
+        hljs.highlightAll();
+        getData()
+
+    }
+    lifeCycle.onCreateView=function (){
+        return `
+        <h3 style="font-size: 39px;font-weight: 400;">Page management</h3>
+ <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
+  <span><h3 style="color: #c41b1b;">Set home</h3>
+  <span style="color: #2a93b9;">Parameter:(link,tag,obj)</span><br><br>
+  Use set home function to set up your root page.
+  </span>
+  <br>  <br>
+  ${glitter.share.code.js(` glitter.setHome('page/HomePage.html','HomePage',{})
+  `)}
+   <br><div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+   <span><h3 style="color: #c41b1b;">Change page  </h3>
+   <span style="color: #2a93b9;">Parameter:(link,tag,GoBack,obj)</span><br><br>
+   <span>-GoBack</sapn>:True or False is used to define this page can go back or not.<br><br>
+  Use change page to switch page.
+  </span></span>
+  <br>  <br>
+  ${glitter.share.code.js(` glitter.changePage('page/SecPage.html','SecPage.html',true,{})
+  `)}
+   <br><div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+  <span><h3 style="color: #c41b1b;">Go back</h3>
+  <span style="color: #2a93b9;">Parameter:(tag)</span><br><br>
+  Go back to previous page.
+  </span>
+  <br>  <br>
+  ${glitter.share.code.js(`   //Option1.
+   glitter.goBack();
+   //Option2.
+   glitter.goBack("SecPage");
+  `)}
+    <br><div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+  <span><h3 style="color: #c41b1b;">Remove Page</h3>
+  <span style="color: #2a93b9;">Parameter:(tag)</span><br><br>
+  Remove page from stack.
+  </span>
+  <br>  <br>
+  ${glitter.share.code.js(`  glitter.removePage("SecPage")
+  `)}
+`
+
+    }
+    function getData(){
+        $.ajax({
+            url: '../text/SamplePage.html',
+            timeout: 60000,
+            contentType: "application/text; charset=utf-8;",
+            type: "get",
+            dataType: "text",
+            success: function (data) {
+                $('#codeInside').text(data)
+            },
+            error: function (data) {
+                error()
+                console.log("error:" + data)
+            }
+        });
+    }
+</script>
+</body>
+</html>
+

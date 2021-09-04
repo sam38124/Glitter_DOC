@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../../glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+  html{
+    width: 100%;
+    height: 100%;
+  }
+  body{
+    width: 100%;
+    height: 100%;
+  }
+  .item{
+    display: flex;
+    flex-direction: column;
+    width: 50px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .item img{
+    width: 40px;
+    height: 40px;
+  }
+  .item span{
+    color: white;
+    font-size: 10px;
+    margin-top: 0px;
+  }
+</style>
+<body>
+
+</body>
+<script>
+  lifeCycle.onCreate=function (){
+
+  }
+  lifeCycle.onCreateView=function (){
+    return `
+    <div style="background-color:#1a4064;display: flex;flex-direction: column;">
+    <h3 style="font-size:16px;height: 50px;padding-left: 10px;display: flex;align-items: center;margin: 0;color: white;">建立</h3>
+    <div style="display: flex;justify-content: space-around;">
+    <div class="item" onmousedown="glitter.changePage('publicResource/page/Page_Add_User_Chat.html','Page_Add_User_Chat',true,{})">
+    <img src="../img/chat.png">
+    <span>聊天室</span>
+</div>
+${
+        (glitter.publicBeans.publicLogic.customDefine.isManager()) ? `<div class="item" onmousedown="glitter.openDiaLog('publicResource/dialog/Dia_Set_HelloMessage.html','Dia_Set_HelloMessage',false,false,{},function (){})">
+    <img src="../img/hand_handshake.png">
+    <span>打招呼訊息</span>
+</div>`:``
+}
+${
+        (glitter.publicBeans.publicLogic.customDefine.isManager()) ? `<div class="item" onmousedown="glitter.changePage('publicResource/page/Page_Add_Link.html','Page_Add_Link',true,{
+            title:'設定line群組',
+            placeHolder:'群組連結',
+            name:'群組名稱',
+            type:0
+        })">
+    <img src="../img/line.png">
+    <span>群組連結</span>
+</div>`:``
+    }
+
+</div>
+</div>
+    `
+  }
+</script>
+</html>

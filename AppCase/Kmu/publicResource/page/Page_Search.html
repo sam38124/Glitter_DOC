@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../../glitterBundle/ControlInstance.js"></script>
+  <script src="../jslib/index.umd.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../glitterBundle/layout/css/flexslider.css"/>
+  <script type="text/javascript" src="../../glitterBundle/layout/js/jquery.flexslider.js"></script>
+<!--  <script src="../../publicResource/reactJS/Page_IG_Article.js" type="text/babel"></script>-->
+  <script src="../../glitterBundle/babel.min.js"></script>
+  <script src="../../glitterBundle/react.production.min.js" crossorigin></script>
+  <script src="../../glitterBundle/react-dom.production.min.js" crossorigin></script>
+  <script src="../../glitterBundle/create-react-class.min.js" crossorigin></script>
+  <script src="../../prop-types/prop-types.js"></script>
+  <script src="../../dist/react-infinite.js"></script>
+  <link href="../../publicResource/reactJS/ListArticle_Single.css" rel="stylesheet">
+  <script type="text/javascript" src="../../glitterBundle/slick/slick.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../glitterBundle/slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="../../glitterBundle/slick/slick-theme.css"/>
+  <link rel="stylesheet" type="text/css" href="../reactJS/SelectUser.css"/>
+</head>
+<style>
+  html{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+  body{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+  .topBar{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 0;
+  }
+
+  .replayBox {
+    height: 40px;
+    width: 100%;
+    padding-left: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    z-index: 3;
+  }
+
+  .head{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+  }
+
+  input{
+    padding: 0;
+    background-color: ghostwhite;
+    flex: auto;
+    width: calc(100% - 60px);
+    margin-left: 5px;
+    font-size: 14px;
+    border: 0 none;
+    height: 30px;
+  }
+  .serch {
+    flex: auto;
+    height: 40px;
+    max-height: 40px;
+    border-radius: 10px;
+    margin-left: 10px;
+    outline: none;
+    border-width: 1px;
+    font-size: 16px;
+    padding-right: 10px;
+    background-image: url("../img/zoom2.png");
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: top 10px left 10px;
+    border-style: none;
+    padding-left: 40px;
+    background-color: whitesmoke;
+  }
+  .searchDV{
+    display: flex;
+    width: calc(100% - 20px);
+    align-items: center;
+    height: 50px;
+    margin: 10px 10px 0;
+  }
+  #cancel{
+
+  }
+  .select{
+    border-radius: 10px;
+    background-color: dodgerblue;
+    padding: 5px;
+    color: white;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .select2 {
+    border-radius: 10px;
+    background-color: lightgray;
+    padding: 5px;
+    color: white;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .titleBarH {
+    min-height: 50px;
+    width: 100%;
+    height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+  }
+</style>
+<body>
+
+</body>
+<script>
+  //選單
+  let bottomItem = [
+    {
+      title:'帳號',
+      requestMap:{toAccount:glitter.share.manager,index:'-1',notCode:["10","5"]}
+    },
+    {
+      title:'貼文',
+      requestMap:{notAccount:glitter.share.manager,index:'-1'}
+    }
+  ]
+  var lastSelect={
+    position:0
+  }
+  lifeCycle.onCreate=function (){
+    $('#cancel').hide()
+    bottomItem.map(function (data,position) {
+      $('#topBar').append(`
+${(position===0) ? '':'<div style="height: 20px;width: 1px;min-width:1px;background-color: darkgrey;"></div>'}
+<div onclick="lastSelect.position=${position};" class="bitem" style="min-width: 50%;">
+<h3 id="t${position}" style="color: white;">${data.title}</h3>
+</div>
+`)
+    })
+    glitter.addObserver(lastSelect,'position',function (data){
+      updateView()
+      updateSearch()
+    })
+    let searchTimer=setInterval(function (){
+      if(lastSearch===$('#serch').val()){
+
+      }else{
+        lastSearch=$('#serch').val()
+        updateSearch()
+      }
+    },1000)
+  }
+  lifeCycle.onCreateView=function (){
+    return `
+<div class="searchDV"><img id="cancel" src="../img/arrow_left.png" style="width: 30px;height: 30px;" onmousedown="$('#cancel').hide();$('#serch').blur();"><input id="serch" class="serch" placeholder="搜尋" onfocus="$('#cancel').show()"
+onblur="$('#cancel').hide()" oninput=""></div>
+<div class="topBar" id="topBar" style="width: 100%;height:40px;overflow-x: scroll;overflow-y: hidden;"></div>
+<div id="frag" style="width: 100%;height: calc(100% - 110px)"></div>
+
+    `
+  }
+  var lastSearch=''
+
+  //鍵盤輸入監聽
+  function textOnFocus(){
+    $('#pencil').hide()
+    $('#sendBt').show()
+  }
+  //鍵盤停止輸入監聽
+  function disableFocus(){
+    if($('#replyText').val()===''){
+      $('#pencil').show()
+      $('#sendBt').hide()
+    }
+  }
+  //傳送留言
+  function snedMessage(){
+    if($('#replyText').val()===''){
+      glitter.share.hint('請輸入回覆內容!!')
+      return
+    }
+    glitter.share.dataLoading(true)
+    glitter.publicBeans.publicLogic.replyMessage(gBundle.id,{
+      message:($('#replyText').val())
+    },function (response){
+      glitter.share.dataLoading(false)
+      if(response===undefined){
+        glitter.share.hint('請檢查網路連線!!')
+      }else{
+        if(response.result){
+          reloadMessage()
+          gBundle.replyCount=(parseInt(gBundle.replyCount,10)+1)
+          $('#replyCount').html(`${gBundle.replyCount}則留言`)
+          $('#replyText').val('')
+        }else{
+          glitter.share.hint('回覆留言失敗!!')
+        }
+      }
+    })
+  }
+  function updateView(){
+    bottomItem.map(function (data,position) {
+      $(`#t${position}`).removeClass('select2')
+      $(`#t${position}`).removeClass('select')
+      if(position===lastSelect.position){
+        $(`#t${position}`).addClass('select')
+      }else{
+        $(`#t${position}`).addClass('select2')
+      }
+    })
+  }
+  //搜尋用戶
+  function updateSearch(){
+    if(lastSelect.position===0){
+      glitter.changeFrag($('#frag').get(0),'Page_Show_User.html','Page_Show_User',{
+        titleBar:false,
+        excute:glitter.publicBeans.publicLogic.searchUser,
+        data:{
+          filterText:( $('#serch').val()),
+          filterTextOrigin:$('#serch').val()
+        }
+      })
+    }else{
+      // glitter.changePage('publicResource/page/Page_IG_ShowArticle.html', 'Page_IG_ShowArticle', true, {
+      //   toAccount: data.account,
+      //   firstArticle:data.id,
+      //   index: '-1',
+      //   notCode: ['10']
+      // })
+      glitter.changeFrag($('#frag').get(0),'Page_IG_ShowArticle.html','Page_IG_ShowArticle',{
+        index: '-1',
+        notCode: ['10'],
+        filterTitle:( $('#serch').val())
+      })
+    }
+  }
+</script>
+</html>

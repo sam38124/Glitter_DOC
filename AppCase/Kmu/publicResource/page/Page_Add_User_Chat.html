@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../reactJS/SelectUser.css"/>
+    <script src="../reactJS/Page_Add_User_Chat.js" type="text/babel"></script>
+    <script src="../../glitterBundle/ControlInstance.js"></script>
+    <script src="../../glitterBundle/babel.min.js"></script>
+    <script src="../../glitterBundle/react.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/react-dom.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/create-react-class.min.js" crossorigin></script>
+    <script src="../../prop-types/prop-types.js"></script>
+    <script src="../../dist/react-infinite.js"></script>
+</head>
+<style>
+    html {
+        width: 100%;
+        height: 100%;
+    }
+
+    body {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .titleBar {
+        min-height: 50px;
+        width: 100%;
+        background-color: dodgerblue;
+        display: flex;
+        align-items: center;
+    }
+
+    .topBar {
+        display: flex;
+        height: 40px;
+        align-items: center;
+        width: 100%;
+        color: #a9abad;
+        border-bottom: 1px solid darkgrey;
+    }
+
+    .bitem {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 40px;
+        margin: 0;
+    }
+
+    .bitem h3 {
+        color: gray;
+        font-size: 13px;
+        margin-top: 2px;
+        margin-bottom: 0;
+    }
+
+    .serch {
+        margin-top: 10px;
+        width: calc(100% - 70px);
+        height: 40px;
+        min-height: 40px;
+        border-radius: 10px;
+        margin-left: 10px;
+        outline: none;
+        border-width: 1px;
+        font-size: 16px;
+        padding-right: 10px;
+        background-image: url("../img/zoomgray.png");
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        background-position: top 10px left 10px;
+        border-style: none;
+        padding-left: 40px;
+        background-color: whitesmoke;
+    }
+</style>
+<body>
+
+</body>
+<script>
+    var lastSearch=''
+    lifeCycle.onCreate = function () {
+        glitter.addTextChangeListener($("#serch"), function () {
+
+        })
+        setInterval(function (){
+            if(lastSearch!==$('#serch').val()){
+                lastSearch=$('#serch').val()
+                searchText = $("#serch").val()
+                filterText()
+            }
+        },1000)
+        setTimeout(function () {
+            renderType(1)
+            userSelectCallback=function (data){
+             glitter.share.dataLoading(true)
+                glitter.publicBeans.publicLogic.addChat({
+                    toAccount:data.account
+                },function (response){
+                    glitter.share.dataLoading(false)
+                    if(response===undefined){
+                        glitter.share.hint("請檢察網路連線!!")
+                    }else{
+                        if(response.result){
+                            data.link=response.link
+                            glitter.changePage('publicResource/page/Page_Show_User_Message_0.html','Page_Show_User_Message_0',true,data)
+                        }else{
+                            glitter.share.hint("新增失敗!!")
+                        }
+                    }
+                })
+            }
+        }, 200)
+    }
+    lifeCycle.onCreateView = function () {
+        return `<div class="titleBar">
+<img src="../img/btn_back_normal.png" style="width: 40px;height: 40px;margin-left: 10px;" onclick="glitter.goBack()">
+<h3 style="color: white;flex: auto;font-size: 16px;text-align: center;margin-right: 50px;">添加用戶</h3>
+</div>
+<input id="serch" class="serch" placeholder="輸入用戶名稱關鍵字">
+<div  id="UserSelect" style="height: calc(100% - 100px);"></div>
+`
+    }
+
+    function updateView(id) {
+        $('.bitem h3').css('color', 'gray')
+        $('#' + id).css('color', 'dodgerblue')
+
+    }
+</script>
+</html>

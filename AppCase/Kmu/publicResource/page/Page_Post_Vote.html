@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+  html{
+    width: 100%;
+    height: 100%;
+      overflow: hidden;
+  }
+  body{
+    width: 100%;
+    height: 100%;
+      overflow: hidden;
+  }
+    .topBar {
+        width: 100%;
+        height: 50px;
+        background-color: dodgerblue;
+        display: flex;
+        align-items: center;
+    }
+  .content {
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .selectDic {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+  }
+
+  .flexText {
+    color: #6a6a6a;
+    font-size: 17px;
+    margin-left: 10px;
+  }
+
+  .replyBt {
+    height: 40px;
+    margin-top: 5px;
+    background-color: #0e65d8;
+    padding-left: 10px;
+    border-radius: 10px;
+    color: white;
+    flex: auto;
+    border: none;
+    outline: none;
+    font-size: 20px;
+  }
+
+  .btselect img {
+    width: 20px;
+    height: 20px;
+    position: relative;
+  }
+
+  .select {
+    right: 0;
+    text-align: right;
+    margin-right: 5px;
+  }
+
+  .spi {
+    height: 1px;
+    width: 100%;
+    background-color: whitesmoke;
+  }
+
+  .selectDic .head {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    margin-left: 20px;
+  }
+
+  .borderInput {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100% - 30px);
+    height: 50px;
+    border-style: none;
+    font-size: 20px;
+    padding-left: 10px;
+  }
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: gray;
+    opacity: 1; /* Firefox */
+  }
+  .borderInputMax {
+    width: calc(100% - 30px);
+    border-style: none;
+    line-height: 30px;
+    font-size: 16px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin-top: 0;
+    margin-left: 15px;
+    -webkit-user-modify: read-write-plaintext-only;
+    -webkit-user-select: text;
+    user-select: text;
+    /*    */
+    display: inline-block;
+  }
+
+  .borderInputMax:empty:before {
+    content: '一、推廣正面發文風氣 禁止發表恐嚇公眾、鼓吹犯罪、鼓勵他人輕生等違反善良風俗內容 禁止惡意挑釁、虐待、嘲笑特定群體或引戰行為 禁止竄改新聞標題或內容（致使原意扭曲者始處理） 禁止推起過時的颱風、地震等天災相關資訊（偽造亦同） 禁止抄襲文、盜用創作行為 禁止惡意爆雷 ACGN 或影視作品重大劇情內容行為 禁止在特定大樓同好串發表引起多數人反感內容的引戰行為 轉貼新聞必須在清晰可見處附上原文連結與新聞發布日期 若有討論串後續歪串為嚴重筆戰，板務人員有權移至「吵架擂台」隱藏子板分類 附錄：惡意劇透認定辦法相關公告 附錄：吵架擂台、盜用創作、轉貼新聞規範、大樓串引戰認定相關公告 附錄：轉貼新聞規範修正相關公告';
+    color: gray;
+  }
+
+  .borderInputMax:focus:before {
+    content: none;
+  }
+
+  .bottomBar {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    height: 50px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }
+
+  .textArea img {
+    margin-top: 10px;
+  }
+
+  .inSelect {
+    height: 40px;
+    /* 清除預設邊框 */
+    border: 0;
+    font-size: 17px;
+    line-height: 40px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #6a6a6a;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .selectImg {
+    width: 20px;
+    height: 20px;
+    margin-left: -10px;
+    transform: translateY(-50%);
+    top: 50%;
+    position: relative;
+  }
+
+  .btselect {
+    align-items: center;
+    height: 100%;
+    display: flex;
+  }
+  .smallTitle{
+    margin-top: 5px;
+    color: #1a4064;
+    font-size: 13px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    margin-left: 20px;
+  }
+  .inputItem{
+    width:100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid whitesmoke;
+    padding-left: 20px;
+  }
+  .inputItem span{
+    color: #8e8e8e;
+  }
+  .inputItem input{
+    width: calc(100% - 90px);
+    border-style: none;
+    margin-left: 10px;
+    font-size: 16px;
+  }
+  .selectpic{
+    width: 25px;
+    height: 25px;
+  }
+  .selectC{
+      border-radius: 50%;
+      border: 2px solid lightgray;
+      width: 15px;
+      height: 15px;
+  }
+  .selectCir{
+    background-color: dodgerblue;
+  }
+  .selectCText{
+      font-size: 13px;
+      color: black !important;
+      margin-left: 10px;
+      font-weight: 600;
+  }
+</style>
+<body>
+
+</body>
+<script>
+  var userData=glitter.publicBeans.publicLogic.customDefine.user_data
+  var postMap={
+      endTime:undefined,
+      content:undefined,
+      title:undefined
+  }
+  var jsonMessage={
+      itemList:[],
+      private:false,
+      multiple:false,
+      publicCount:false
+  }
+    lifeCycle.onCreate = function () {
+      updateItemList()
+    }
+    lifeCycle.onCreateView = function () {
+        return `${(pageType === glitter.htmlType.Page) ? `<div class="topBar" >
+    <img  src="../img/btn_back_normal.png" style="width: 50px;height: 50px;" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 16px;margin-left: 5px;flex: auto;">建立投票</h3>
+    ${(glitter.publicBeans.publicLogic.customDefine.isManager()) ? `` : ``}
+</div>` : ``}
+<div style="width: 100%;height: calc(100% - 100px);overflow-y: scroll;overflow-x: hidden;">
+<div onclick="selectPromoteImage()" id="prmoteImage" style="width: 100%;min-height: 100px;background-color: whitesmoke;display: flex;align-items: center;justify-content: center;flex-direction: column;">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="id_svgCanvas" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 30 30" style="fill: rgb(166, 166, 159);" xml:space="preserve">
+<path d="M2,4v16h20V4H2z M6,6c1.1,0,2,0.9,2,2s-0.9,2-2,2S4,9.1,4,8S4.9,6,6,6z M4,18l4-5l2.94,3.68L15,11l5,7H4z" style="fill: rgb(166, 166, 159);"></path>
+</svg>
+<h3 style="font-size: 13px;margin-top: 0px;">選擇宣傳圖片...</h3>
+</div>
+ <div class="selectDic" >
+        <img class="head" src="` + userData.head + `" id="headImg">
+        <h3 class="flexText" style="font-size: 16px;font-weight: bold;" id="pickText">` + (userData.pick) + `</h3>
+</div>
+<input class="borderInput" placeholder="標題" style="outline: none;margin-top:0px;margin-bottom: 10px;" id="title">
+<div class="spi"></div>
+<div class="smallTitle">投票選項</div>
+<div class="spi"></div>
+<div id="itemList"></div>
+<div class="smallTitle">截止時間</div>
+<div class="spi"></div>
+ <div class="select" style="margin-left: 10px;display: flex;height: 40px" onclick="glitter.openDiaLog('publicResource/dialog/Dia_Date_Picker.html','Dia_Date_Picker',false,true,{
+             callback:function (text){
+             postMap.endTime=text
+             $('#endDate').html(text)
+             },
+             min_Date:new Date()
+         })">
+            <div class="inSelect" id="endDate" style="font-size: 14px;">結束時間
+           </div>
+             <img class="selectImg" src="../img/trangle.png">
+        </div>
+        <div class="spi"></div>
+<div class="smallTitle">其他設定</div>
+    <div class="spi"></div>
+
+<div class="inputItem" onclick="jsonMessage.publicCount=!jsonMessage.publicCount;$('#publicCount').toggleClass('selectCir');">
+<div class="selectC" id="publicCount"></div>
+<span class="selectCText">提前公開投票數</span>
+</div>
+<div class="inputItem" onclick="jsonMessage.multiple=!jsonMessage.multiple;$('#multiple').toggleClass('selectCir');">
+<div class="selectC" id="multiple"></div>
+<span class="selectCText">一人多票</span>
+</div>
+<div class="inputItem" onclick="jsonMessage.private=!jsonMessage.private;$('#private').toggleClass('selectCir');">
+<div class="selectC" id="private"></div>
+<span class="selectCText">匿名投票</span>
+</div>
+${(glitter.publicBeans.publicLogic.customDefine.isManager()) ?
+            `<div class="inputItem" onclick="isTopArticle=!isTopArticle;$('#isTopArticle').toggleClass('selectCir');">
+<div class="selectC" id="isTopArticle"></div>
+<span class="selectCText">置頂文章</span>
+</div>`:``
+        }
+</div>
+<div onclick="post()" style="color:white;width: 100%;height: 50px;background-color: #07b107;display: flex;align-items: center;justify-content: center;bottom: 0;">
+完成
+</div>
+`
+    }
+    function updateItemList(){
+      $('#itemList').html('')
+      var empty=`<div class="inputItem">
+<span>${jsonMessage.itemList.length+1}.</span>
+<input placeholder="輸入選項" >
+<img class="selectpic" src="../img/picture_landscape.png">
+</div>`
+        jsonMessage.itemList.map(function (data,position){
+        $('#itemList').append(`<div class="inputItem">
+<span style="color: black;">${position+1}.</span>
+<input placeholder="輸入選項" value="${data.title}" oninput="jsonMessage.itemList[${position}].title=$(this).val();" onblur="
+jsonMessage.itemList=jsonMessage.itemList.filter(function (data){return data.title!==''})
+updateItemList()
+" onfocus="
+">
+</div>`)
+      })
+      $('#itemList').append(`<div class="inputItem">
+<span>${jsonMessage.itemList.length+1}.</span>
+<input placeholder="輸入選項"  onblur="
+ $('#confirm').hide()
+if($(this).val()!==''){jsonMessage.itemList.push({title:$(this).val()})
+updateItemList()
+}
+" onfocus=" $('#confirm').show()
+"><span id="confirm" style="color: dodgerblue;font-size: 16px;">確認</span>
+</div>`)
+        $('#confirm').hide()
+    }
+  function selectPromoteImage() {
+      glitter.chooseImage(function (data){
+          if(data.length===0){return}
+          let img=[]
+          img.push(data[0].file)
+          glitter.share.dataLoading(true)
+          glitter.publicBeans.publicLogic.uploadImage(img,function (response){
+              glitter.share.dataLoading(false)
+              if(response!==undefined && (response.result)){
+                  response.url.map(function (data){
+                      $('#prmoteImage').html(`<img src="${data}" style="max-width: 100%;max-height: 56vw;" >`)
+                  })
+              }
+          })
+      })
+  }
+  let isTopArticle=false
+
+    function post(){
+        if($('#prmoteImage img').attr('src')!==undefined){postMap.image=JSON.stringify([$('#prmoteImage img').attr('src')])}
+        glitter.publicBeans.publicLogic.customDefine.selectPost.code=glitter.share.defineCode.vote
+        postMap.title = ($('#title').val())
+        postMap.content =  ($('#title').val())
+        postMap.topArticle=(isTopArticle) ? 1:0
+        postMap.address=(postMap.address)
+        postMap.json=jsonMessage
+        postMap.circle=glitter.share.defineCode.vote
+        if (postMap.title === '') {
+            glitter.share.hint('請輸入標題!!')
+            return
+        } else if (postMap.content === '') {
+            glitter.share.hint('請輸入內容!!')
+            return
+        } else if (postMap.endTime===undefined) {
+            glitter.share.hint('請選擇結束時間!!')
+            return;
+        }
+        glitter.share.dataLoading(true)
+        glitter.publicBeans.publicLogic.uploadArticle(postMap,function (response){
+            glitter.share.dataLoading(false)
+            if(response===undefined){
+                glitter.share.internetError()
+            }else{
+                if(response.result){
+                    glitter.goBack()
+                    glitter.share.updateArt()
+                    glitter.share.hint("文章發佈成功!!")
+                    glitter.share.toHome()
+                }else{
+                    glitter.share.hint("文章發文失敗!!")
+                }
+            }
+        })
+    }
+</script>
+</html>

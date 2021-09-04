@@ -1,0 +1,139 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.topBar {
+    width: 100%;
+    height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+}
+#innerView{
+    width: 100%;
+    text-align: center;
+    overflow-y: scroll;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.gridItem{
+    position: relative;
+    width: calc(100vw);
+    background-color: whitesmoke;
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    overflow-y: hidden;
+}
+.gridItem .imagePlace{
+    max-width: 100%;
+    max-height: calc(50vw);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    overflow: hidden;
+}
+.imagePlace img{
+    max-width: 100%;
+    width: auto;
+    height: auto;
+}
+.flex{
+    display: flex;
+    align-items: center;
+}
+.flexCenter{
+    display: flex;flex-direction: column;
+    flex: auto;
+    align-items: start;
+}
+.margin{
+    margin-bottom: 20px;
+}
+.title{
+    font-size: 16px;
+    font-weight: bold;
+}
+.count{
+    color: #8e8e8e;
+    font-size: 13px;
+    margin-top: 5px;
+}
+.more{
+    color: black;
+    font-size: 20px;
+    margin-right: 10px;
+}
+.maxImage{
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+
+    width: auto;
+    height: auto;
+}
+.singleItem{
+    margin-top: 10px;
+    position: relative;
+    background-color: whitesmoke;
+    width: calc(100vw - 50px);
+    min-width: calc(100vw - 50px);
+    max-width: calc(100vw - 50px);
+    min-height: calc(100vw - 50px);
+    height: calc(100vw - 50px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: calc(100vw - 50px);
+    overflow: hidden;
+    border-radius: 10px;
+}
+.title{
+    font-size: 25px;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: start;
+    margin-left: 10px;
+    margin-right: 10px;
+    word-break: break-all;
+}
+.countHint{
+    margin-left: 10px;
+    font-size: 13px;
+    color: #8e8e8e;
+    margin-top: 0px;
+    text-align: start;
+    width: calc(100% - 20px);
+}
+.infinite-list-item{
+    width: 100%;
+    align-items: center;
+}
+.spi{
+    background-color: whitesmoke;
+    height: 1px;
+    width: 100%;
+}
+.textLoading{
+    height: 60px;
+    width: 50vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #212529;
+    font-size: 13px;
+    background-size: 40px 40px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../../img/loading.gif");
+}

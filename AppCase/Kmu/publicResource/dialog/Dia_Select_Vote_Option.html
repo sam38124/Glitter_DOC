@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<script src="../../glitterBundle/ControlInstance.js"></script>
+<style>
+  html{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+  body{
+    overflow-y: hidden;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .list{
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x:hidden;
+  }
+  .it{
+    width: calc(100% - 30px);
+    font-size: 16px;
+    height: 25px;
+    line-height: 25px;
+    color: gray;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 0;
+    text-align: center;
+  }
+  .item{
+    cursor: pointer;
+    width: 100%;
+    height: 30px;
+    margin: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .spi{
+    margin-top: 0;
+    margin-bottom: 0;
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    height: 1px;
+    background-color: darkgrey;
+  }
+  div{
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+  }
+</style>
+<body>
+
+</body>
+<script>
+  lifeCycle.onCreateView=function (){
+    return `
+    <div class="list">
+  ${((gBundle.account===glitter.publicBeans.publicLogic.customDefine.account)||(glitter.publicBeans.publicLogic.customDefine.isManager())) ? `
+ <div class="item"><h3 class="it" onclick="   glitter.closeBottomSheet(); glitter.changePage('publicResource/page/Page_Edit_Vote.html','Page_Edit_Vote',true,gBundle)">編輯投票</h3></div>
+ <div class="spi"></div>
+  <div class="item" onclick="glitter.openDiaLog('publicResource/dialog/Check_Yes_Not.html','Check_Yes_Not',false,false,{
+    title:'是否確認刪除投票!?',
+    callback:function (result){
+    if(result){
+      glitter.share.dataLoading(true)
+      glitter.publicBeans.publicLogic.deleteArt(gBundle.id,function (response){
+        glitter.share.dataLoading(false)
+        if(response.result){
+          glitter.share.toHome()
+          glitter.share.hint('刪除成功!!')
+          glitter.closeBottomSheet()
+        }else{
+          glitter.share.hint('刪除失敗!!')
+        }
+      })
+    }
+    glitter.closeDiaLogWithTag('Check_Yes_Not')
+  }
+  },function (){})"><h3 class="it">刪除投票</h3></div> <div class="spi"></div>`:``}
+</div>
+    `
+  }
+  lifeCycle.onCreate=function (){
+    glitter.changeBottomSheetHeight(`${$('.list').height()+50}px`)
+  }
+</script>
+</html>

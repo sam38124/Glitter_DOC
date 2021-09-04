@@ -1,0 +1,243 @@
+<!--bundle參數
+defaultType
+imageList
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+    body {
+        background-color: white;
+        margin: 0;
+        padding: 0;
+        overflow-y: hidden;
+    }
+
+    .topBar {
+        display: flex;
+        height: 50px;
+        background-color: dodgerblue;
+    }
+
+    .content {
+        width: 100%;
+        height: calc(100vh - 50px);
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .selectDic {
+        height: 50px;
+        margin: 0px;
+        display: flex;
+    }
+
+    .flexText {
+        margin-top: 0;
+        color: #6a6a6a;
+        height: 50px;
+        line-height: 50px;
+        font-size: 17px;
+        margin-left: 10px;
+    }
+
+    .btselect img {
+        width: 20px;
+        height: 20px;
+        margin-top: 18px;
+        position: relative;
+    }
+
+    .select {
+        right: 0;
+        text-align: right;
+        margin-right: 5px;
+    }
+
+    .spi {
+        height: 1px;
+        width: 100%;
+        background-color: whitesmoke;
+    }
+
+    .selectDic .head {
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        transform: translateY(-50%);
+        position: relative;
+        top: 50%;
+        margin-left: 20px;
+    }
+
+    .borderInput {
+        margin-left: 20px;
+        margin-right: 20px;
+        width: calc(100% - 40px);
+        min-height: 40px;
+        border-style: none;
+        font-size: 20px;
+        border-bottom: 1px solid gray;
+    }
+
+    .borderInputMax {
+        width: calc(100% - 30px);
+        min-height: calc(100% - 50px);
+        border-style: none;
+        line-height: 30px;
+        font-size: 16px;
+        padding-left: 10px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        margin-top: 10px;
+        margin-left: 10px;
+        -webkit-user-modify: read-write-plaintext-only;
+        -webkit-user-select: text;
+        user-select: text;
+    }
+
+    .bottomBar {
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        display: flex;
+        height: 50px;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+    .borderInputMax:empty:before {
+        content: '一、推廣正面發文風氣 禁止發表恐嚇公眾、鼓吹犯罪、鼓勵他人輕生等違反善良風俗內容 禁止惡意挑釁、虐待、嘲笑特定群體或引戰行為 禁止竄改新聞標題或內容（致使原意扭曲者始處理） 禁止推起過時的颱風、地震等天災相關資訊（偽造亦同） 禁止抄襲文、盜用創作行為 禁止惡意爆雷 ACGN 或影視作品重大劇情內容行為 禁止在特定大樓同好串發表引起多數人反感內容的引戰行為 轉貼新聞必須在清晰可見處附上原文連結與新聞發布日期 若有討論串後續歪串為嚴重筆戰，板務人員有權移至「吵架擂台」隱藏子板分類 附錄：惡意劇透認定辦法相關公告 附錄：吵架擂台、盜用創作、轉貼新聞規範、大樓串引戰認定相關公告 附錄：轉貼新聞規範修正相關公告';
+        color: gray;
+    }
+
+    .borderInputMax:focus:before {
+        content: none;
+    }
+
+    .textArea img {
+        margin-top: 10px;
+    }
+
+    .inSelect {
+        height: 40px;
+        /* 清除預設邊框 */
+        border: 0;
+        font-size: 17px;
+        line-height: 40px;
+        margin-left: 10px;
+        margin-right: 10px;
+        color: #6a6a6a;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .selectImg {
+        width: 20px;
+        height: 20px;
+        margin-left: -10px;
+        transform: translateY(-50%);
+        top: 50%;
+        position: relative;
+    }
+
+    .btselect {
+        height: 100%;
+        display: flex;
+    }
+
+    #imageIndex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        z-index: 10;
+        position: absolute;
+        width: 50px;
+        height: 20px;
+        right: 0;
+        bottom: 0px;
+        background-color: black;
+        opacity: 0.7;
+    }
+
+</style>
+
+
+<body>
+</body>
+<script>
+    var userInfo = glitter.publicBeans.publicLogic.customDefine.user_data
+    lifeCycle.onCreateView = function () {
+        return `
+<div class="topBar">
+    <img src="../img/btn_back_normal.png" style="height: 50px;width: 50px;margin: 0" onclick="glitter.goBack()">
+    <h3 style="margin-top:0;color: white;height: 50px;line-height: 50px;width: calc(100% - 110px);font-size: 18px;">
+        發佈${gBundle.title}</h3>
+    <h3 style="margin-top:0;color: white;height: 50px;line-height:  50px;width: 50px;font-size: 18px;text-align: center;"
+        onclick="post()">
+        發佈</h3>
+</div>
+<div class="content">
+    <div contentEditable="true" class="borderInputMax" id="textArea" style="outline: none;">
+    ${gBundle.content}
+</div>
+</div>`
+    }
+
+    var isTopArticle=false
+
+    $('#video').change(function (e) {
+        glitter.openDiaLog('dialog/Dia_DataLoading.html', 'uploadImage', false, false, '{}')
+        uploadVideo()
+    })
+    var isVideo=false
+    lifeCycle.onCreate = function () {
+
+    }
+
+    function toggleTopArticle(){
+        isTopArticle=!isTopArticle
+        if(isTopArticle){
+            glitter.publicBeans.publicLogic.customDefine.selectPost.code=-10
+            $('#topSelect').html(`<img src="../img/check_mark_red.png" style="width: 16px;height: 16px;">`)
+        }else{
+            glitter.publicBeans.publicLogic.customDefine.selectPost.code=1
+            $('#topSelect').html(``)
+        }
+    }
+
+    function post() {
+        if($('#textArea').html()===''){
+            glitter.share.hint('請輸入內容')
+            return
+        }
+        glitter.share.dataLoading(true)
+        glitter.publicBeans.publicLogic.uploadArticle({
+            content:($('#textArea').html().replace(/\n/g, '<br>')),
+            title:(gBundle.title),
+            circle:gBundle.code
+        },function (response){
+            glitter.share.dataLoading(false)
+            if(response===undefined){
+                glitter.share.internetError()
+            }else{
+                if(response.result){
+                    glitter.goBack()
+                    glitter.share.updateArt()
+                    glitter.share.hint('發布成功!!')
+                }else{
+                    glitter.share.hint("發布失敗!!")
+                }
+            }
+        })
+    }
+
+</script>
+</html>
+

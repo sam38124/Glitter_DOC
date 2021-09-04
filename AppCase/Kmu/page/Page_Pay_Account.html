@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+  html {
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    width: 100%;
+    height: 100%;
+    background-color: #0d86c6;
+    background-image: url("../img/backGroung.png");
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: bottom;
+  }
+
+  .topBar {
+    width: 100%;
+    height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+  }
+  .bottonPlace{
+    width: 100%;
+    height: calc(100% - 50px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .bottonPlace div{
+    width: 200px;
+    height: 50px;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: white;
+    margin-top: 30px;
+    font-size: 20px;
+    border: 2px solid white;
+  }
+</style>
+<body>
+<script>
+  var text=`銀行：華南銀行（代號008）<br><br>
+戶名：台灣高雄醫學大學全球校友總會）<br><br>
+帳號：706100089586`
+  var text2=`Bank name:HUA NAN　 Commercial Bank Ltd.<br><br>
+Branch name:Kaohsiung PO-AI Branch<br><br>
+Bank address:No.150,Jiouru 2nd.Road,Sanmin Dist.Kaohsiung City,TAIWAN<br><br>
+SWIFT address:HNBKTWTP706<br><br>
+Ben’s A/C No.:706970011618<br><br>
+Ben’s Name:Taiwan KMU Global Alumni Association`
+  lifeCycle.onCreate=function (){
+
+  }
+  lifeCycle.onCreateView=function (){
+    return `
+${(pageType===glitter.htmlType.Page) ? `<div class="topBar" >
+    <img  src="../img/btn_back_normal.png" style="width: 50px;height: 50px;" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 16px;margin-left: 5px;flex: auto;">會員繳費</h3>
+</div>`:``}
+<div class="bottonPlace">
+<div onclick="
+glitter.openDiaLog('publicResource/dialog/Dia_Show_DashBoard.html','Dia_Show_DashBoard',false,false,{
+    content:text,
+    title:'國內賬戶'
+},function (){})
+">國內帳戶</div>
+<div onclick="
+glitter.openDiaLog('publicResource/dialog/Dia_Show_DashBoard.html','Dia_Show_DashBoard',false,false,{
+      content:text2,
+    title:'外幣帳戶'
+},function (){})
+">外幣帳戶</div>
+</div>
+    `
+  }
+</script>
+</body>
+</html>

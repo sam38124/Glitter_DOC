@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+<!--    <link rel="stylesheet" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css">-->
+<!--    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>-->
+<!--    <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>-->
+    <script src="../glitterBundle/extension.js"></script>
+</head>
+<style>
+    html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: hidden;
+    }
+
+    .topBar {
+        width: 100%;
+        height: 50px;
+        background-color: dodgerblue;
+        display: flex;
+        align-items: center;
+    }
+
+    .content {
+        width: 100%;
+        height: calc(100% - 50px);
+        display: flex;
+        align-items: center;
+        overflow-y: scroll;
+        flex-direction: column;
+    }
+
+    .head {
+        min-height: 100px;
+        min-width: 100px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
+        background-color: whitesmoke;
+        margin-top: 23px;
+    }
+
+    .smallTitle {
+        width: calc(100% - 30px);
+        color: black;
+        font-size: 15px;
+        margin-bottom: 0;
+    }
+
+    input {
+        min-height: 30px;
+        height: 30px;
+        color: black;
+        font-weight: 400;
+        font-size: 15px;
+        width: calc(100% - 35px);
+        border-color: #aaaaaa;
+        border-width: 1px;
+        border-style: solid;
+        padding-left: 5px;
+        border-radius: 2px;
+        margin-top: 10px;
+    }
+
+    .hint {
+        color: #8e8e8e;
+        font-size: 13px;
+        font-weight: 400;
+        width: calc(100% - 30px);
+        margin-top: 5px;
+    }
+
+    textarea {
+        width: calc(100% - 40px);
+        height: 60px;
+        min-height: 60px;
+        margin-top: 5px;
+        padding: 5px;
+        font-size: 14px;
+        border-color: #aaaaaa;
+        border-width: 1px;
+        border-style: solid;
+    }
+    .flexSelect{
+        height: 30px;
+        margin-top: 20px;
+        display: flex;
+        justify-content: left;
+        width: calc(100% - 30px);
+        margin-bottom: 10px;
+    }
+    .selectItem{
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+    .item{
+        border-width: 2px;
+        border-color: gray;
+        border-style: solid;
+        border-radius: 50%;
+        width: 20px;
+        margin-left: 0;
+        height: 20px;
+    }
+    .select{
+        background-color: dodgerblue;
+    }
+    .selectItem span{
+    font-size: 11px;
+        margin-left: 5px;
+    }
+    .checkBox{
+        border-width: 2px;
+        border-style: solid;
+        border-color: dodgerblue;
+        margin-left: 0;
+        width: 20px;
+        background-size: 20px 20px;
+        height: 20px;
+    }
+    .check{
+        background-image: url("../img/checkbox_check.png");
+    }
+</style>
+<script src="../glitterBundle/ControlInstance.js"></script>
+<body>
+
+</body>
+</html>
+<script>
+    let userData = glitter.publicBeans.publicLogic.customDefine.user_data
+    lifeCycle.onCreate = function () {
+
+    }
+    lifeCycle.onCreateView = function () {
+        return `
+    <div class="topBar" >
+    <img  src="../img/btn_back_normal.png" style="width: 50px;height: 50px;" onclick="glitter.goBack()">
+    <h3 style="color: white;font-size: 16px;margin-left: 5px;">編輯個人檔案</h3>
+</div>
+<div class="content">
+<img class="head" id="head" onclick="addImageView()" src="${userData.head}">
+<h3 style="color:dodgerblue;font-weight: 600;font-size: 16px;" onclick="addImageView()">選擇頭像</h3>
+<h3 class="smallTitle">電子信箱</h3>
+<input id="email" value="${userData.email}" placeholder="請輸入你的信箱">
+
+<h3 class="smallTitle">姓名</h3>
+<input id="pick" value="${userData.pick}" placeholder="請輸入您的全名">
+<h3 class="smallTitle">性別</h3>
+<div class="flexSelect">
+<div class="selectItem">
+ <div id="male" class="checkBox ${(userData.gender=='0') ? 'check':''}" onclick="$('.checkBox').removeClass('check');$('#male').addClass('check');gender=0;"></div>
+<span>男性</span>
+</div>
+<div class="selectItem">
+ <div id="female" class="checkBox ${(userData.gender=='1') ? 'check':''}" onclick="$('.checkBox').removeClass('check');$('#female').addClass('check');gender=1;"></div>
+<span>女性</span>
+</div>
+</div>
+<h3 class="smallTitle">生日</h3>
+<input id="birthday" style="background-color:white;width:calc(100% - 40px);min-height: 40px;"   data-date-format="yyyy-mm-dd" data-provide="datepicker" value="${userData.birthday.substring(0,10)}" contenteditable="false"
+onclick="glitter.openDiaLog('publicResource/dialog/Dia_Date_Picker.html','Dia_Date_Picker',false,false,{
+             callback:function (text){$('#birthday').val(text.substring(0,10).replace('/','-').replace('/','-'))},
+             data:{ time: false, nowButton: false, clearButton: false, format: 'YYYY/MM/DD', lang: ('zh-cn')   }
+         })" readonly>
+<h3 class="smallTitle">畢業科系</h3>
+<input id="gurade" value="${userData.gurade}" placeholder="請輸入您的畢業科系">
+<h3 class="smallTitle">電話</h3>
+<input id="phone" value="${userData.phone}" type="number" placeholder="請輸入您的電話">
+<h3 class="smallTitle">地址</h3>
+<input id="address" value="${userData.address}" placeholder="請輸入您的地址">
+<div style="flex: auto;">
+</div>
+<div onclick="postInfo()" style="margin-top:10px;margin-bottom:10px;color:white;border-radius: 10px;width: calc(100% - 30px);height: 40px;min-height:40px;background-color: dodgerblue;display: flex;align-items: center;justify-content: center;">
+提交內容
+</div>
+</div>
+    `
+    }
+    var gender=userData.gender
+    function postInfo() {
+        var model = {}
+        model.userID=userData.userID
+        model.account = userData.account
+        model.password = userData.password
+        model.head = $('#head').attr('src')
+        model.pick = $('#pick').val()
+        model.gurade=$('#gurade').val()
+        if($('#birthday').val().indexOf("00:00:00")===-1){
+            model.birthday=`${$('#birthday').val()} 00:00:00`
+        }else{
+            model.birthday=`${$('#birthday').val()}`
+        }
+        model.socialId=userData.socialId
+        model.manager=userData.manager
+        model.gender=gender
+        model.email=$('#email').val()
+        model.phone=$('#phone').val()
+        model.address=$('#address').val()
+        if ((model.pick === '')) {
+            glitter.openDiaLog('dialog/Dia_Info.html', 'Dia_Info', false, true, "請輸入你的名稱", function () {
+            })
+            return
+        }  else if (model.account === '') {
+            glitter.openDiaLog('dialog/Dia_Info.html', 'Dia_Info', false, true, "帳號不得為空", function () {
+            })
+            return
+        }else if($('#gurade').val() === ''){
+            glitter.openDiaLog('dialog/Dia_Info.html', 'Dia_Info', false, true, "請輸入您的畢業科系", function () {
+            })
+            return
+        }else if($('#birthday').val() === ''){
+            glitter.openDiaLog('dialog/Dia_Info.html', 'Dia_Info', false, true, "請輸入您的生日", function () {
+            })
+            return
+        }else if($('#gender').val() === ''){
+            glitter.openDiaLog('dialog/Dia_Info.html', 'Dia_Info', false, true, "請選擇您的性別", function () {
+            })
+            return
+        }else if($('#phone').val() === ''){
+            glitter.openDiaLog('dialog/Dia_Info.html', 'Dia_Info', false, true, "請輸入您的電話", function () {
+            })
+            return
+        }else if($('#address').val() === ''){
+            glitter.openDiaLog('dialog/Dia_Info.html', 'Dia_Info', false, true, "請輸入您的地址", function () {
+            })
+            return
+        }else if(model.email === ''){
+            glitter.openDiaLog('dialog/Dia_Info.html', 'Dia_Info', false, true, "請輸入您的信箱", function () {
+            })
+            return
+        }
+        glitter.share.dataLoading(true)
+        glitter.publicBeans.publicLogic.changeInfo(model,function (response){
+            glitter.share.dataLoading(false)
+            if(response===undefined){
+                glitter.share.internetError()
+            }else{
+                if(response.result){
+                    glitter.goBack()
+                    glitter.copyObj(glitter.publicBeans.publicLogic.customDefine.user_data,model)
+                    glitter.share.hint("更改資料成功")
+                }else{
+                    glitter.share.hint("更改資料失敗")
+                }
+            }
+        })
+    }
+
+    function addImageView() {
+        glitter.chooseImage(function (data){
+            var img=[]
+            data.map(function (da){img.push(da.file)})
+            glitter.share.dataLoading(true)
+            glitter.publicBeans.publicLogic.uploadImage(img,function (response){
+                    glitter.share.dataLoading(false)
+                    if(response!==undefined && (response.result)){
+                        $('#head').attr(`src`,response.url)
+                    }
+                }
+            )
+        })
+    }
+</script>

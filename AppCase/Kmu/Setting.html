@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="glitterBundle/ControlInstance.js"></script>
+</head>
+<style>
+    html {
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(45deg, dodgerblue 45%, deepskyblue 45%);
+        align-content: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+    }
+    body{
+        width: 100%;
+        height: 100%;
+    }
+    .item {
+        color: white;
+        font-size: 16px;
+        margin-left: 10px;
+        cursor: pointer;
+        height: 40px;
+        display: flex;
+        align-content: center;
+        flex-direction: column;
+        border-bottom: 1px white solid;
+        width: 90%;
+    }
+    .headBar img{
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-color: white;
+    }
+</style>
+
+<body>
+
+</body>
+</html>
+<script>
+    var userData=glitter.publicBeans.publicLogic.customDefine.user_data
+    var settingItem = [
+        {
+            title: '跑馬燈設定',
+            callback: function () {
+                glitter.changePage('publicResource/page/Page_Marquee_Setting.html','Page_List_Marquee',true,{})
+                // glitter.openDiaLog('publicResource/dialog/Dia_Set_Marquee.html','Dia_Set_Marquee',false,false,{},function (){})
+            }
+        },
+        {
+            title: '成員管理',
+            callback: function () {
+                glitter.changePage('page/Page_Member_Setting.html','Page_Member_Setting',true,{})
+            }
+        },
+        {
+            title:'設定通用密碼',
+            callback:function (){
+                glitter.openDiaLog('dialog/Dia_Edit_Invite.html','Dia_Edit_Invite',false,false,{},function (){})
+            }
+        },{
+        title:'設定邀請人員',
+            callback:function (){
+                glitter.changePage('page/Page_Invite_User.html','Page_Invite_User',true,{})
+            }
+        }
+    ]
+    lifeCycle.onCreate = function () {
+        $('#content').append(` <h3 class="item" onclick="glitter.changePage('page/Page_Edit_Info.html','Page_Edit_Info',true,{});glitter.closeNavigation();">編輯個人檔案</h3>`)
+        if(glitter.publicBeans.publicLogic.customDefine.isManager()){
+            settingItem.map(function (data, pos) {
+                $('#content').append(` <h3 class="item" id="${pos}">${data.title}</h3>`)
+                $('#' + pos).click(function () {
+                    glitter.closeNavigation()
+                    settingItem[pos].callback()
+                })
+            })
+        }
+
+        $('#content').append(`<h3 class="item" onclick="glitter.changePage('page/Page_Reset_Password.html','Page_Reset_Password',true,{});glitter.closeNavigation();">重設密碼</h3>`)
+     // $('#content').append(`<h3 class="item" onclick="glitter.changePage('publicResource/page/Page_Policy.html','Page_Policy',true,{});glitter.closeNavigation();">邀請碼</h3>`)
+        $('#content').append(`<h3 class="item" onclick="glitter.changePage('page/Page_Manager_Article.html','Page_Manager_Article',true,{
+    title:'隱私權政策',
+    code:glitter.share.defineCode.privacyInfo,
+});glitter.closeNavigation();">隱私權政策</h3>`)
+        $('#content').append(`<h3 class="item" onclick="glitter.openDiaLog('dialog/Dia_Broacdcast_Toggle.html','Dia_Broacdcast_Toggle',false,false,{},function (){});  glitter.closeNavigation();">推播通知</h3>`)
+        $('#content').append(` <h3 class="item" onclick=" glitter.changePage('publicResource/page/Page_Article_List_Type_Dcard.html','Page_Article_List_Type_Dcard',true,{
+     request:{
+        inCode:[''+glitter.share.defineCode.normal,''+glitter.share.defineCode.users],
+        mySub:true
+     },
+     title:'收藏的文章',
+      hideEdit:true
+ });glitter.closeNavigation();">收藏的文章</h3>`)
+        $('#content').append(` <h3 class="item" onclick="  glitter.changePage('publicResource/page/Page_Calendar_Type_2.html','Page_Calendar_Type_2',true,{
+     request:{
+        inCode:[''+glitter.share.defineCode.activity,''+glitter.share.defineCode.calender,''+glitter.share.defineCode.activitySync],
+        mySub:true
+     },
+     title:'收藏的活動',
+     hideEdit:true,
+     allDate:true
+ });glitter.closeNavigation();">收藏的活動</h3>`)
+        $('#content').append(`<h3 class="item" onclick="
+        glitter.runJsInterFace('clearScrible',{},function (){})
+        glitter.setPro('account','',function (){
+          glitter.setHome('page/Page_Sign_In.html', 'Page_Sign_In', '{}')
+          glitter.closeNavigation();
+        })">登出</h3>`)
+    }
+    lifeCycle.onCreateView = function () {
+        return `
+<div class="headBar" style="border-bottom:1px solid white;width: 100%;height: 200px;display: flex;flex-direction: column;align-items: center;justify-content: center;">
+<img src="${userData.head}">
+<span style="color:white;font-size: 16px;margin-top: 5px;">${userData.pick}</span>
+</div>
+<div style="width: 100%;height: calc(100% - 200px);" id="content">
+
+</div>
+
+        `
+    }
+
+</script>

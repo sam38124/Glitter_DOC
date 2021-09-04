@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../glitterBundle/ControlInstance.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../glitterBundle/layout/css/flexslider.css"/>
+    <script type="text/javascript" src="../../glitterBundle/layout/js/jquery.flexslider.js"></script>
+    <script src="../../publicResource/reactJS/ListCommidity.js" type="text/babel"></script>
+    <script src="../../glitterBundle/babel.min.js"></script>
+    <script src="../../glitterBundle/react.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/react-dom.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/create-react-class.min.js" crossorigin></script>
+    <script src="../../prop-types/prop-types.js"></script>
+    <script src="../../dist/react-infinite.js"></script>
+    <link href="../../publicResource/reactJS/ListArticle.css" rel="stylesheet">
+</head>
+<style>
+    .titleBarH {
+        min-height: 50px;
+        width: 100%;
+        height: 50px;
+        background-color: dodgerblue;
+        display: flex;
+        align-items: center;
+    }
+</style>
+<body>
+<div class="topBar" id="topBar" style="width: 100%;height:40px;overflow-x: scroll;overflow-y: hidden;"></div>
+<div id="CommidityView" class="wrapper" style="width: 100%;height: 100%;"></div>
+<div id="frag" style="width: 100%;height: calc(100% - 50px);"></div>
+<script>
+    //選單
+    let bottomItem = [
+        {title:'團購列表'}, {title:'買家管理'},{title:'賣家管理'}
+    ]
+    var lastSelect={
+        position:0
+    }
+    lifeCycle.onCreate=function (){
+        bottomItem.map(function (data,position) {
+            $('#topBar').append(`
+${(position===0) ? '':'<div style="height: 20px;width: 1px;min-width:1px;background-color: darkgrey;"></div>'}
+<div onclick="lastSelect.position=${position};" class="bitem" style="min-width: 100px;width: 33%;">
+<h3 id="t${position}">${data.title}</h3>
+</div>
+`)
+        })
+        var first=true
+        glitter.addObserver(lastSelect,'position',function (data){
+            $('#CommidityView').hide()
+            $('#frag').hide()
+            switch (lastSelect.position){
+                case 0:
+                    $('#CommidityView').show()
+                    if(!first){reloadData()}
+                    first=false
+                    break
+                case 1:
+                    $('#frag').show()
+                    glitter.changeFrag($('#frag').get(0),'Page_Buyer_Manager.html','Page_Buyer_Manager',{})
+                    break
+            }
+            updateView()
+        })
+    }
+
+
+    function updateView(){
+        bottomItem.map(function (data,position) {
+            $('#t'+position).css('color',(lastSelect.position!==position) ? 'gray':'orange')
+        })
+    }
+</script>
+</body>
+
+</html>

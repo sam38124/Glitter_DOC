@@ -1,0 +1,213 @@
+.textLoading{
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #212529;
+    font-size: 13px;
+    background-size: 40px 40px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../../img/loading.gif");
+}
+
+#ChatView{
+    width: 100%;
+    height: calc(100% - 60px);
+}
+
+
+
+.itemMessage{
+    position: relative;
+    width: calc(100vw - 20px);
+    margin-left: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+    border-bottom: 1px solid whitesmoke;
+}
+.space{
+    flex: auto;
+    margin: 0;
+}
+.flexUser .img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-top: 20px;
+}
+
+.flexUser {
+    width: 100%;
+    display: flex;
+    align-content: center;
+}
+
+.flexCenter {
+    max-width: calc(100% - 70px);
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+.flexCenter .textPLace{
+    max-width: calc(100%);
+    width: auto;
+    overflow: hidden;
+    white-space: normal;
+    color: #6a6a6a;
+    font-weight: 600;
+    letter-spacing:2px;
+    margin-top: 5px;
+    line-height: 20px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    word-break: break-all;
+}
+.me{
+    background-color: dodgerblue !important;
+    color: white !important;
+    line-height: 18px;
+}
+.flexCenter .time {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 11px;
+    margin-left: 0;
+    margin-top: 0;
+    color: #6a6a6a;
+    height: 25px;
+    text-space: 2px;
+}
+
+.flexCenter .pick {
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    margin-left: 0px;
+    margin-bottom: 0px;
+    align-content: center;
+    align-items: center;
+    color: gray;
+}
+
+.rePlylove{
+    display: flex;
+    margin-top: 5px;
+    margin-left: 0px;
+    align-items: center;
+}
+.rePlylove img{
+    margin-left: 5px;
+    width: 30px;
+    height: 30px;
+}
+.rePlylove span{
+    font-size: 13px;
+    margin-left: 5px;
+    font-weight: 400;
+    text-space: 4px;
+    margin-top: 2px;
+    color: #6a6a6a;
+}
+.inReplyContent{
+    display: flex;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    flex: auto;
+
+}
+.inReplyContent img {
+    width: 20px !important;
+    height: 20px !important;
+}
+.inReplyContentText{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    padding: 5px;
+    margin-left: 10px;
+}
+.minTitle{
+    position: absolute;
+    top: 0px;
+    font-size: 11px;
+    color: deepskyblue;
+    font-weight: 600;
+}
+.colorImport{
+    position: absolute;
+    top: 0px;
+    font-size: 11px;
+    color: darkgreen;
+    font-weight: 600;
+}
+.Content {
+    width: 100%;
+    height: calc(100vh - 100px);
+}
+
+.bigText{
+    font-size: 20px;
+    margin-bottom: 10px !important;
+}
+.spi{
+    background-color: whitesmoke;
+    width: 100vw;
+    height: 1px;
+   margin-top: 10px;
+}
+.title {
+    margin-top: -40px;letter-spacing:2px;
+    font-size: 20px;
+    color: black;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+.comment {
+    letter-spacing:2px;
+    display: flex;
+    background-image: url("../img/replyicon.png");
+    background-size: 20px 20px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    padding-left: 25px;
+    margin-left: 20px;
+    color: dimgray;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+}
+#imageIndex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 10;
+    position: absolute;
+    width: 50px;
+    height: 20px;
+    right: 0;
+    bottom: 0px;
+    background-color: black;
+    opacity: 0.7;
+}
+.black{
+ color: black !important;
+}
+.serarchBar{
+    width: 100%;
+    height: 50px;
+}

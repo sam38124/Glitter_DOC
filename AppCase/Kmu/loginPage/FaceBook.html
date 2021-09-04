@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../glitterBundle/ControlInstance.js"></script>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</head>
+<style>
+  html {
+    background-color: dodgerblue;
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<body onclick="signWithFaceBook()">
+
+</body>
+</html>
+<script>
+
+
+  lifeCycle.onCreate=function (){
+  }
+  lifeCycle.onCreateView=function (){
+    return ``
+  }
+  function signWithFaceBook(){
+    FB.login(function(response) {
+      FB.api('/me', function(response) {
+        alert(JSON.stringify(response))
+        if(response.id !== undefined){ loginWithFacebook(response.id,response.name)}
+      });
+    }, {scope: 'public_profile,email'});
+  }
+
+  /********************************************************************************************************************************
+   * 下方為FB登入函式
+   * */
+  function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+    console.log('statusChangeCallback');
+    console.log(response);                   // The current login status of the person.
+    if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+      getUserInfo();
+    }else{
+      console.log('error login for facebook');
+    }
+  }
+
+
+  function checkLoginState() {               // Called when a person is finished with the Login Button.
+    FB.getLoginStatus(function (response) {   // See the onlogin handler
+      statusChangeCallback(response);
+    });
+  }
+
+
+  window.fbAsyncInit = function () {
+    FB.init({
+      appId: '294830995472155',
+      cookie: true,                     // Enable cookies to allow the server to access the session.
+      xfbml: true,                     // Parse social plugins on this webpage.
+      version: 'v10.0'           // Use this Graph API version for this call.
+    });
+    FB.getLoginStatus(function (response) {   // Called after the JS SDK has been initialized.
+      statusChangeCallback(response);        // Returns the login status.
+    });
+  };
+
+  function getUserInfo() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function (response) {
+      JSON.stringify(response)
+      console.log('Successful login for: ' + response.name);
+      // glitter.reloadPage()
+    });
+  }
+</script>

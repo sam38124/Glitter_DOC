@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../glitterBundle/ControlInstance.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../glitterBundle/layout/css/flexslider.css"/>
+    <script type="text/javascript" src="../../glitterBundle/layout/js/jquery.flexslider.js"></script>
+    <link rel="stylesheet" type="text/css" href="../reactJS/UserMessageHint.css"/>
+    <script src="../../glitterBundle/babel.min.js"></script>
+    <script src="../../glitterBundle/react.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/react-dom.production.min.js" crossorigin></script>
+    <script src="../../glitterBundle/create-react-class.min.js" crossorigin></script>
+    <script src="../../prop-types/prop-types.js"></script>
+    <script src="../../dist/react-infinite.js"></script>
+</head>
+<style>
+    html {
+        width: 100%;
+        height: 100%;
+    }
+
+    body {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .titleBar {
+        min-height: 50px;
+        width: 100%;
+        height: 50px;
+        background-color: #02546E;
+        display: flex;
+        align-items: center;
+    }
+
+    .more {
+        min-width: 40px;
+        cursor: pointer;
+        display: flex;
+        font-size: 25px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: #8e8e8e;
+        font-weight: 600;
+        height: 100%;
+        width: 40px;
+    }
+
+    .chatItem {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        bottom: 0;
+        z-index: 3;
+    }
+
+    .replayBox {
+        height: 50px;
+        width: 100vw;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        display: flex;
+        align-items: center;
+    }
+
+    .flexPencil {
+        padding: 0;
+        display: flex;
+        width: calc(100% - 50px);
+        background-color: whitesmoke;
+        height: 40px;
+        font-size: 14px;
+        align-items: center;
+    }
+
+    .flexPencil img {
+        width: 20px;
+        height: 20px;
+        margin-right: 3px;
+        margin-left: 3px;
+    }
+
+    .flexPencil input {
+        padding: 0;
+        background-color: transparent;
+        flex: auto;
+        width: 50px;
+        margin-left: 5px;
+        font-size: 14px;
+        border: 0 none;
+        height: 30px;
+    }
+
+    .more {
+        min-width: 40px;
+        cursor: pointer;
+        display: flex;
+        font-size: 25px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: darkgrey;
+        font-weight: 400;
+        height: 100%;
+        width: 40px;
+    }
+
+    .imagePlace {
+        display: flex;
+        width: 100vw;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        background-color: white;
+        height: 100px;
+        align-items: center;
+        margin-bottom: 50px;
+        position: relative;
+    }
+
+    .imgItem {
+        position: relative;
+        width: 70px;
+        height: 70px;
+        background-color: whitesmoke;
+        margin-left: 10px;
+
+    }
+
+    .imgItem img {
+        width: 100%;
+        height: auto;
+        white-space: nowrap;
+    }
+
+    .closeImg {
+        width: 25px !important;
+        height: 25px !important;
+        position: absolute;
+        z-index: 2;
+        top: -10px;
+        right: -10px;
+    }
+
+    .imageInItem {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+    }
+
+    .subImage {
+        width: 100%;
+        height: 50px;
+        position: absolute;
+        bottom: -50px;
+        display: flex;
+        border-top:1px solid whitesmoke;
+        background-color: white;
+        align-items: center;
+    }
+
+    .subImage h3 {
+        flex: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .subImage h4 {
+        color: dodgerblue;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+    }
+</style>
+<body>
+
+<script src="../reactJS/UserMessageHint.js" type="text/babel"></script>
+</body>
+<script>
+    var imageMap = {
+        img: []
+    }
+    lifeCycle.onCreate = function () {
+        glitter.share.fireBaseReceiver.blockTopics.push("/topics/"+gBundle.link)
+        $('#moreSelection').hide()
+        glitter.addObserver(imageMap, "img", function (data) {
+            if (data.length > 0) {
+                $('.imagePlace').html(`<div class="subImage" >
+<h4 style="50px;text-align: center;" onclick="imageMap.img=[]">取消</h4>
+<h3 style="flex: auto;">選擇${data.length}項</h3>
+<img src="../img/send.png" style="width:25px;height:25px;margin-right:10px;margin-left:10px;cursor: pointer;" onmousedown="sendImage()">
+</div>`)
+                $('.replayBox').hide()
+                $('.imagePlace').show()
+            } else {
+                $('.replayBox').show()
+                $('.imagePlace').hide()
+            }
+            data.map(function (img) {
+                $('.imagePlace').append(`<div class="imgItem">
+<div class="imageInItem"><img src="${img.link}"></div>
+<img src="../img/closeGray.png" class="closeImg" onmousedown="imageMap.img=imageMap.img.filter(function (data){return data.link!=='${img.link}'})">
+</div>`)
+            })
+        })
+    }
+    lifeCycle.onCreateView = function () {
+        return `
+<div  id="UserMessage" style="margin-bottom: 50px;"></div>
+<div class="chatItem">
+<div class="imagePlace"></div>
+<div class="replayBox" >
+<div id="moreSelection" style="background-color:white;height:80px;padding-left:5px;padding-right:5px;position: absolute;left: 0;top: -80px;display: flex;flex-direction: column;align-items: center;justify-content: space-around;box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);">
+<div style="display: flex;align-items: center;width: 100px;height: 40px;border-bottom: 1px solid whitesmoke;" onmousedown="selectImage()">
+<img src="../img/camera.png" style="width: 25px;height: 25px;">
+<span style="color: grey;margin-left: 5px;font-size: 13px;">選擇照片</span>
+</div>
+<div style="display: flex;align-items: center;width: 100px;height: 40px;" onmousedown="selectVideo()">
+<img src="../img/video.png" style="width: 25px;height: 25px;">
+<span style="color: grey;margin-left: 5px;font-size: 13px;">選擇影片</span>
+</div>
+</div>
+<div class="more" id="more" onmousedown="showMore()">＋</div>
+<div class="flexPencil">
+<img src="../img/pencil.png" id="pencil">
+<input id="replyText" type="text" onfocus="textOnFocus()" onblur="disableFocus()">
+<img src="../img/send.png" style="width:25px;height:25px;display: none;cursor: pointer;" id="sendBt" onclick="snedMessage()">
+</div>
+</div>
+</div>
+`
+    }
+    var moreIsVisible = false
+
+    function showMore() {
+        moreIsVisible = !moreIsVisible
+        if (moreIsVisible) {
+            $('#more').html("↧")
+            $('#moreSelection').show()
+
+        } else {
+            $('#more').html("+")
+            $('#moreSelection').hide()
+        }
+    }
+
+    //選擇圖片
+    function selectImage() {
+        if (!document.getElementById("imageSelect")) {
+            $('body').append(`<input type="file" accept="image/*"  style="display: none" id="imageSelect" multiple>`)
+            $('#imageSelect').change(function (e) {
+                showMore()
+                var files = ($('#imageSelect').get(0).files)
+                for (let a = 0; a < files.length; a++) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(files[a]);
+                    reader.onload = function getFileInfo(evt) {
+                        imageMap.img = imageMap.img.concat({
+                            link:evt.target.result,
+                            file:files[a]
+                        })
+                    };
+                }
+            })
+        }
+        $('#imageSelect').val(undefined)
+        $('#imageSelect').click()
+    }
+
+    //選擇影片
+    function selectVideo() {
+        glitter.chooseVideo(function (data){
+            glitter.share.dataLoading(true)
+            glitter.publicBeans.publicLogic.uploadVideo(data.file,function (response){
+                    glitter.share.dataLoading(false)
+                    if(response!==undefined && (response.result)){
+                        glitter.publicBeans.publicLogic.postUserMessage({
+                            toAccount: gBundle.account,
+                            display:gBundle.display,
+                            link:gBundle.link,
+                            gBundle:gBundle,
+                            message: (JSON.stringify({video:response.url[0]}))
+                        }, function (response) {
+                            glitter.share.dataLoading(false)
+                            if (response === undefined) {
+                                glitter.share.hint('請檢查網路連線!!')
+                            } else {
+                                if (response.result) {
+                                    $('#replyText').val('')
+                                } else {
+                                    glitter.share.hint('傳送訊息失敗!!')
+                                }
+                            }
+                        })
+                    }
+                }
+            )
+        })
+    }
+
+    //鍵盤輸入監聽
+    function textOnFocus() {
+        $('#pencil').hide()
+        $('#sendBt').show()
+    }
+
+    //鍵盤停止輸入監聽
+    function disableFocus() {
+        if ($('#replyText').val() === '') {
+            $('#pencil').show()
+            $('#sendBt').hide()
+        }
+    }
+
+    //傳送留言
+    function snedMessage() {
+        if ($('#replyText').val() === '') {
+            glitter.share.hint('請輸入回覆內容!!')
+            return
+        }
+        glitter.share.dataLoading(true)
+        glitter.publicBeans.publicLogic.postUserMessage({
+            toAccount: gBundle.account,
+            display:gBundle.display,
+            link:gBundle.link,
+            gBundle:gBundle,
+            message: (JSON.stringify({message:$('#replyText').val()}))
+        }, function (response) {
+            glitter.share.dataLoading(false)
+            if (response === undefined) {
+                glitter.share.hint('請檢查網路連線!!')
+            } else {
+                if (response.result) {
+                    link=response.link
+                    $('#replyText').val('')
+                } else {
+                    glitter.share.hint('傳送訊息失敗!!')
+                }
+            }
+        })
+    }
+    //傳送圖片
+    function sendImage(){
+        glitter.share.dataLoading(true)
+        let img=[]
+        imageMap.img.map(function (data){
+            img.push(data.file)
+        })
+        glitter.publicBeans.publicLogic.uploadImage(img, function (response) {
+            if(response===undefined || (!response.result)){
+                glitter.share.hint('請檢查網路連線!!')
+                glitter.share.dataLoading(false)
+            }else{
+                glitter.publicBeans.publicLogic.postUserMessage({
+                    toAccount: gBundle.account,
+                    link:gBundle.link,
+                    gBundle:gBundle,
+                    display:gBundle.display,
+                    message: (JSON.stringify({img:response.url}))
+                }, function (response) {
+                    glitter.share.dataLoading(false)
+                    if (response === undefined) {
+                        glitter.share.hint('請檢查網路連線!!')
+                    } else {
+                        if (response.result) {
+                            link=response.link
+                            imageMap.img=[]
+                            $('#replyText').val('')
+                        } else {
+                            glitter.share.hint('傳送訊息失敗!!')
+                        }
+                    }
+                })
+            }
+
+        })
+    }
+</script>
+</html>

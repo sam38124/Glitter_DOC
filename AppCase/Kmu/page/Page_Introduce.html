@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+    <script type="text/javascript" src="../glitterBundle/slick/slick.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../glitterBundle/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="../glitterBundle/slick/slick-theme.css"/>
+</head>
+<style>
+    html {
+        font-family: "Noto Sans TC", sans-serif;;
+        background-image: linear-gradient(45deg, dodgerblue 45%, deepskyblue 45%);
+        width: 100%;
+        height: 100%;
+        background-image: url("../img/backGroung.png");
+        background-color: #0d86c6;
+        background-size: auto 120%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        overflow-y: hidden;
+    }
+
+    .hintPlace {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-left: 40px;
+        margin-right: 40px;
+        height: 100vh;
+        margin-top: -30px;
+    }
+
+    .title {
+        font-size: 16px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .content {
+        text-align: left;
+        margin-top: 10px;
+        line-height: 20px;
+        font-size: 14px;
+    }
+    .flexPlace{
+        display: flex;
+        margin-top: -100px;
+    }
+    .index{
+        margin-left: 5px;
+        margin-right: 5px;
+        width: 10px;
+        height: 10px;
+        border-radius: 10px;
+        background-color: white;
+        opacity: 0.8;
+    }
+    .single-item div{
+        height: 100%;
+    }
+</style>
+<body>
+</body>
+<script>
+    var hint = [
+        {
+            img: '../img/comment.png',
+            title: '成立宗旨',
+            content: '本會為非營利性之公益社會團體，以肯定杜聰明博士創校精神，樂學至上、研究第一、服務社會、加強全球校友聯繫、促進校友情誼與合作、協助母校發展進步為宗旨。'
+        }, {
+            img: '../img/speaker.png',
+            title: '本會之任務',
+            content: `<br>
+ 一、加強全球校友聯繫，促進校友情誼與合作。<br><br>
+ 二、關懷在校學生、教職員福利，並以協助其國內外職涯發展。<br><br>
+ 三、協助國內外學術交流，促進母校高雄醫學大學發展進步。<br><br>
+ 四、還原並宣揚創建校史真相，落實高醫為公共財，維護高醫創辦宗旨與公益本質，恢復高醫與附屬機構之正名。<br><br>
+`
+        },{
+            img: '../img/speaker.png',
+            title: '本會之任務',
+            content: `<br>
+  五、依大學自治精神與大學法運作推動高醫董事會的制度化與正常發
+ 展，並促進組織與運作之改善，邀請本會正式推薦之校友及社會賢
+ 達人士擔任超過三分之一高醫董事。<br><br>
+ 六、發揚高醫創辦人杜聰明博士之創校精神，樂學至上、研究第一，
+ 關懷弱勢醫療，促進健康平等。<br><br>
+ 七、推動高雄醫學大學與國立綜合大學如中山大學合併，提升高醫發展
+ 為國際一流大學、落實高醫公益化。<br><br>
+ 八、其他`
+        }
+    ]
+    lifeCycle.onCreate = function () {
+        hint.map(function (data,position) {
+            $('.single-item').append(`<div id="imageIndex">
+<div class="hintPlace">
+<canvas id="img${position}" width="25" height="25"  style="width: 40px;height: 40px;"></canvas>
+<h3 class="title">${data.title}</h3>
+<h3 class="content">${data.content}</h3>
+</div>
+</div>`)
+            updateViewColor(`img${position}`,data.img)
+            if(position===0){
+                $('#indexPlace').append(` <div class="index" id="index${position}" style="opacity: 1.0"></div>`)
+            }else{
+                $('#indexPlace').append(` <div class="index" id="index${position}" style="opacity: 0.5"></div>`)
+            }
+        })
+        $('.single-item').slick();
+        $('.slick-arrow').hide()
+        $('.single-item').on('beforeChange', function(event, slick, currentSlide, nextSlide){
+            $('#index'+currentSlide).css('opacity','0.5')
+            $('#index'+nextSlide).css('opacity','1.0')
+        });
+
+    }
+    lifeCycle.onCreateView = function () {
+        return `
+    <div class="single-item" style="width: calc(100% - 20px);margin-left:10px;height: 100%;">
+
+  </div>
+     <div class="flexPlace" id="indexPlace"></div>
+<div style="color: white;height: 35px;position: absolute;right: 10px;bottom: 0;z-index: 2;" onmousedown="
+if(gBundle.callback!==undefined){
+   gBundle.callback()
+}else{
+ glitter.setHome('page/Page_Home.html','Page_Home',{})
+}
+">下一步 ></div>
+    `
+    }
+    function updateViewColor(id,src) {
+        var _canvas = document.getElementById(id);
+        var ctx = _canvas.getContext('2d');
+        //建立canvas物件
+        var img = new Image();
+        img.onload = function () {
+            ctx.canvas.width = img.width
+            ctx.canvas.height = img.height
+            draw(this, 0, 0);
+            //draw function
+        };
+        img.src = src;
+
+        //圖片載入的事件(與上次同)
+        function draw(imgObj, w, h) {
+            var x = 0;
+            var y = 0;
+//先定義圖片的x,p坐標位置
+            ctx.drawImage(imgObj, x, y);
+//將原始的圖片匯入
+            var imgData = ctx.getImageData(x, y, imgObj.width, imgObj.height);
+//取得canvas物件的資訊(需要完整的坐標及範圍)
+            var data = imgData.data;
+//再將資訊轉存出來
+            console.log(data);
+//這時候用console.log(data)，就可以看到RGB的值
+            for (var i = 0; i < data.length; i += 4) {
+                data[i] = 255;
+                // green
+                data[i + 1] = 255;
+                // blue
+                data[i + 2] = 255;
+
+            }
+            ctx.putImageData(imgData, 0, 0)
+            //重新將新的影像資訊覆蓋上去
+        }
+    }
+</script>
+</html>

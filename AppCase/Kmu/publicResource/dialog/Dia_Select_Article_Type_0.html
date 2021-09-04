@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../../glitterBundle/ControlInstance.js"></script>
+  <link href="../fontStyle/notesanstc.css" rel="stylesheet">
+</head>
+<style>
+  html {
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    width: 100%;
+    height: 100%;
+  }
+  .smallTitle{
+    margin-top: 5px;
+    width: calc(100% - 30px);
+    color: black;
+    font-size: 15px;
+    margin-bottom: 0;
+  }
+  .selection{
+    height: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    font-size: 14px;
+    width: 100%;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+  }
+  #scrollView{
+    width: 100%;
+    overflow-y: scroll;
+    max-height:100vw;
+    overflow-x: hidden;
+  }
+  .selectItem{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid white;
+      border-radius: 10px;
+      padding: 5px;
+      margin-top: 10px;
+     min-width: 30px;
+      justify-content: center;
+  }
+  .selectItem canvas {
+      border-radius: 50%;
+      width: 15px;
+      padding: 5px;
+  }
+  .selectItem span{
+      margin-left: 10px;
+      margin-right: 10px;
+      color: white;
+      font-size: 11px;
+  }
+  .grid{
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: auto;
+      display: grid;
+      overflow-x: hidden;
+      grid-gap: 5px;
+  }
+  .itemSelect{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }
+</style>
+<body>
+
+</body>
+</html>
+<script>
+    var manager=glitter.publicBeans.publicLogic.customDefine.user_data.manager
+  lifeCycle.onCreate=function (){
+    glitter.publicBeans.publicLogic.customDefine.post_type.map(
+            function (data,position){
+                if((manager==="1")||([-1,0,2,3,4,5,6].indexOf(data.code)!==-1)){
+                    $('#postList').prepend(`
+     <div id="${position}" class="selectItem">
+      <canvas id="img${position}" style="background-color: ${glitter.publicBeans.publicLogic.customDefine.themeColor};border-radius: 50%;"></canvas>
+      <span>${data.title}</span>
+</div>
+    `)
+                    updateView(`img${position}`,data.image)
+                    $(`#${position}`).click(function (){
+                        glitter.publicBeans.publicLogic.customDefine.selectPost=data
+                        gBundle();glitter.closeDiaLog()
+                    })
+                }
+            }
+    )
+      updateView('canvas',"../img/close.png")
+      $('#postList').animate({ bottom: 60 ,opacity: 1}, 500);
+  }
+  lifeCycle.onCreateView=function (){
+    return `
+<div id="postList" class="grid" style="opacity:0;bottom: -${glitter.getBoundingClientRect.height}px;position: absolute;transform: translateX(-50%);left: 50%;padding-bottom: 50px;">
+<canvas  id="canvas" style="width: 30px;height: 30px;position:absolute;bottom: 0;transform: translateX(-50%);left: 50%;" onclick="glitter.closeDiaLog(getTag())"></canvas>
+</div>
+    `
+  }
+  function updateView(canvas,src){
+      var _canvas = document.getElementById(canvas);
+      var ctx = _canvas.getContext('2d');
+      //建立canvas物件
+      var img = new Image();
+      img.onload = function(){
+          ctx.canvas.width = img.width
+          ctx.canvas.height = img.height
+          draw(this,0,0);
+      };
+      img.src = src;
+      //圖片載入的事件(與上次同)
+      function draw(imgObj,w,h){
+          var x = 0;
+          var y = 0;
+//先定義圖片的x,p坐標位置
+          ctx.drawImage(imgObj,x,y);
+//將原始的圖片匯入
+          var imgData = ctx.getImageData(x, y, imgObj.width, imgObj.height);
+//取得canvas物件的資訊(需要完整的坐標及範圍)
+          var data = imgData.data;
+//再將資訊轉存出來
+          console.log(data);
+//這時候用console.log(data)，就可以看到RGB的值
+          for(var i = 0; i < data.length; i += 4) {
+              //利用回圈將顏色全部替換
+              // red
+              data[i] = 255;
+              // green
+              data[i + 1] = 255;
+              // blue
+              data[i + 2] = 255;
+          }
+          ctx.putImageData(imgData,0,0)
+          //重新將新的影像資訊覆蓋上去
+      }
+  }
+  </script>

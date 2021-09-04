@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+    <script src="../glitterBundle/extension.js"></script>
+    <script type="text/javascript" src="../glitterBundle/slick/slick.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../glitterBundle/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="../glitterBundle/slick/slick-theme.css"/>
+    <script src="../publicResource/jslib/moment.js"></script>
+</head>
+<style>
+    html {
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    body {
+        overflow-x: hidden;
+        height: calc(100%);
+
+        width: 100%;
+    }
+
+    .topBar {
+        background-image: url("../img/schollBackGround.jpeg");
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        position: relative;
+        height: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        padding-top: 15px;
+    }
+
+    .bottomBar {
+        display: flex;
+        height: 50px;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #2B333F;
+
+    }
+
+    .bottomBar div {
+        font-size: 11px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    .bottomBar img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .logo {
+        width: 100px;
+        height: 100px;
+        min-height: 100px;
+    }
+
+    .textPlace {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .textPlace h3 {
+        font-size: 14px;
+        color: white;
+        margin-bottom: 0;
+    }
+
+    .textPlace h4 {
+        font-size: 13px;
+        color: white;
+        margin-top: 5px;
+    }
+
+    .wrapper {
+        padding-top: 10px;
+        position: relative;
+        display: grid;
+        overflow: hidden;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: auto;
+        justify-content: space-around;
+        grid-gap: 5px;;
+        overflow-y: scroll;
+        width: 100%;
+        min-height: calc(100% - 100vh - 170px);
+        overflow-x: hidden;
+        z-index: 4;
+        background-color: white;
+    }
+
+    .wrapper img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .itemDiv {
+        position: relative;
+        height: 70px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .itemDiv span {
+        color: black;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .talkBar {
+        height: 40px;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        background-color: whitesmoke;
+        padding-left: 10px;
+    }
+
+    .talkBar marquee {
+        font-size: 13px;
+        flex: auto;
+        margin-right: 10px;
+        overflow: hidden;
+        margin-left: 10px;
+
+    }
+
+    .imgPlace {
+        width: 100%;
+        height: calc(100vh - 500px);
+        text-align: center;
+        overflow: hidden;
+        position: relative;
+        background-color: black;
+    }
+
+    .slick {
+        width: 100%;
+        height: calc(100vh - 500px);
+    }
+
+    .imgPlace img {
+        width: 100%;
+        position: absolute;
+        left: 0;
+    }
+
+    .imageHint {
+        position: absolute;
+        color: white;
+        float: bottom;
+        font-size: 13px;
+        height: 30px;
+        margin-bottom: 0;
+        line-height: 30px;
+        width: 100%;
+        opacity: 0.7;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        background-color: black;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        white-space: nowrap;
+        bottom: 0;
+        z-index: 3;
+    }
+
+    .itemCount {
+        border-radius: 50%;
+        background-color: red;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        color: white;
+        font-size: 11px;
+        position: absolute;
+        top: 0;
+        transform: translateX(15px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<body></body>
+</html>
+<script>
+    var mdUSer = glitter.publicBeans.publicLogic.customDefine.user_data
+
+    class Item {
+        constructor(a, b, c, d) {
+            this.imageC = a
+            this.imageN = b
+            this.title = c
+            this.click = d
+        }
+    }
+
+    var data = [
+        new Item(
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" id=\"id_svgCanvas\" x=\"0px\" y=\"0px\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\" enable-background=\"new 0 0 24 24\" xml:space=\"preserve\" preserveAspectRatio=\"none\" style=\"fill: rgb(253,0,0);\">\n" +
+            "<polygon points=\"22,12 20,12 20,20 14,20 14,15 10,15 10,20 4,20 4,12 2,12 12,3 \" style=\"fill: rgb(255,0,0);\"></polygon>\n" +
+            "</svg>",
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" id=\"id_svgCanvas\" x=\"0px\" y=\"0px\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\" enable-background=\"new 0 0 24 24\" xml:space=\"preserve\" preserveAspectRatio=\"none\" style=\"fill: rgb(166, 166, 159);\">\n" +
+            "<polygon points=\"22,12 20,12 20,20 14,20 14,15 10,15 10,20 4,20 4,12 2,12 12,3 \" style=\"fill: rgb(166, 166, 159);\"></polygon>\n" +
+            "</svg>", "首頁", function () {
+                scrollToPage(0)
+            }), new Item("<svg width=\"25px\" height=\"25px\" viewBox=\"0 0 64 64\" style=\"enable-background:new 0 0 64 64;\" xml:space=\"preserve\">\n\n<g>\n<g>\n<defs>\n<path id=\"573230084_SVGID_1__rel\" d=\"M56,14H8c-1.657,0-3,1.343-3,3v27c0,1.657,1.343,3,3,3h8v11l11-11h29c1.657,0,3-1.343,3-3V17     C59,15.343,57.657,14,56,14z\"></path>\n</defs>\n<clipPath id=\"573230084_SVGID_2__rel\">\n<use xlink:href=\"#573230084_SVGID_1__rel\" style=\"overflow:visible;\"></use>\n</clipPath>\n<g class=\"st4\" style=\"clip-path:url(#573230084_SVGID_2__rel);;\">\n<rect x=\"5\" y=\"14\" class=\"stshockcolor\" width=\"54\" height=\"44\" style=\"fill: rgb(117, 162, 216);\"></rect>\n<polygon class=\"st2\" points=\"24.632,58 5,58 5,14 50.035,14    \" style=\"opacity:0.3;fill:#FFFFFF;;\"></polygon>\n<path class=\"st6\" d=\"M18.5,36c-0.384,0-0.768-0.146-1.061-0.439c-0.586-0.586-0.586-1.535,0-2.121     C19.185,31.694,25.14,26,28.5,26c2.631,0,3.389,2.652,3.942,4.588C32.666,31.371,33.131,33,33.5,33h4c0.828,0,1.5,0.672,1.5,1.5     S38.328,36,37.5,36h-4c-2.631,0-3.389-2.652-3.942-4.588C29.334,30.629,28.869,29,28.5,29c-1.423,0-5.771,3.392-8.939,6.561     C19.268,35.854,18.884,36,18.5,36z\" style=\"fill:#231F20;fill-opacity:0.3;;\"></path>\n</g>\n</g>\n<g>\n<defs>\n<path id=\"573230084_SVGID_3__rel\" d=\"M45.628,31.596c0,0,11.717-20.293,12.428-21.526c0.712-1.231,1.057-4.319-2.179-6.188     c-3.236-1.868-5.738-0.025-6.449,1.207C48.717,6.321,37,26.615,37,26.615c0,2.186,0,7.207,0,8.284     c0,1.076,0.521,1.377,1.453,0.84C39.387,35.198,43.736,32.689,45.628,31.596z\"></path>\n</defs>\n<use xlink:href=\"#573230084_SVGID_3__rel\" class=\"st10\" style=\"fill:#E9BF54;;overflow:visible;\"></use>\n<clipPath id=\"573230084_SVGID_4__rel\">\n<use xlink:href=\"#573230084_SVGID_3__rel\" style=\"overflow:visible;\"></use>\n</clipPath>\n<g class=\"st5\" style=\"clip-path:url(#573230084_SVGID_4__rel);;\">\n<rect x=\"34.346\" y=\"28.579\" transform=\"matrix(0.866 0.5 -0.5 0.866 21.5294 -15.3167)\" class=\"st3\" width=\"10\" height=\"7.874\" style=\"fill:#FFFFFF;fill-opacity:0.5;;\"></rect>\n<rect x=\"35.127\" y=\"33.127\" transform=\"matrix(0.866 0.5 -0.5 0.866 22.4205 -14.4245)\" class=\"st7\" width=\"6\" height=\"2.998\" style=\"fill:#231F20;fill-opacity:0.6;;\"></rect>\n<rect x=\"44.627\" y=\"8.743\" transform=\"matrix(0.866 0.5 -0.5 0.866 12.5384 -24.3075)\" class=\"st9\" width=\"14\" height=\"5\" style=\"fill:#DEDCD9;;\"></rect>\n<rect x=\"47.376\" y=\"3.48\" transform=\"matrix(0.866 0.5 -0.5 0.866 10.5264 -26.3219)\" class=\"st8\" width=\"14\" height=\"6\" style=\"fill:#DD7047;;\"></rect>\n\n<rect x=\"46.292\" y=\"2.653\" transform=\"matrix(0.8661 0.4999 -0.4999 0.8661 17.1097 -21.5593)\" class=\"st1\" width=\"5.001\" height=\"37\" style=\"opacity:0.15;fill:#231F20;;\"></rect>\n</g>\n</g>\n</g>\n</svg>",
+            `<svg  width="25px" height="25px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve"><g>
+<g>
+<defs>
+<path id="573230084_SVGID_1__rel" d="M56,14H8c-1.657,0-3,1.343-3,3v27c0,1.657,1.343,3,3,3h8v11l11-11h29c1.657,0,3-1.343,3-3V17     C59,15.343,57.657,14,56,14z"></path>
+</defs>
+<clipPath id="573230084_SVGID_2__rel">
+<use xlink:href="#573230084_SVGID_1__rel" style="overflow:visible;"></use>
+</clipPath>
+<g class="st4" style="clip-path:url(#573230084_SVGID_2__rel);;">
+<rect x="5" y="14" class="stshockcolor" width="54" height="44" style="fill: rgb(166, 166, 159);"></rect>
+<polygon class="st2" points="24.632,58 5,58 5,14 50.035,14    " style="opacity:0.3;fill:#FFFFFF;;"></polygon>
+<path class="st6" d="M18.5,36c-0.384,0-0.768-0.146-1.061-0.439c-0.586-0.586-0.586-1.535,0-2.121     C19.185,31.694,25.14,26,28.5,26c2.631,0,3.389,2.652,3.942,4.588C32.666,31.371,33.131,33,33.5,33h4c0.828,0,1.5,0.672,1.5,1.5     S38.328,36,37.5,36h-4c-2.631,0-3.389-2.652-3.942-4.588C29.334,30.629,28.869,29,28.5,29c-1.423,0-5.771,3.392-8.939,6.561     C19.268,35.854,18.884,36,18.5,36z" style="fill:#231F20;fill-opacity:0.3;;"></path>
+</g>
+</g>
+<g>
+<defs>
+<path id="573230084_SVGID_3__rel" d="M45.628,31.596c0,0,11.717-20.293,12.428-21.526c0.712-1.231,1.057-4.319-2.179-6.188     c-3.236-1.868-5.738-0.025-6.449,1.207C48.717,6.321,37,26.615,37,26.615c0,2.186,0,7.207,0,8.284     c0,1.076,0.521,1.377,1.453,0.84C39.387,35.198,43.736,32.689,45.628,31.596z"></path>
+</defs>
+<use xlink:href="#573230084_SVGID_3__rel" class="st10" style="fill:#E9BF54;;overflow:visible;"></use>
+<clipPath id="573230084_SVGID_4__rel">
+<use xlink:href="#573230084_SVGID_3__rel" style="overflow:visible;"></use>
+</clipPath>
+<g class="st5" style="clip-path:url(#573230084_SVGID_4__rel);;">
+<rect x="34.346" y="28.579" transform="matrix(0.866 0.5 -0.5 0.866 21.5294 -15.3167)" class="st3" width="10" height="7.874" style="fill:#FFFFFF;fill-opacity:0.5;;"></rect>
+<rect x="35.127" y="33.127" transform="matrix(0.866 0.5 -0.5 0.866 22.4205 -14.4245)" class="st7" width="6" height="2.998" style="fill:#231F20;fill-opacity:0.6;;"></rect>
+<rect x="44.627" y="8.743" transform="matrix(0.866 0.5 -0.5 0.866 12.5384 -24.3075)" class="st9" width="14" height="5" style="fill:#DEDCD9;;"></rect>
+<rect x="47.376" y="3.48" transform="matrix(0.866 0.5 -0.5 0.866 10.5264 -26.3219)" class="st8" width="14" height="6" style="fill:#DD7047;;"></rect>
+
+<rect x="46.292" y="2.653" transform="matrix(0.8661 0.4999 -0.4999 0.8661 17.1097 -21.5593)" class="st1" width="5.001" height="37" style="opacity:0.15;fill:#231F20;;"></rect>
+</g>
+</g>
+</g>
+</svg>`, "論壇", function () {
+                scrollToPage(2)
+
+            }),
+        new Item(
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" id=\"id_svgCanvas\" x=\"0px\" y=\"0px\" width=\"25px\" height=\"25px\" viewBox=\"0 0 32 32\" style=\"fill: rgb(71, 71, 94);\" xml:space=\"preserve\">\n" +
+            "<path d=\"M27,2H5C3.345,2,2,3.345,2,5v22c0,1.654,1.345,3,3,3h22c1.654,0,3-1.346,3-3V5C30,3.345,28.654,2,27,2z M25,18h-7v7h-4v-7H7  v-4h7V7h4v7h7V18z\" style=\"fill: rgb(71, 71, 94);\"></path>\n" +
+            "</svg>",
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" id=\"id_svgCanvas\" x=\"0px\" y=\"0px\" width=\"25px\" height=\"25px\" viewBox=\"0 0 32 32\" style=\"fill: rgb(71, 71, 94);\" xml:space=\"preserve\">\n" +
+            "<path d=\"M27,2H5C3.345,2,2,3.345,2,5v22c0,1.654,1.345,3,3,3h22c1.654,0,3-1.346,3-3V5C30,3.345,28.654,2,27,2z M25,18h-7v7h-4v-7H7  v-4h7V7h4v7h7V18z\" style=\"fill: rgb(71, 71, 94);\"></path>\n" +
+            "</svg>",
+            "發布", function () {
+                if (mdUSer.account === 'guest') {
+                    glitter.openDiaLog('dialog/Dia_Need_Sign_In.html', 'Dia_Need_Sign_In', false, true, {}, () => {
+                    })
+                } else {
+                    glitter.openBottomSheet('dialog/Dia_Post_List.html', 'Dia_Post_List', '{}', '270px', true)
+                }
+            }),
+        new Item(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="id_svgCanvas" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" style="margin-top:5px;top:5px;fill: rgb(117, 162, 216);" xml:space="preserve" preserveAspectRatio="none">
+<path d="M19.99,4H18v2h-2V4H8v2H6V4H3.99C2.88,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.09,4,19.99,4z   M20,18H4V8h16V18z M6,2v2h2V2H6z M16,2v2h2V2H16z M18,16h-6v-6h6V16z" style="margin-top:5px;fill: rgb(117, 162, 216);"></path>
+</svg>`,
+            `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="id_svgCanvas" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" style="margin-top:5px;top:5px;fill: rgb(170,170,170);" xml:space="preserve" preserveAspectRatio="none">
+    <path d="M19.99,4H18v2h-2V4H8v2H6V4H3.99C2.88,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.09,4,19.99,4z   M20,18H4V8h16V18z M6,2v2h2V2H6z M16,2v2h2V2H16z M18,16h-6v-6h6V16z" style="margin-top:5px;fill: rgb(170,170,170);"></path>
+    </svg>`,
+            "揪團", function () {
+                scrollToPage(3)
+            }),
+        new Item(
+            `<img src="${mdUSer.head}" style="margin-left:-36px;width: 24px;height: 24px;border-radius: 14px;border-width: 2px;border-style: solid;border-color: black;">`,
+            `<img src="${mdUSer.head}" style="margin-left:-36px;width: 24px;height: 24px;border-radius: 14px;border-width: 2px;border-style: solid;border-color: black;">`,
+            "私教", function () {
+                scrollToPage(5)
+            })]
+
+    function updateBtn(id) {
+        for (var i = 0; i < data.length; i++) {
+            $('#img' + i).html(data[i].imageN)
+        }
+        $('#img' + id).html(data[id].imageC)
+    }
+
+    lifeCycle.onCreate = function () {
+        updateBtn(0)
+        getMarquee()
+        getAdBar()
+        //上傳FireBaseId
+        glitter.runJsInterFace("FireBaseID",{},function (response){
+            if(response.id!==undefined){
+                var userData=glitter.publicBeans.publicLogic.customDefine.user_data
+                userData.fireBaseId=response.id
+                glitter.publicBeans.publicLogic.changeInfo(userData,function (response){})
+            }
+        })
+        //頁面跳轉判斷
+        glitter.publicBeans.publicLogic.checkDataSwitch()
+        $('#activityCount').hide()
+        $('#voteCount').hide()
+        $('#messageCount').hide()
+        $('#newMessageCount').hide()
+
+        if(glitter.share.settingObj.brocadcast===1){
+            glitter.publicBeans.publicLogic.deleteTopics()
+        }else{
+            glitter.publicBeans.publicLogic.subTopics()
+        }
+        if(glitter.publicBeans.publicLogic.customDefine.user_data.manager==="-1"){
+            glitter.openDiaLog('dialog/Dia_Request_Permisssion.html','Dia_Request_Permisssion',false,false,{},function (){})
+        }
+        getCount()
+        setInterval(function (){
+            getCount()
+        },3000)
+    }
+    var haveSlick=false
+    function getAdBar() {
+        glitter.publicBeans.publicLogic.getArticle({index: '-1', topArticle: 1}, function (response) {
+            if (response === undefined) {
+                getAdBar()
+            } else {
+                if (response.result) {
+                   $('#slickPlace').html(` <div class="slick"></div>`)
+                    response.data.map(function (data,position) {
+                        try {
+                            if(data.circle===(""+glitter.share.defineCode.vote)){     if(data.image===undefined){ data.image = ["../img/voteImage.jpeg"]}}
+                            data.image=JSON.parse(data.image)
+
+                            $('.slick').append(`<div class="imgPlace" id="imgPlace${position}">
+<img src="${data.image[0]}">
+<div class="imageHint">${data.title}</div>
+</div>`)
+                            $('#imgPlace'+position).click(function (){
+                                if((data.circle==="10")||(data.circle===glitter.share.defineCode.activitySync)||(data.circle===glitter.share.defineCode.calender)){
+                                    glitter.changePage('publicResource/page/Page_Show_Activity.html','Page_Show_Activity',true,data)
+                                }else if(data.circle===(""+glitter.share.defineCode.vote)){
+                                    glitter.changePage('publicResource/page/Page_Show_Vote.html','Page_Show_Vote',true,data)
+                                }else{
+                                    glitter.changePage('publicResource/page/Page_Show_Article_Type_1.html','Page_Show_Article_Type_1',true,data)
+                                }
+                            })
+                        }catch (e){}
+                    })
+                    $('.slick').slick({autoplay: true, autoplaySpeed: 2000,  dots: true});
+                    $('.slick-arrow').hide()
+                }
+            }
+        })
+    }
+
+    lifeCycle.onResume = function () {
+        getMarquee()
+        getAdBar()
+        if(glitter.publicBeans.publicLogic.customDefine.user_data.manager==="-1"){
+            glitter.openDiaLog('dialog/Dia_Request_Permisssion.html','Dia_Request_Permisssion',false,false,{},function (){})
+        }
+    }
+
+    function getMarquee() {
+        glitter.publicBeans.publicLogic.getMarquee({}, function (response) {
+            if (response === undefined) {
+                getMarquee()
+            } else {
+                if (response.result) {
+                    var marqueeText = ''
+                    response.data.map(function (data, position) {
+                        marqueeText += (data.text + "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp")
+                    })
+                    $('#marquee').html(marqueeText)
+                }
+            }
+        })
+    }
+
+    lifeCycle.onCreateView = function () {
+        return `
+        <div class="topBar">
+        <div style=" background-color: rgba(0, 0, 0, 0.30);width: 100%;height: 100%;position: absolute;margin-top: -15px;
+        z-index: 1;"></div>
+         <img class="logo" src="../img/logo.png" style="z-index: 2;position: relative;">
+         <div class="textPlace"  style="z-index: 2;position: relative;">
+          <h3 class="logoTitle">台灣高雄醫學大學全球校友總會</h3>
+           <h4 class="logoTitle">Taiwan KMU Global Alumni Association</h4>
+</div>
+
+         </div>
+         <div class="talkBar">
+         <img src="../img/speaker.png" style="min-width:20px;width: 20px;height: 20px;" alt="">
+         <marquee id="marquee" direction="left"  scrollamount="2" style="flex: auto;"></marquee>
+</div>
+<div id="slickPlace">
+<div class="slick">
+<div style="width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;">加載中...</div>
+</div>
+</div>
+
+
+         <div class="wrapper">
+         <div class="itemDiv" onclick="glitter.changePage('page/Page_Info.html','Page_Info',true,{})">
+            <img src="../img/aboutc.png">
+            <span>關於本會</span>
+</div>
+ <div class="itemDiv" onclick="
+ glitter.publicBeans.publicLogic.customDefine.selectPost=glitter.share.defineCode.normal
+ glitter.changePage('publicResource/page/Page_Article_List_Type_Dcard.html','Page_Article_List_Type_Dcard',true,{
+     code:glitter.share.defineCode.normal,
+     title:'最新消息'
+ })">
+            <img src="../img/newMessage.png">
+            <span>最新消息</span>
+             <div id="newMessageCount" class="itemCount">0</div>
+</div>
+ <div class="itemDiv" onmousedown="
+ glitter.changePage('publicResource/page/Page_Calendar_Type_2.html','Page_Calendar_Type_2',true,{
+    title:'活動',
+    inCode:[glitter.share.defineCode.activity,glitter.share.defineCode.activitySync],
+    code:glitter.share.defineCode.activity,
+    allDate:true
+ })
+ ">
+            <img src="../img/events.png">
+            <span>活動訊息</span>
+             <div id="activityCount" class="itemCount">0</div>
+</div>
+<div class="itemDiv" onclick="glitter.changePage('publicResource/page/Page_List_Vote.html','Page_List_Vote',true,{})">
+            <img src="../img/polls.png">
+            <span>投票</span>
+             <div id="voteCount" class="itemCount"></div>
+</div>
+<div class="itemDiv" onclick="glitter.changePage('publicResource/page/Page_List_Calender_Count2.html','Page_List_Calender_Count2',true,{
+    title:'行事曆',
+   inCode:[glitter.share.defineCode.calender,glitter.share.defineCode.activitySync]
+})">
+            <img src="../img/calendar_t.png">
+            <span>行事曆</span>
+             <div id="calenderCount" class="itemCount"></div>
+</div>
+<div class="itemDiv" onclick="glitter.changePage('publicResource/page/Page_Chat_Select.html', 'Page_Chat_Select',true, {})">
+            <img src="../img/chat_b.png">
+            <span>聊天室</span>
+             <div id="messageCount" class="itemCount"></div>
+</div>
+<div class="itemDiv" onclick="toPublicMessage()">
+            <img src="../img/message_m.png">
+            <span>留言區</span>
+</div>
+ <div class="itemDiv" onclick="glitter.changePage('publicResource/page/Page_Album.html', 'Page_Album',true, {})">
+ <img src="../img/photo_album.png">
+ <span>相簿</span>
+</div>
+<div class="itemDiv" onclick="
+glitter.changePage('page/Page_Member_Register.html', 'Page_Member_Register',true, {})
+">
+            <img src="../img/register.png">
+            <span>會員申請</span>
+</div>
+<div class="itemDiv" onclick="
+glitter.changePage('page/Page_Member_Price.html', 'Page_Member_Price',true, {})
+">
+            <img src="../img/price_tag.png">
+            <span>會費資訊</span>
+</div>
+<div class="itemDiv" onclick="
+  glitter.changePage('publicResource/page/Page_Link_List.html','Page_Link_List',true,{
+                      excute:glitter.publicBeans.publicLogic.listPublicLink,
+                      title:'相關連結',
+                      data:{
+                          filterText:(''),
+                            type:1
+                      }
+                  })
+">
+            <img src="../img/link_p.png">
+            <span>相關連結</span>
+            </div>
+
+<div class="itemDiv" onmousedown="
+  glitter.setNavigation('Setting.html',{})
+        glitter.openNavigation()">
+            <img src="../img/gear.png">
+            <span>設定</span>
+</div>
+
+
+</div>
+`
+    }
+    function toPublicMessage(){
+        glitter.changePage('publicResource/page/Page_Show_User_Message_0.html','Page_Show_User_Message_0',true,JSON.parse(`{"id":"18","link":"Public","pick":"留言區","head":"../img/groupBack.jpeg","member":"0","content":"{\\"message\\":\\"8989\\"}","time":"8小時前","timeStamp":1622184965000,"display":"group"}`))
+    }
+    //取得內容數量
+    function getCount(){
+        getVoteCount()
+        getActivityCount()
+        getCalenderCount()
+        getMessageCount()
+        getNewMessage()
+    }
+    //取得投票數量
+    function getVoteCount(){
+        var voteCount=0
+        glitter.publicBeans.publicLogic.getArticleCount({
+            code:glitter.share.defineCode.vote,
+            orderString:'order by endTime asc limit 0,50',
+            filter:`endTime>'${new Date().format('yyyy-MM-dd hh:mm:ss')}'`
+        },function (response){
+            if(response===undefined){getVoteCount()
+            return}
+            if(response.result){
+                if(response.data[0]["count(1)"]!=="0"){
+                    $('#voteCount').show()
+                    $('#voteCount').html(''+response.data[0]["count(1)"])
+                }else{
+                    $('#voteCount').hide()
+                }
+            }else{
+                getVoteCount()
+            }
+        })
+    }
+    //取得最新消息數量
+    function getNewMessage(){
+        var ends=new Date()
+        ends.addMonths(1)
+        var start=new Date().format('yyyy-MM-dd hh:mm:ss').substring(0,9)+"1 00:00:00"
+        var end=ends.format('yyyy-MM-dd hh:mm:ss').substring(0,9)+"1 00:00:00"
+        glitter.publicBeans.publicLogic.getArticleCount({
+            code:glitter.share.defineCode.normal,
+            filter:`(Kmu.UserArticle.time>'${start}' and Kmu.UserArticle.time<'${end}')`
+        },function (response){
+            if(response===undefined){getNewMessage()
+                return}
+            if(response.result){
+                if(response.data[0]["count(1)"]!=="0"){
+                    $('#newMessageCount').show()
+                    $('#newMessageCount').html(''+response.data[0]["count(1)"])
+                }else{
+                    $('#newMessageCount').hide()
+                }
+            }else{
+                getNewMessage()
+            }
+        })
+    }
+    //取得活動數量
+    function getActivityCount(){
+        var ends=new Date()
+        ends.addMonths(1)
+        var end=ends.format('yyyy-MM-dd hh:mm:ss').substring(0,9)+"1 00:00:00"
+        glitter.publicBeans.publicLogic.getArticleCount({
+            inCode:[glitter.share.defineCode.activity,glitter.share.defineCode.activitySync],
+            filter:`startTime>'${new Date().format('yyyy-MM-dd hh:mm:ss')}' and startTime<'${end}'`
+        },function (response){
+            if(response===undefined){
+                getActivityCount()
+            }else{
+                if(response.result){
+                    if(response.data[0]["count(1)"]!=="0"){
+                        $('#activityCount').show()
+                        $('#activityCount').html(''+response.data[0]["count(1)"])
+                    }else{
+                        $('#activityCount').hide()
+                    }
+                }else{
+                    getActivityCount()
+                }
+            }
+        })
+    }
+    //取得行事曆數量
+    function getCalenderCount(){
+        var ends=new Date()
+        ends.addMonths(1)
+        var end=ends.format('yyyy-MM-dd hh:mm:ss').substring(0,9)+"1 00:00:00"
+        glitter.publicBeans.publicLogic.getArticleCount({
+            inCode:[glitter.share.defineCode.calender,glitter.share.defineCode.activitySync],
+            filter:`startTime>'${new Date().format('yyyy-MM-dd hh:mm:ss')}' and startTime<'${end}'`
+        },function (response){
+            if(response===undefined){
+                getActivityCount()
+            }else{
+                if(response.result){
+                    if(response.data[0]["count(1)"]!=="0"){
+                        $('#calenderCount').show()
+                        $('#calenderCount').html(''+response.data[0]["count(1)"])
+                    }else{
+                        $('#calenderCount').hide()
+                    }
+                }else{
+                    getCalenderCount()
+                }
+            }
+        })
+    }
+
+    //取得未得訊息數量
+    function getMessageCount(){
+        glitter.publicBeans.publicLogic.getUserTitleMessage({
+            index:"-1",
+        },function (response){
+            if(response===undefined){
+                getMessageCount()
+            }else{
+                if(response.result){
+                    if(response.data.length===0){
+                        getMessageCount()
+                    }else{
+                        let count=response.data.filter(function (data){return data.reader==="0" && (data.account!==glitter.publicBeans.publicLogic.customDefine.user_data.account)})
+                        if(count.length>0){
+                            $('#messageCount').show()
+                            $('#messageCount').html(''+count.length)
+                        }else{
+                            $('#messageCount').hide()
+                        }
+
+                    }
+                }else{
+                    getMessageCount()
+                }
+            }
+        })
+    }
+</script>
