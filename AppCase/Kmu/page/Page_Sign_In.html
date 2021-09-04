@@ -210,8 +210,8 @@
 </h3>
 <div class="signPlace">
 <div style="background-color: black;opacity: 0.5;width: 100%;height: 100%;position: absolute;z-index: -1;"></div>
- <input id='admin' placeholder="帳號" >
- <input id='password' type="password" placeholder="密碼" >
+ <input id='admin' placeholder="帳號" value="guest">
+ <input id='password' type="password" placeholder="密碼" value="12345678">
   <div class="inmemory">
   <div class="checkBox ${(glitter.share.settingObj.storeAccount) ? 'check':''}" onclick="$('.checkBox').toggleClass('check');glitter.share.storeSetting(function (data){data.storeAccount=!data.storeAccount});"></div>
   <span>記住帳密</span>
