@@ -96,10 +96,11 @@ class Glitter {
 
 
         this.setHome = function (url, tag, obj) {
-            var search=setSearchParam(removeSearchParam(window.location.search,"page"),"page",tag)
+            var search = setSearchParam(removeSearchParam(window.location.search, "page"), "page", tag)
             try {
                 window.history.pushState({}, document.title, search);
-            }catch (e){}
+            } catch (e) {
+            }
             this.showLoadingView();
             glitter.pageIndex = glitter.pageIndex + 1;
             var map = {};
@@ -124,7 +125,8 @@ class Glitter {
 
         this.setNavigation = function (src, obj) {
             if (window.drawer === undefined) {
-                glitter.addScript('glitterBundle/NaviGation.js', function () {});
+                glitter.addScript('glitterBundle/NaviGation.js', function () {
+                });
             }
 
             this.naviGationObj = obj;
@@ -140,7 +142,7 @@ class Glitter {
 
         this.setLoadingView = function (link) {
             $('#loadingView').hide();
-            $('#loadingView').append('<iframe  src="'  + link + '" style="width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.5);"></iframe>');
+            $('#loadingView').append('<iframe  src="' + link + '" style="width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.5);"></iframe>');
         }; //關閉加載畫面
 
 
@@ -173,14 +175,16 @@ class Glitter {
         }; //按鈕監聽
 
 
-        this.keyEventListener = function (obj) {}; //頁面切換
+        this.keyEventListener = function (obj) {
+        }; //頁面切換
 
 
         this.changePage = function (link, tag, goBack, obj) {
-            var search=setSearchParam(removeSearchParam(window.location.search,"page"),"page",tag)
+            var search = setSearchParam(removeSearchParam(window.location.search, "page"), "page", tag)
             try {
                 window.history.pushState({}, document.title, search);
-            }catch (e){}
+            } catch (e) {
+            }
             this.showLoadingView();
             glitter.pageIndex = glitter.pageIndex + 1;
             var map = {};
@@ -196,12 +200,14 @@ class Glitter {
                     $('#' + map.pageIndex).show();
                     document.getElementById(glitter.iframe[glitter.iframe.length - 1].pageIndex).contentWindow.lifeCycle.onPause();
                     glitter.changePageListener(tag);
-                } catch (e) {}
+                } catch (e) {
+                }
             };
         }; //頁面切換防止白頻
 
 
-        this.changeWait = function () {}; //Fragment切換
+        this.changeWait = function () {
+        }; //Fragment切換
 
 
         this.changeFrag = function (root, link, tag, obj) {
@@ -308,7 +314,11 @@ class Glitter {
         }; //關閉所有Dialog
 
 
-        this.closeDiaLog = function () {
+        this.closeDiaLog = function (tag) {
+            if (tag !== undefined) {
+                glitter.closeDiaLogWithTag(tag)
+                return
+            }
             var tempDialog = glitter.dialog;
             glitter.dialog = [];
 
@@ -319,7 +329,6 @@ class Glitter {
 
                 $('#' + tempDialog[i].id).remove();
             }
-
             $('#diaPlace').html('');
             $('#diaPlace').hide();
         }; //取得Dialog參數內容
@@ -416,7 +425,8 @@ class Glitter {
             try {
                 glitter.sheetList = glitter.sheetList.concat(new BottomSheet(map.id, map.pageIndex, dragAble));
                 glitter.sheetList[glitter.sheetList.length - 1].activate();
-            } catch (e) {}
+            } catch (e) {
+            }
         }; //Sheet滾動視圖處理程序
 
 
@@ -440,13 +450,13 @@ class Glitter {
                 var sheetLenstiner = glitter.sheetList[glitter.sheetList.length - 1];
                 new TouchDragListener({
                     el: e,
-                    touchStartCallback: function() {
+                    touchStartCallback: function () {
                         sheetLenstiner.dragAble = true;
                     },
-                    touchEndCallback: function() {
+                    touchEndCallback: function () {
                         sheetLenstiner.dragAble = true;
                     },
-                    touchMoveCallback: function ()  {
+                    touchMoveCallback: function () {
                         sheetLenstiner.dragAble = true;
                     }
                 });
@@ -508,19 +518,20 @@ class Glitter {
                     return;
                 }
             }
-            if(tag!==undefined&&glitter.iframe.filter(function (data) {
+            if (tag !== undefined && glitter.iframe.filter(function (data) {
                 return data.id === tag;
-            }).length>0){
-                for(var a=glitter.iframe.length-1;a>=0;a--){
-                    if(glitter.iframe[a].id===tag){
+            }).length > 0) {
+                for (var a = glitter.iframe.length - 1; a >= 0; a--) {
+                    if (glitter.iframe[a].id === tag) {
                         break
                     }
                     try {
                         document.getElementById(glitter.iframe[a].pageIndex).contentWindow.lifeCycle.onDestroy();
-                    } catch (e) {}
+                    } catch (e) {
+                    }
 
                     $('#' + glitter.iframe[a].pageIndex).remove();
-                    glitter.iframe.splice(a,1)
+                    glitter.iframe.splice(a, 1)
                 }
                 if (glitter.iframe.length === 1) {
                     glitter.goBackOnRootPage()
@@ -530,13 +541,15 @@ class Glitter {
                 $('#' + glitter.iframe[index].pageIndex).show();
                 try {
                     document.getElementById(glitter.iframe[index].pageIndex).contentWindow.lifeCycle.onResume();
-                } catch (e) {}
+                } catch (e) {
+                }
                 glitter.changePageListener(glitter.iframe[index].id);
                 return;
             }
             try {
                 document.getElementById(glitter.iframe[glitter.iframe.length - 1].pageIndex).contentWindow.lifeCycle.onDestroy();
-            } catch (e) {}
+            } catch (e) {
+            }
 
             if (glitter.iframe.length === 1) {
                 glitter.goBackOnRootPage()
@@ -551,7 +564,8 @@ class Glitter {
             $('#' + glitter.iframe[index].pageIndex).show();
             try {
                 document.getElementById(glitter.iframe[index].pageIndex).contentWindow.lifeCycle.onResume();
-            } catch (e) {}
+            } catch (e) {
+            }
             glitter.changePageListener(glitter.iframe[index].id);
         }; //添加script內容
 
@@ -673,7 +687,8 @@ class Glitter {
         }; //當已反回到RootPage時，在按下返回鍵時所需執行的動作
 
 
-        this.goBackOnRootPage = function () {}; //返回首頁
+        this.goBackOnRootPage = function () {
+        }; //返回首頁
 
 
         this.goMenu = function () {
@@ -690,7 +705,8 @@ class Glitter {
         }; //頁面切換監聽
 
 
-        this.changePageListener = function (tag) {}; //顯示BARCODE掃描
+        this.changePageListener = function (tag) {
+        }; //顯示BARCODE掃描
 
 
         this.openQrScanner = function (callback) {
@@ -713,7 +729,8 @@ class Glitter {
         }; //掃描回條
 
 
-        this.qrScanBack = function (data) {}; //權限請求
+        this.qrScanBack = function (data) {
+        }; //權限請求
 
 
         this.requestPermission = function (array, callback) {
@@ -806,14 +823,14 @@ class Glitter {
             return data.split('').map(function (value, index, array) {
                 var code = value.charCodeAt(0);
                 var code16 = code.toString(16).toLowerCase();
-                if(code < 0xf){
-                    return  "\\\\u"+"000"+code16;
-                }else if(code < 0xff){
-                    return "\\\\u"+"00"+code16;
-                }else if(code < 0xfff){
-                    return "\\\\u"+"0"+code16;
-                }else{
-                    return "\\\\u"+code16;
+                if (code < 0xf) {
+                    return "\\\\u" + "000" + code16;
+                } else if (code < 0xff) {
+                    return "\\\\u" + "00" + code16;
+                } else if (code < 0xfff) {
+                    return "\\\\u" + "0" + code16;
+                } else {
+                    return "\\\\u" + code16;
                 }
             }).join('');
         };
@@ -883,9 +900,10 @@ class Glitter {
                     break;
 
                 case glitter.deviceTypeEnum.Ios:
-                    glitter.runJsInterFace("intentWebview",{
-                        url:link
-                    },function (){})
+                    glitter.runJsInterFace("intentWebview", {
+                        url: link
+                    }, function () {
+                    })
                     break;
             }
         };
@@ -926,7 +944,8 @@ class Glitter {
                                 try {
                                     it(v);
                                     workSuccess = workSuccess.concat(it);
-                                } catch (e) {}
+                                } catch (e) {
+                                }
                             });
                             this.ObServerCallBack[keyVa] = workSuccess;
                         }
@@ -970,7 +989,8 @@ class Glitter {
                                 try {
                                     it(map["GlitterJsonStringConverSion"]);
                                     workSuccess = workSuccess.concat(it);
-                                } catch (e) {}
+                                } catch (e) {
+                                }
                             });
                             this.ObServerCallBack = workSuccess;
                         }
@@ -1095,19 +1115,16 @@ class Glitter {
             });
 
             switch (glitter.deviceType) {
-                case appearType.Web:
-                {
+                case appearType.Web: {
                     return;
                 }
 
-                case appearType.Android:
-                {
+                case appearType.Android: {
                     window.GL.downloadFile(serverRout, fileName, id, timeOut);
                     return;
                 }
 
-                case appearType.Ios:
-                {
+                case appearType.Ios: {
                     var map = {
                         fileName: fileName,
                         rout: serverRout,
@@ -1144,19 +1161,16 @@ class Glitter {
             glitter.callBackList.set(id, callBack);
 
             switch (glitter.deviceType) {
-                case appearType.Web:
-                {
+                case appearType.Web: {
                     return;
                 }
 
-                case appearType.Android:
-                {
+                case appearType.Android: {
                     window.GL.getFile(fileName, type, id);
                     return;
                 }
 
-                case appearType.Ios:
-                {
+                case appearType.Ios: {
                     var map = {
                         fileName: fileName,
                         type: type,
@@ -1174,19 +1188,16 @@ class Glitter {
             glitter.callBackList.set(id, callBack);
 
             switch (glitter.deviceType) {
-                case appearType.Web:
-                {
+                case appearType.Web: {
                     return;
                 }
 
-                case appearType.Android:
-                {
+                case appearType.Android: {
                     window.GL.checkFileExists(fileName, id);
                     return;
                 }
 
-                case appearType.Ios:
-                {
+                case appearType.Ios: {
                     var map = {
                         fileName: fileName,
                         callback: id
@@ -1223,8 +1234,7 @@ class Glitter {
             };
 
             switch (glitter.deviceType) {
-                case appearType.Web:
-                {
+                case appearType.Web: {
                     $.ajax({
                         type: "POST",
                         url: "/RunJsInterFace",
@@ -1240,14 +1250,12 @@ class Glitter {
                     return;
                 }
 
-                case appearType.Android:
-                {
+                case appearType.Android: {
                     window.GL.runJsInterFace(JSON.stringify(map));
                     return;
                 }
 
-                case appearType.Ios:
-                {
+                case appearType.Ios: {
                     window.webkit.messageHandlers.addJsInterFace.postMessage(JSON.stringify(map));
                     break;
                 }
@@ -1286,7 +1294,8 @@ class Glitter {
          * */
 
 
-        this.chooseImageCallback = function (data) {};
+        this.chooseImageCallback = function (data) {
+        };
 
         this.chooseImage = function (callback) {
             if (!document.getElementById("imageSelect")) {
@@ -1299,9 +1308,10 @@ class Glitter {
                         reader.readAsDataURL(files[a]);
                         reader.onload = function getFileInfo(evt) {
                             imageMap = imageMap.concat({
-                            data: evt.target.result,
-                            type:'image',
-                            name:files[a].name});
+                                data: evt.target.result,
+                                type: 'image',
+                                name: files[a].name
+                            });
                             if (imageMap.length === files.length) {
                                 glitter.chooseImageCallback(imageMap);
                             }
@@ -1313,7 +1323,7 @@ class Glitter {
             $('#imageSelect').val(undefined);
             $('#imageSelect').click();
         };
-        this.copyText=function (text){
+        this.copyText = function (text) {
             if (!document.getElementById("imageSelect")) {
                 $('body').append(`<input type="text"   style="display: none" id="copyText" multiple>`);
             }
@@ -1323,7 +1333,8 @@ class Glitter {
             document.execCommand("Copy");
             $('#copyText').hide()
         }
-        this.chooseVideoCallback = function (data) {};
+        this.chooseVideoCallback = function (data) {
+        };
 
         this.chooseVideo = function (callback) {
             if (!document.getElementById("videoSelect")) {
@@ -1337,8 +1348,9 @@ class Glitter {
                         reader.onload = function getFileInfo(evt) {
                             videoMap = videoMap.concat({
                                 data: evt.target.result,
-                                type:'video',
-                                name:files[a].name});
+                                type: 'video',
+                                name: files[a].name
+                            });
                             if (videoMap.length === files.length) {
                                 glitter.chooseVideoCallback(videoMap);
                             }
@@ -1352,9 +1364,10 @@ class Glitter {
             $('#videoSelect').val(undefined);
             $('#videoSelect').click();
         };
-        this.chooseMediaCallback = function (data) {};
+        this.chooseMediaCallback = function (data) {
+        };
 
-        this.chooseMedia = function (data,callback) {
+        this.chooseMedia = function (data, callback) {
             if (!document.getElementById("chooseMedia")) {
                 $('body').append(`<input type="file" accept="${data}"  style="display: none" id="chooseMedia" multiple>`);
                 $('#chooseMedia').change(function (e) {
@@ -1380,26 +1393,27 @@ class Glitter {
             $('#chooseMedia').click();
         };
 
-        this.changeBottomSheetHeight=function (hei){
-            $('.c-bottom-sheet__sheet').css('height',`${hei}`)
-            $('.c-bottom-sheet__list').css('height',`${hei}`)
+        this.changeBottomSheetHeight = function (hei) {
+            $('.c-bottom-sheet__sheet').css('height', `${hei}`)
+            $('.c-bottom-sheet__list').css('height', `${hei}`)
         }
         //解析字串中的網址
-        this.urlify=function (text) {
+        this.urlify = function (text) {
             var urlRegex = /(https?:\/\/[^\s]+)/g;
-            return text.replace(urlRegex, function(url) {
+            return text.replace(urlRegex, function (url) {
                 return `<a style="color: dodgerblue;" onclick="glitter.openNewTab('${url}')">${url}</a>`;
             })
         }
-        this.print=function (fun){
+        this.print = function (fun) {
             return fun()
         }
         //設定Url
-        this.setUrlParameter=function (tag,value){
-            var search=setSearchParam(removeSearchParam(window.location.search,tag),tag,value)
+        this.setUrlParameter = function (tag, value) {
+            var search = setSearchParam(removeSearchParam(window.location.search, tag), tag, value)
             try {
                 window.history.pushState({}, document.title, search);
-            }catch (e){}
+            } catch (e) {
+            }
         }
 
 
@@ -1409,11 +1423,14 @@ class Glitter {
 
 class LifeCycle {
     constructor(props) {
-        this.onResume = function () {};
+        this.onResume = function () {
+        };
 
-        this.onPause = function () {};
+        this.onPause = function () {
+        };
 
-        this.onDestroy = function () {};
+        this.onDestroy = function () {
+        };
     }
 
 } //window height
@@ -1425,7 +1442,8 @@ window.addEventListener("resize", function () {
     for (var a = 0; a < windowHeightChangeListener.length; a++) {
         try {
             windowHeightChangeListener[a](window.innerHeight);
-        } catch (e) {}
+        } catch (e) {
+        }
     }
 }); //Application生命週期
 
@@ -1493,22 +1511,19 @@ $(document).ready(function () {
     }
 
     switch (glitter.deviceType) {
-        case appearType.Web:
-        {
+        case appearType.Web: {
             glitter.baseUrl = "";
             onCreate();
             break;
         }
 
-        case appearType.Android:
-        {
+        case appearType.Android: {
             glitter.baseUrl = "";
             onCreate();
             break;
         }
 
-        case appearType.Ios:
-        {
+        case appearType.Ios: {
             glitter.baseUrl = "";
             onCreate();
             break;
@@ -1531,10 +1546,11 @@ function glitterInitial() {
             }
             glitter.goBack();
             if (glitter.iframe.length > 0) {
-                var search=setSearchParam(removeSearchParam(window.location.search,"page"),"page",glitter.iframe[glitter.iframe.length - 1].id)
+                var search = setSearchParam(removeSearchParam(window.location.search, "page"), "page", glitter.iframe[glitter.iframe.length - 1].id)
                 try {
                     window.history.pushState(null, null, search);
-                }catch (e){}
+                } catch (e) {
+                }
             }
         });
     }
@@ -1550,17 +1566,27 @@ function glitterInitial() {
 
     glitter.getBoundingClientRect = $('html').get(0).getBoundingClientRect();
 }
+
 function removeSearchParam(search, name) {
     if (search[0] === '?') {
         search = search.substring(1);
     }
     var parts = search.split('&');
     var res = [];
-    for (var i = 0; i < parts.length; i++) { var pair = parts[i].split('='); if (pair[0] === name) { continue; } res.push(parts[i]); } search = res.join('&'); if (search.length > 0) {
+    for (var i = 0; i < parts.length; i++) {
+        var pair = parts[i].split('=');
+        if (pair[0] === name) {
+            continue;
+        }
+        res.push(parts[i]);
+    }
+    search = res.join('&');
+    if (search.length > 0) {
         search = '?' + search;
     }
     return search;
 }
+
 function setSearchParam(search, name, value) {
     search = removeSearchParam(search, name);
     if (search === '') {

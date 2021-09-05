@@ -7,7 +7,6 @@
     <link href="../glitterBundle/bootstrap.css" rel="stylesheet">
     <link href="../fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/xcode.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
     <!-- and it's easy to individually load additional languages -->
@@ -49,25 +48,24 @@
 <body>
 <script>
     lifeCycle.onCreate=function (){
+        hljs.highlightAll();
+        glitter.closeDiaLog()
 
     }
     lifeCycle.onCreateView=function (){
         return `
-        <h3 style="font-size: 39px;font-weight: 400;">Download Glitter project</h3>
-    <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
-    <span>Download the version you need.</span>
-    <br><br>
-<a href="../v1.0/v1.0.zip">Glitter-v1.0.0</a>
- <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
-    <br>
- <span>Open with <a onclick="glitter.openNewTab('https://code.visualstudio.com/')">Intellij Idea</a> or <a onclick="glitter.openNewTab('https://code.visualstudio.com/')">Visual Studio Code</a></span>
- <br><br>
- <div style="border-radius: 10px;background-color: whitesmoke;max-width: 100%;padding: 10px;">
- <img src="../img/projectEmpty.png" style="width: 100%;border-radius: 10px;">
-</div>
-
+            <h3 style="font-size: 39px;font-weight: 400;">Fgirag</h3>
+ <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
+  <span><h3 style="color: #c41b1b;">Change Frag</h3></span>
+  <span style="color: #2a93b9;">Parameter:(element,link,tag,obj)</span><br><br>
+          <span style="color: #0062c0;">-Element</sapn><span>-Use your div element to change frag</span><br><br>
+  ${glitter.share.code.js(`  glitter.changeFrag(document.getElementById("MyFrag"),'../Frag/MyFrag.html','MyFrag',{})
+  `)}
+<div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
 `
     }
+
 </script>
 </body>
 </html>
+

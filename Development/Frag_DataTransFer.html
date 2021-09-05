@@ -13,9 +13,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"></script>
 </head>
 <style>
-    html{
+    html {
         user-select: text;
-        -webkit-user-select:text;
+        -webkit-user-select: text;
         height: 100%;
         background-color: transparent;
         width: calc(100% - 20px);
@@ -25,49 +25,66 @@
         padding-top: 50px !important;
 
     }
-    body{
+
+    body {
         width: 100%;
         transform: translateX(-50%);
         left: 50%;
         position: relative;
         user-select: text;
-        -webkit-user-select:text;
+        -webkit-user-select: text;
         max-width: 800px;
         height: 100%;
         background-color: transparent;
     }
-    span{
+
+    span {
         font-size: 15px;
         letter-spacing: 1px;
         color: #233659;
     }
-    .js{
+
+    .js {
         text-align: left;
     }
 </style>
 <body>
 <script>
-    lifeCycle.onCreate=function (){
+    lifeCycle.onCreate = function () {
         hljs.highlightAll();
-        glitter.closeDiaLog()
+
+
     }
-    lifeCycle.onCreateView=function (){
+    lifeCycle.onCreateView = function () {
         return `
-            <h3 style="font-size: 39px;font-weight: 400;">Dialog</h3>
+            <h3 style="font-size: 39px;font-weight: 400;">Data Transfer</h3>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
-  <span><h3 style="color: #c41b1b;">Open Dialog</h3></span>
-  <span style="color: #2a93b9;">Parameter:(link,tag,swipe,cancelable,obj,dismiss)</span><br><br>
-          <span style="color: #0062c0;">-Swipe</sapn><span>-(True or False) Blur background</span><br><br>
-          <span style="color: #0062c0;">-Cancelable</sapn><span>-(True or False) Click to close.</span><br><br>
-            <span style="color: #0062c0;">-Obj</sapn><span>-The data waht you wnat to transfer for this page.</span><br><br>
-             <span style="color: #0062c0;">-Dismiss</sapn><span>-Will callBack when the dialog close.</span><br><br>
-  ${glitter.share.code.js(` glitter.openDiaLog('dialog/HelloWorld.html','HelloWorld',true,true,{},function (){})
+  <span><h3 style="color: #c41b1b;">Put data</h3></span>
+<span style="">You can put obj to transfer data like below!!<br><br>In this sample I define an obj and put one data named putData and put one callback named getData</span><br><br>
+  ${glitter.share.code.js(`//Define your obj!!(Agree type -> ANY)
+var obj={
+getData:function (text){
+alert("Message Callback"+text)
+},
+putData:'You love me?'
+}
+
+    //Change Frag
+    glitter.changeFrag(document.getElementById("MyFrag"),'../Frag/MyFrag.html','MyFrag',obj)
+    //Change Page
+    glitter.changePage('page/SecPage.html','SecPage.html',true,obj)
+    //Open Dialog
+    glitter.openDiaLog('dialog/HelloWorld.html','HelloWorld',true,true,obj,function (){})
   `)}
 <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
-<span><h3 style="color: #c41b1b;">Close Dialog</h3></span>
-  <span style="color: #2a93b9;">Parameter:(tag)</span><br><br>
-  <span style="color: #0062c0;">-Tag</sapn><span>-(Option) if undefined will close all dialog</span><br><br>
-  <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+<span><h3 style="color: #c41b1b;">Get data</h3></span>
+  <span style="">You can get the data by gbundle</span><br><br>
+  ${glitter.share.code.js(` //Out put is (You love me?)
+   alert(gBundle.putData)
+   //Callback and return message
+   gBundle.getData('Yes i love you!!')
+  `)}
+<div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
 `
     }
 
