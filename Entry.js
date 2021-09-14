@@ -14,7 +14,7 @@ function onCreate() {
             return this.getCode('javascript', text)
         },
         div:function (text){
-          return `<div style="background-color: whitesmoke;width: 100%;">${text}</div>`
+          return `<div style="background-color: whitesmoke;width: 100%;padding: 20px;border-radius: 10px;">${text}</div>`
         },
         getCode: function (type, text) {
             return `

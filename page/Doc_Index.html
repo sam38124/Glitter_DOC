@@ -10,7 +10,7 @@
 </head>
 <style>
     html {
-        width: calc(100% );
+        width: calc(100%);
         height: 100%;
         overflow-y: hidden;
         background-color: #2B333F;
@@ -26,37 +26,45 @@
 </style>
 <body>
 <script>
-    var defaultFrag=(glitter.getUrlParameter('frag')) ? (glitter.getUrlParameter('frag')):'../frag/Frag_About.html'
+    var defaultFrag = (glitter.getUrlParameter('frag')) ? (glitter.getUrlParameter('frag')) : '../frag/Frag_About.html'
     var item = [
         {
             title: 'Getting Started', items: [{
                 title: 'About Glitter', link: '../frag/Frag_About.html'
             }, {
                 title: 'Download Glitter Project', link: '../frag/Frag_Download_Project.html'
-            },{
-                title: 'Hello World',link: '../frag/Frag_First_Project.html'
+            }, {
+                title: 'Hello World', link: '../frag/Frag_First_Project.html'
             },
-                { title:'Android_Config',link:'../android/Frag_Sdk_Initial.html'},
-                { title:'IOS_Config',link:'../ios/Frag_Sdk_Initial.html'}]
-        },{
-        title: 'Development',items: [
-                {title: 'Entry',link: '../Development/Frag_Entry.html'},
-                {title: 'View',link: '../Development/Frag_Page.html'},
-                {title: 'Page',link:'../Development/Frag_Switch_Page.html'},
-                {title: 'Frag',link:'../Development/Frag_Frag.html'},
-                {title: 'Dialog',link:'../Development/Frag_Dialog.html'},
-                {title:'Data Transfer',link:'../Development/Frag_DataTransFer.html'}
+                {title: 'Android_Config', link: '../android/Frag_Sdk_Initial.html'},
+                {title: 'IOS_Config', link: '../ios/Frag_Sdk_Initial.html'}]
+        }, {
+            title: 'Development', items: [
+                {title: 'Entry', link: '../Development/Frag_Entry.html'},
+                {title: 'View', link: '../Development/Frag_Page.html'},
+                {title: 'Page', link: '../Development/Frag_Switch_Page.html'},
+                {title: 'Frag', link: '../Development/Frag_Frag.html'},
+                {title: 'Dialog', link: '../Development/Frag_Dialog.html'},
+                {title: 'Data Transfer', link: '../Development/Frag_DataTransFer.html'}
+            ]
+        }, {
+            title: 'Plugins', items: [
+                {title: 'Bluetooth', link: '../plugins/bluetooth.html'}
             ]
         }
-        ]
+    ]
     lifeCycle.onCreate = function () {
         item.map(function (data) {
-            $('#itemList').append(`<div class="folderClose ${(data.items.filter(function (dd){return dd.link===defaultFrag}).length>0) ? 'folderOpen':''}"  >
-<div class="folder" onclick="$(this).parent().toggleClass('folderOpen');$(this).children('i').toggleClass('open');"><i class="fas fa-folder-open close ${(data.items.filter(function (dd){return dd.link===defaultFrag}).length>0) ? 'open':''}"></i>${data.title}</div>
+            $('#itemList').append(`<div class="folderClose ${(data.items.filter(function (dd) {
+                return dd.link === defaultFrag
+            }).length > 0) ? 'folderOpen' : ''}"  >
+<div class="folder" onclick="$(this).parent().toggleClass('folderOpen');$(this).children('i').toggleClass('open');"><i class="fas fa-folder-open close ${(data.items.filter(function (dd) {
+                return dd.link === defaultFrag
+            }).length > 0) ? 'open' : ''}"></i>${data.title}</div>
 ${glitter.print(function () {
                 var html = ''
                 data.items.map(function (data) {
-           html+=`<div class="item ${(data.link===defaultFrag) ? 'doOpen':''}" onclick="
+                    html += `<div class="item ${(data.link === defaultFrag) ? 'doOpen' : ''}" onclick="
 $('.doOpen').removeClass('doOpen');$(this).addClass('doOpen');
 glitter.changeFrag(document.getElementById('frag'),'${data.link}','doc',{})
 glitter.setUrlParameter('frag','${data.link}')
@@ -66,8 +74,8 @@ glitter.setUrlParameter('frag','${data.link}')
             })}
 </div>`)
         })
-        glitter.changeFrag(document.getElementById('frag'),(defaultFrag) ? defaultFrag:'../frag/Frag_About.html','doc',{})
-        glitter.changeFrag(document.getElementById("AppSample"),'../AppCase/Kmu/home.html','Kmu',{})
+        glitter.changeFrag(document.getElementById('frag'), (defaultFrag) ? defaultFrag : '../frag/Frag_About.html', 'doc', {})
+        glitter.changeFrag(document.getElementById("AppSample"), '../AppCase/Kmu/home.html', 'Kmu', {})
     }
     lifeCycle.onCreateView = function () {
         return `
