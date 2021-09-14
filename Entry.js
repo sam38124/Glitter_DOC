@@ -1,4 +1,5 @@
 "use strict";
+
 function onCreate() {
     glitter.share.code = {
         kotlin: function (text) {
@@ -13,8 +14,8 @@ function onCreate() {
         js: function (text) {
             return this.getCode('javascript', text)
         },
-        div:function (text){
-          return `<div style="background-color: whitesmoke;width: 100%;padding: 20px;border-radius: 10px;">${text}</div>`
+        div: function (text) {
+            return `<div style="background-color: whitesmoke;width: 100%;padding: 20px;border-radius: 10px;">${text}</div>`
         },
         getCode: function (type, text) {
             return `
