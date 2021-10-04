@@ -25,6 +25,8 @@ r.isFunction(d)||(g=!0),j&&(g?(b.call(a,d),b=null):(j=b,b=function(a,b,c){return
 
 var tglitter = undefined
 var rparent = undefined
+//自定義函式儲存
+var functionDefine={}
 //取得Glitter
 function getGlitter() {
     if (tglitter !== undefined) {
@@ -123,84 +125,76 @@ var lifeCycle=new LifeCycle()
 
 var pageType=undefined
 $(function() {
-    var jsin=lifeCycle.jsInitial()
-    if(!jsin.error){jsin.error=function (){}}
-    if(!jsin.success){jsin.success=function (){}}
-    function onCreate(){
-        var type=glitter.htmlType
-        pageType=glitter.getHtmlType(getTag())
-        switch(pageType){
-            case type.Dialog:{
-                console.log('isDialog')
-                if(glitter.getDialog(getTag()).cancelable){
-                    console.log('canclos')
-                    if(glitter.deviceType===glitter.deviceTypeEnum.Ios){
-                        $('body').css('cursor', 'pointer')
-                            .css('-webkit-tap-highlight-color', 'rgba(0, 0, 0, 0)');     // Stops content flashing when body is clicked
-                        $('body').append(`<div style="position: absolute;width: 100vw;height: 100vh;z-index: -1;" onclick="
+
+
+    var type=glitter.htmlType
+    pageType=glitter.getHtmlType(getTag())
+    switch(pageType){
+        case type.Dialog:{
+            console.log('isDialog')
+            if(glitter.getDialog(getTag()).cancelable){
+                console.log('canclos')
+                if(glitter.deviceType===glitter.deviceTypeEnum.Ios){
+                   $('body').css('cursor', 'pointer')
+                       .css('-webkit-tap-highlight-color', 'rgba(0, 0, 0, 0)');     // Stops content flashing when body is clicked
+                   $('body').append(`<div style="position: absolute;width: 100vw;height: 100vh;z-index: -1;" onclick="
 glitter.closeDiaLogWithTag(getTag())
 "></div>`)
-                    }
-                    document.getElementsByTagName("body")[0].addEventListener("click", function() {
-                        getGlitter().closeDiaLogWithTag(getTag())
-                    });
                 }
-                break
+                document.getElementsByTagName("body")[0].addEventListener("click", function() {
+                    getGlitter().closeDiaLogWithTag(getTag())
+                });
             }
-            case type.Page:{
-                console.log('isPage')
-                break
-            }
-            default:{
-                console.log('isFrag')
-                break
-            }
+            break
         }
-        $('html').css({
-            '-moz-user-select' : '-moz-none',
-            '-khtml-user-select': 'none',
-            '-ms-user-select': 'none',
-            'user-select': 'none',
-            'outline': 'none',
-            '-webkit-user-select':'none',
-            '-webkit-touch-callout':'none',
-            '-webkit-tap-highlight-color':'transparent',
-            'margin':'0',
-            'padding':'0',
-            'font-family':"DFKai-sb,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif;"
-        })
-        $('body').css({
-            'margin':'0',
-            'padding':'0'
-        })
-        let create=lifeCycle.onCreateView()
-        var style = document.getElementsByTagName('style')[0];
-        if(style===undefined){style=document.createElement("style")}
-        style.innerHTML += lifeCycle.cssInitial().replace(/ <style>/g,'').replace(/<\/style>/g,'');
-        document.head.appendChild(style);
-        if(create!==undefined){
-            $('body').append(create)
+        case type.Page:{
+            console.log('isPage')
+            break
         }
-        try {
-            console.log("switchTo->"+location.href)
-            lifeCycle.onCreate()
-            glitter.changeWait()
-            glitter.changeWait =function (){}
-        }catch (e) {
-            //console.log(e)
-            alert(e)
-            alert (e.stack)  // this will work on chrome, FF. will no not work on safari
-            alert (e.line)  // this will work on safari but not on IPhone
+        default:{
+            console.log('isFrag')
+            break
         }
-        glitter.hideLoadingView()
     }
-    addMtScript(jsin.js,function (){
-        jsin.success()
-        onCreate()
-    },function (){
-        jsin.error()
-        onCreate()
+    $('html').css({
+        '-moz-user-select' : '-moz-none',
+        '-khtml-user-select': 'none',
+        '-ms-user-select': 'none',
+        'user-select': 'none',
+        'outline': 'none',
+        '-webkit-user-select':'none',
+        '-webkit-touch-callout':'none',
+        '-webkit-tap-highlight-color':'transparent',
+        'margin':'0',
+        'padding':'0',
+        'font-family':"DFKai-sb,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif;"
     })
+    $('body').css({
+        'margin':'0',
+        'padding':'0'
+    })
+    let create=lifeCycle.onCreateView()
+    var style = document.getElementsByTagName('style')[0];
+    if(style===undefined){style=document.createElement("style")}
+    style.innerHTML += lifeCycle.cssInitial().replace(/ <style>/g,'').replace(/<\/style>/g,'');
+    document.head.appendChild(style);
+    if(create!==undefined){
+        $('body').append(create)
+    }
+    try {
+        console.log("switchTo->"+location.href)
+        addScript()
+        lifeCycle.onCreate()
+        glitter.changeWait()
+        glitter.changeWait =function (){}
+    }catch (e) {
+        //console.log(e)
+        alert(e)
+        alert (e.stack)  // this will work on chrome, FF. will no not work on safari
+        alert (e.line)  // this will work on safari but not on IPhone
+    }
+    glitter.hideLoadingView()
+
 });
 //添加script內容
 function addScript(url, callback, callbackError) {
@@ -237,15 +231,12 @@ function addMtScript(urlArray, success, error) {
     var index=0
     function addScript(){
         if(index===urlArray.length){success()
-            return
-        }
+            return}
         var scritem=urlArray[index]
         let script = document.createElement('script');
         script.setAttribute('src',  scritem.src);
         if(scritem.type!==undefined){
-            script.setAttribute('type',scritem.type);
-        }else{
-            script.setAttribute('type','text');
+            script.setAttribute('type','text/babel');
         }
         try {
             if (script.readyState) {  //IE

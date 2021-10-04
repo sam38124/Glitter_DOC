@@ -6,17 +6,13 @@
     <script src="../glitterBundle/ControlInstance.js"></script>
     <link href="../glitterBundle/bootstrap.css" rel="stylesheet">
     <link href="../fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/xcode.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
     <!-- and it's easy to individually load additional languages -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"></script>
 </head>
 <style>
-    html{
+    html {
         user-select: text;
-        -webkit-user-select:text;
+        -webkit-user-select: text;
         height: 100%;
         background-color: transparent;
         width: calc(100% - 20px);
@@ -26,36 +22,50 @@
         padding-top: 50px !important;
 
     }
-    body{
+
+    body {
         width: 100%;
         transform: translateX(-50%);
         left: 50%;
         position: relative;
         user-select: text;
-        -webkit-user-select:text;
+        -webkit-user-select: text;
         max-width: 800px;
         height: 100%;
         background-color: transparent;
     }
-    span{
+
+    span {
         font-size: 15px;
         letter-spacing: 1px;
         color: #233659;
     }
-    .js{
+
+    .js {
         text-align: left;
     }
-    pre{
+
+    pre {
         text-align: left;
     }
 </style>
 <body>
 <script>
-    lifeCycle.onCreate=function (){
+    lifeCycle.jsInitial = function () {
+        return {
+            js: [
+                {src: "https://cdn.jsdelivr.net/npm/marked/marked.min.js"},
+                {src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"},
+                {src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"}
+            ]
+        }
+    }
+    lifeCycle.onCreate = function () {
+        alert('22')
         hljs.highlightAll();
         getData();
     }
-    lifeCycle.onCreateView=function (){
+    lifeCycle.onCreateView = function () {
         return `
         <h3 style="font-size: 39px;font-weight: 400;">Start your first project</h3>
     <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
@@ -84,7 +94,8 @@ function onCreate() {
  <img src="../img/web_browser.png" style="width: 100%;border-radius: 10px;">
 `
     }
-    function getData(){
+
+    function getData() {
         $.ajax({
             url: '../text/HelloWorld.html',
             timeout: 60000,

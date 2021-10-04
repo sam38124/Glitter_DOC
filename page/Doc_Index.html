@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head >
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="../glitterBundle/ControlInstance.js"></script>
@@ -24,7 +24,7 @@
         overflow-y: hidden;
     }
 </style>
-<body>
+<body >
 <script>
     var defaultFrag = (glitter.getUrlParameter('frag')) ? (glitter.getUrlParameter('frag')) : '../frag/Frag_About.html'
     var item = [
@@ -80,6 +80,7 @@ glitter.setUrlParameter('frag','${data.link}')
         })
         glitter.changeFrag(document.getElementById('frag'), (defaultFrag) ? defaultFrag : '../frag/Frag_About.html', 'doc', {})
         glitter.changeFrag(document.getElementById("AppSample"), '../AppCase/Kmu/home.html', 'Kmu', {})
+
     }
     lifeCycle.onCreateView = function () {
         return `
