@@ -23,6 +23,9 @@
         height: 100%;
         overflow-y: hidden;
     }
+    .folderClose{
+        min-height: 30px;
+    }
 </style>
 <body >
 <script>
@@ -48,8 +51,16 @@
                 {title: 'Data Transfer', link: '../Development/Frag_DataTransFer.html'}
             ]
         }, {
-            title: 'Plugins', items: [
-                {title: 'Bluetooth', link: '../plugins/bluetooth.html'}
+            title: 'Common Plugins', items: [
+                {title: 'Bluetooth', link: '../plugins/bluetooth.html'},
+                {title: 'Sqlite Database',link: '../plugins/DataBase.html'}
+            ]
+        },{
+            title: 'Android Plugins', items: [
+                {title: 'Permission', link: '../android/plugins/Permission.html'}
+            ]
+        },{
+            title: 'IOS Plugins', items: [
             ]
         },{
             title: 'Widget', items: [
@@ -96,8 +107,6 @@ View on Github</div>
 </div>
 <div style="display: flex;flex: auto;width: 100%;height: 100%;background-color: white;">
 <div class="navBar">
-<span class="tit">Glitter Tutorials</span>
-<div class="spi"></div>
 <div id="itemList" style="width: 100%;height: calc(100% - 40px);overflow-y: scroll;">
 </div>
 </div>

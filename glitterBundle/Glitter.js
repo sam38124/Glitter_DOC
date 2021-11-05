@@ -1404,6 +1404,20 @@ class Glitter {
                 return `<a style="color: dodgerblue;" onclick="glitter.openNewTab('${url}')">${url}</a>`;
             })
         }
+        //取得Text
+        this.getText=function (routName,callBack){
+            $.ajax({
+                type: "GET",
+                url: routName,
+                timeout: 15*1000,
+                success: function (data) {
+                    callBack(data);
+                },
+                error: function (data) {
+                    callBack(undefined);
+                }
+            });
+        };
         this.print = function (fun) {
             return fun()
         }

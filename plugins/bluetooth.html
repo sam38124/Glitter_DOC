@@ -43,6 +43,7 @@
         font-size: 15px;
         letter-spacing: 1px;
         color: #233659;
+        font-weight: 600;
     }
 
     .js {
@@ -52,12 +53,19 @@
     pre {
         text-align: left;
     }
-
+a{
+    font-weight: 400;
+    font-size: 16px;
+}
 </style>
 <body>
 <script>
     lifeCycle.onCreate = function () {
         hljs.highlightAll();
+        glitter.getText("../android/pluginSource/blekt.txt",function (response){
+          $('#AndroidSource').text(response)
+            hljs.highlightAll();
+        })
         getData();
     }
     lifeCycle.onCreateView = function () {
@@ -82,11 +90,7 @@
   <br>
 <span>Add into your dependencies</span>
    <br>  <br>
-   ${glitter.share.code.kotlin(`dependencies {
-
-    implementation 'com.github.sam38124:Glitter_Plugin_Bluetooth:1.2.0'
-
-}
+   ${glitter.share.code.div(`<a style="color: dodgerblue;cursor: pointer;" href="https://jitpack.io/#sam38124/Glitter_Plugin_Bluetooth" target="_blank">https://jitpack.io/#sam38124/Glitter_Plugin_Bluetooth</a>
 `)}<br>
    <span>Code initial</span><br><br>
       ${glitter.share.code.kotlin(`Glitter_BLE(applicationContext).create()
@@ -99,7 +103,7 @@
 <br>
  <span>Add into your Xcode</span>
    <br>  <br>
- ${glitter.share.code.div(`<span style="color: dodgerblue;">https://github.com/sam38124/Glitter_IOS_Plugin_Bluetooth</span>
+ ${glitter.share.code.div(`<a style="color: dodgerblue;" href="https://github.com/sam38124/Glitter_IOS_Plugin_Bluetooth" target="_blank">https://github.com/sam38124/Glitter_IOS_Plugin_Bluetooth</a>
 `)} <br>
   <span>Code initial</span><br><br>
       ${glitter.share.code.swift(`Glitter_BLE.getInstance().create()
@@ -107,162 +111,191 @@
     <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
 
 <h3 style="color: #c41b1b;">Start</h3>
-<span>CDN</span>
-   <br>  <br>
- ${glitter.share.code.div(`<span style="color: dodgerblue;">https://www.squarestudio.tw/Glitter_Library/BLE_Plugin/GlBle.js</span>
-`)}
- <br><br>
-  ${glitter.share.code.js(`
-  glitter.addMtScript(['plugins/GlBle.js'], function () {
-        //BLE框架導入成功
-    }, function () {
-        //BLE框架導入失敗
-    })
-`)}
- <br>
-<p>定義藍芽回調函式</p><br>
+
+<span>定義藍芽回調函式</span><br><br>
 <pre>
 <code class="js">
-glitter.share.bleCallBack.rx = function (data) {
-    //藍芽資料回調，有三種讀取方式
-    //readUTF,readBytes,readHEX
-    console.log(data.readUTF)
-}
-
-glitter.share.bleCallBack.tx = function (data) {
-    //藍芽資料傳送監聽，有三種讀取方式
-    //readUTF,readBytes,readHEX
-    console.log("bleMessage_tx:" + data.readHEX)
-}
-
-glitter.share.bleCallBack.onDisconnect = function () {
-    //藍芽斷線
-    console.log("bleMessage_onDisconnect")
-}
-glitter.share.bleCallBack.onConnectSuccess = function () {
-    //藍芽連線成功回條
-    console.log("onConnectSuccess")
-}
-
-glitter.share.bleCallBack.needGPS = function () {
-    //Android特有，android 6.0 以後必須打開定位才能啟用藍芽掃描功能，因為藍芽有室內定位的功能
-}
-
-glitter.share.bleCallBack.requestPermission = function (array) {
-   //Android特有 當用戶未允許權限開啟時進行回條
-   //調用glitter.requestPermission進行權限請求
-   glitter.requestPermission(array)
-}
-
-glitter.share.bleCallBack.scanBack = function (device, scanRecord, rssi) {
-    //藍芽掃描回條(可以將Device放進陣列儲存起來方便日後連線)
-    //device中包含{"address","name"}
-    //scanRecord為廣播封包包含{"readUTF","readBytes","readHEX"}
-}
+ glitter.runJsInterFace("Glitter_BLE_SetCallBack",{},function (response){
+      switch (response.function){
+          case "needGPS":
+               console.log("需要開啟定位來掃描藍芽")
+              break
+          case "onConnectFalse":
+              console.log("藍芽連線失敗")
+              break
+          case "onConnectSuccess":
+              console.log("藍芽連線成功")
+              break
+          case "onConnecting":
+              console.log("藍芽連線中")
+              break
+          case "onDisconnect":
+              console.log("藍芽斷線")
+              break
+          case "requestPermission":
+              console.log("權限不足"+JSON.stringify(response.data))
+              break
+          /**
+           * readHEX,readBytes,readUTF
+           * */
+          case "rx":
+              console.log("收到藍芽資料"+response.data.readHEX)
+              break
+          case "tx":
+              console.log("傳送藍芽資料"+response.data.readHEX)
+              break
+          /**
+           * device:{name,address}
+           * advertise:{readHEX,readBytes,readUTF}
+           * 使用address去做藍芽連線
+           * */
+          case "scanBack":
+              console.log("收到藍芽裝置"+response.device.name)
+              break
+      }
+  })
 <br>
 </code>
 </pre><br>
-<p>判斷是否要開啟定位功能(Android 6.0以上的手機必須打開定位才能啟用藍芽掃描功能)</p><br>
+<span>判斷是否需要請求權限來使用藍芽</span><br><br>
 <pre>
 <code class="js">
- glitter.share.bleUtil.needOpenGps({
-        callback:function (response){
-            if(response.result){
-                alert("請打開GPS來啟用藍芽功能")
+ glitter.runJsInterFace("Glitter_BLE_NeedPermission", {}, function (response) {
+            if (response.result) {
+                alert("權限請求失敗")
+            } else {
+                alert("權限請求成功")
             }
-        }
-    })<br>
+        })<br>
 </code>
 </pre><br>
-<p>開始掃描藍芽</p><br>
+<span>判斷藍芽是否開啟</span><br><br>
 <pre>
 <code class="js">
-   glitter.share.bleUtil.startScan({
-        callback:function (response){
-            if(response.result){
-             console.log("正在掃描藍芽")
-            }
-        }
-    })<br>
-</code>
-</pre><br>
-<p>判斷藍芽是否正在掃描</p><br>
-<pre>
-<code class="js">
-glitter.share.bleUtil.isDiscovering({
-    callback:function (response){
-        if(response.result){
-            console.log("on scanning")
-        }else{
-            console.log("not scanning")
-        }
-    }
-})
+   glitter.runJsInterFace("Glitter_BLE_IsOpen", {}, function (response) {
+            console.log(response.result)
+        })
    <br>
 </code>
 </pre><br>
-<p>連線藍芽</p><br>
+<span>開始掃描藍芽</span><br><br>
 <pre>
 <code class="js">
- glitter.share.bleUtil.connect({
-        data:{
-              address: glitter.bleList[pos].address,
-              timeOut: 10
-              },
-        callback:function (response){
-            if(response.result){
-                console.log("藍芽連線成功")
-            }else{
-                console.log("藍芽連線失敗")
-            }
-        }
-    })<br>
+    glitter.runJsInterFace("Glitter_BLE_StartScan", {}, function (response) {
+            console.log(response.result)
+        })<br>
 </code>
 </pre><br>
-<p>判斷藍芽是否已連線</p><br>
+<span>停止掃描藍芽</span><br><br>
 <pre>
 <code class="js">
- glitter.share.bleUtil.isConnect({
-        callback:function (response){
-            if(response.result){
-                console.log("藍芽已連線")
-            }else{
-                console.log("藍芽尚未連線")
-            }
-        }
-    })<br>
+    glitter.runJsInterFace("Glitter_BLE_StopScan", {}, function (response) {
+            console.log(response.result)
+        })<br>
 </code>
 </pre><br>
-<p>傳送訊息</p><br>
+<span>判斷藍芽是否正在掃描</span><br><br>
+<pre>
+<code class="js">
+   glitter.runJsInterFace("Glitter_BLE_IsDiscovering", {}, function (response) {
+            console.log(response.result)
+        })
+   <br>
+</code>
+</pre><br>
+<span>連線藍芽</span><br><br>
+<pre>
+<code class="js">
+ glitter.runJsInterFace("Glitter_BLE_Connect", {
+            address:device.address,
+            //15秒嘗試連線
+            timeOut:15
+        }, function (response) {
+            console.log(response.result)
+        })<br>
+</code>
+</pre><br>
+<span>藍芽斷線</span><br><br>
+<pre>
+<code class="js">
+ glitter.runJsInterFace("Glitter_BLE_DisConnect", {
+            address:device.address,
+            //15秒嘗試連線
+            timeOut:15
+        }, function (response) {
+            console.log(response.result)
+        })<br>
+</code>
+</pre><br>
+<span>判斷藍芽是否已連線</span><br><br>
+<pre>
+<code class="js">
+   glitter.runJsInterFace("Glitter_BLE_IsConnect", {
+        }, function (response) {
+            console.log(response.result)
+        })<br>
+</code>
+</pre><br>
+<span>寫入HexString</span><br><br>
 <pre>
 
 <code class="js">
-//3種方式傳送訊息給藍芽
-//txChannel為你要傳送資料的特徵值，由藍芽開發者定義
-//rxChannel為你要接收資料的特徵值，由藍芽開發者定義
- glitter.share.bleUtil.writeHex({
-        data:{
-            data:(data),
-            txChannel:"00008D82-0000-1000-8000-00805F9B34FB",
-            rxChannel:"00008D81-0000-1000-8000-00805F9B34FB"
-        }
-    })
-     glitter.share.bleUtil.writeBytes({
-        data:{
-            data:(data),
-            txChannel:"00008D82-0000-1000-8000-00805F9B34FB",
-            rxChannel:"00008D81-0000-1000-8000-00805F9B34FB"
-        }
-    })
-     glitter.share.bleUtil.writeUtf({
-        data:{
-            data:(data),
-            txChannel:"00008D82-0000-1000-8000-00805F9B34FB",
-            rxChannel:"00008D81-0000-1000-8000-00805F9B34FB"
-        }
-    })
+  /**
+         * hexData->要傳送的HexString
+         * rxUUID->要接收資料的通道
+         * txUUID->要傳送資料的通道
+         * */
+        glitter.runJsInterFace("Glitter_BLE_WriteHex", {
+            data: hexData,
+            rxChannel: rxUUID,
+            txChannel: txUUID
+        }, function (response) {
+            console.log(response.result)
+        })
  <br>
 </code>
+</pre>
+<br>
+<span>寫入UTF-8</span><br><br>
+<pre>
+
+<code class="js">
+  /**
+         * utfString->要傳送的UTF字串
+         * rxUUID->要接收資料的通道
+         * txUUID->要傳送資料的通道
+         * */
+        glitter.runJsInterFace("Glitter_BLE_WriteUtf", {
+            data: utfString,
+            rxChannel: rxUUID,
+            txChannel: txUUID
+        }, function (response) {
+            console.log(response.result)
+        })
+ <br>
+</code>
+</pre>
+<br>
+<span>寫入ByteArray</span><br><br>
+<pre>
+
+<code class="js">
+  /**
+         * bytesData->要傳送的ByteArray
+         * rxUUID->要接收資料的通道
+         * txUUID->要傳送資料的通道
+         * */
+        glitter.runJsInterFace("Glitter_BLE_WriteBytes", {
+            data: bytesData,
+            rxChannel: rxUUID,
+            txChannel: txUUID
+        }, function (response) {
+            console.log(response.result)
+        })
+ <br>
+</code>
+</pre>
+<br><br><div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;"></div><br>
 </pre>
 `
     }

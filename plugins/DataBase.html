@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+    <link href="../glitterBundle/bootstrap.css" rel="stylesheet">
+    <link href="../fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/xcode.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"></script>
+</head>
+<style>
+    html {
+        user-select: text;
+        -webkit-user-select: text;
+        height: 100%;
+        background-color: transparent;
+        width: calc(100% - 20px);
+        overflow-y: scroll;
+        margin-top: 20px;
+        text-align: left;
+        padding-top: 50px !important;
+
+    }
+
+    body {
+        width: 100%;
+        transform: translateX(-50%);
+        left: 50%;
+        position: relative;
+        user-select: text;
+        -webkit-user-select: text;
+        max-width: 800px;
+        height: 100%;
+        background-color: transparent;
+    }
+
+    span {
+        font-size: 15px;
+        letter-spacing: 1px;
+        color: #233659;
+        font-weight: 600;
+    }
+
+    .js {
+        text-align: left;
+    }
+
+    pre {
+        text-align: left;
+    }
+
+</style>
+<body>
+<script>
+    lifeCycle.onCreate = function () {
+        hljs.highlightAll();
+
+    }
+    lifeCycle.onCreateView = function () {
+        return `
+        <h3 style="font-size: 39px;font-weight: 400;">Sqlite Database<br><div style="display: flex;height: 50px;align-items: center;"><span>\t\tSupport</span><img style="width: 25px;height: 25px;margin-left: 10px;" src="../img/android.png">
+        <img style="width: 25px;height: 25px;margin-left: 5px;" src="../img/ios.png"></div></h3>
+    <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
+<h3 style="color: #c41b1b;">Android Config</h3><br>
+     <a style="font-size: 15px;" onclick="glitter.openNewTab('https://github.com/sam38124/Glitter_Android')">Github resources</a>
+ <br>
+   <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;"></div>
+<br>
+ <span>Add into your build.gradle</span>
+   <br> <br>
+ ${glitter.share.code.kotlin(`allprojects {
+\t\trepositories {
+\t\t\t...
+\t\t\tmaven { url 'https://jitpack.io' }
+\t\t}
+\t}
+`)}
+  <br>
+<span>Add into your dependencies</span>
+   <br>  <br>
+   ${glitter.share.code.div(`<a style="color: dodgerblue;cursor: pointer;" href="https://jitpack.io/#sam38124/Glitter_Android" target="_blank">https://jitpack.io/#sam38124/Glitter_Android</a>
+`)}<br>
+   <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
+<h3 style="color: #c41b1b;">IOS Config</h3><br>
+     <a style="font-size: 15px;" onclick="glitter.openNewTab('https://github.com/sam38124/Glitter_IOS_Plugin_Bluetooth')">Github resources</a>
+ <br>
+   <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;"></div>
+<br>
+ <span>Add into your Xcode</span>
+   <br>  <br>
+ ${glitter.share.code.div(`<span style="color: dodgerblue;">https://github.com/sam38124/Glitter_IOS_Plugin_Bluetooth</span>
+`)} <br
+    <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
+<span>執行資料庫語法</span>
+
+ <br><br>
+
+  ${glitter.share.code.js(`  //string為sql語法
+  //name為資料庫名稱，(當資料庫不存在時則會進行創建)
+       glitter.runJsInterFace("DataBase_exSql",{
+                        string:text,
+                        name:dataBase
+                    },function (response){
+                        if(response.result){
+                            success()
+                        }else{
+                            error()
+                        }
+                    })
+`)}
+ <br>
+<span>查詢資料庫</span>
+
+ <br><br>
+  ${glitter.share.code.js(`  //string為sql語法
+  //name為資料庫名稱，(當資料庫不存在時則會進行創建)
+       glitter.runJsInterFace("DataBase_Query",
+            {string: text, name: dataBase},
+            function (response) {
+                if (response.result) {
+                    success(response.data)
+                } else {
+                    error()
+                }
+            })
+`)}
+ <br>
+<span>從Assets中預載資料庫</span>
+
+ <br><br>
+  ${glitter.share.code.js(`  //rout為要預載的檔案路徑[以Glitter專案包作為相對路徑，例："database/test.db"]
+  //name為資料庫名稱，(當資料庫不存在時則會進行創建，存在則會覆蓋)
+       glitter.runJsInterFace("DataBase_InitByAssets",{
+                        rout:rout,
+                        name:dataBase
+                    },function (response){
+                        if(response.result){
+                            success()
+                        }else{
+                            error()
+                        }
+                    })
+`)}
+ <br>
+<span>從Android和IOS的專案檔案夾中進行預載</span>
+
+ <br><br>
+  ${glitter.share.code.js(`  //rout為要預載的檔案路徑[以Android和IOS專案包作為相對路徑{filesDir}]
+  //name為資料庫名稱，(當資料庫不存在時則會進行創建，存在則會覆蓋)
+       glitter.runJsInterFace("DataBase_InitByLocal",{
+                        rout:rout,
+                        name:dataBase
+                    },function (response){
+                        if(response.result){
+                            success()
+                        }else{
+                            error()
+                        }
+                    })
+`)}
+ <br>
+`
+    }
+
+</script>
+</body>
+</html>

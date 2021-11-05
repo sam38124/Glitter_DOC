@@ -1289,6 +1289,7 @@ class Glitter {
                 }
             });
         };
+
         /**
          * Select your Image
          * */
