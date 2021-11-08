@@ -218,11 +218,8 @@ a{
 <span>藍芽斷線</span><br><br>
 <pre>
 <code class="js">
- glitter.runJsInterFace("Glitter_BLE_DisConnect", {
-            address:device.address,
-            //15秒嘗試連線
-            timeOut:15
-        }, function (response) {
+ glitter.runJsInterFace("Glitter_BLE_DisConnect", {},
+         function (response) {
             console.log(response.result)
         })<br>
 </code>
