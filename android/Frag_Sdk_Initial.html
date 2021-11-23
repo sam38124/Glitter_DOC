@@ -38,11 +38,6 @@
         height: 100%;
         background-color: transparent;
     }
-    span{
-        font-size: 15px;
-        letter-spacing: 1px;
-        color: #233659;
-    }
     .js{
         text-align: left;
     }
@@ -54,54 +49,54 @@
     }
     lifeCycle.onCreateView=function (){
         return `
-        <h3 style="font-size: 39px;font-weight: 400;">Add Dependencies <span>\t\tSupport jcenter</span></h3>
+        <h3 style="font-size: 39px;font-weight: 400;">安卓配置</h3>
     <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
     <a onclick="glitter.openNewTab('https://github.com/sam38124/Glitter_Android')" >Github resources</a>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
-    <br>
  <span>Step1. Add into your build.gradle</span>
    <br>  <br>
- ${glitter.share.code.kotlin(`allprojects {
+ ${glitter.share.code.kotlin(` allprojects {
 \t\trepositories {
 \t\t\t...
 \t\t\tmaven { url 'https://jitpack.io' }
 \t\t}
 \t}
 `)}
-  <br>
+  <br> <br>
 <span>Step2. Add into your dependencies</span>
    <br>  <br>
-   ${glitter.share.code.kotlin(`dependencies {
-
-    implementation 'com.github.sam38124:Glitter_Android:2.5.3'
-
-}
+ ${glitter.share.code.div(`<a style="color: dodgerblue;cursor: pointer;" href="https://jitpack.io/#sam38124/Glitter_Android" target="_blank">https://jitpack.io/#sam38124/Glitter_Android</a>
 `)}
-        <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div><br>
+        <br>
         <span>Step3.Config AndroidManifest</span><br><br>
-       <img src="img/mainfeist.png" style="width: 100%;border-radius: 10px;">
+        ${glitter.share.code.js(`      //將Glitter Activity設為MainActivity
+            &lt;activity
+                android:name="com.jianzhi.glitter.GlitterActivity"
+                android:exported="true">
+            &lt;intent-filter>
+                &lt;action android:name="android.intent.action.MAIN"/>
+                &lt;category android:name="android.intent.category.LAUNCHER"/>
+            &lt;/intent-filter>
+        &lt;/activity>
+        `)}
         <br><br>
         <span>Step4. Initial  and set up glitter in your application</span>
           <br>  <br>
-        ${glitter.share.code.kotlin(`  class MyApp :Application(){
-    var handler= Handler()
+        ${glitter.share.code.kotlin(`class MyApp :Application(){
     override fun onCreate() {
         super.onCreate()
+        //設定你的專案路徑
         GlitterActivity.setUp("file:///android_asset/appData",appName = "appData")
+        //取得裝置類型
         GlitterActivity.addJavacScriptInterFace(JavaScriptInterFace("getDeviceType"){
             request ->
-            //Get data from javascript
-            val message=request.receiveValue["message"]
-            //Will response i am glitter
-            Log.e("message",message.toString())
-            //Response value to javascript
+            //將資料帶入MutableMap
             request.responseValue["data"]="Android"
-            //Execute Callback
+            //回調前端函式
             request.finish()
         })
-        //_hashKey()
     }}`)}
-         <br>
+         <br> <br>
  <span>Step5. Copy your gliiter project to asset rout</span>
           <br>  <br>
             <img src="img/android_asset.png" style="width: 100%;border-radius: 10px;">

@@ -62,22 +62,12 @@ a{
 <script>
     lifeCycle.onCreate = function () {
         hljs.highlightAll();
-        glitter.getText("../android/pluginSource/blekt.txt",function (response){
-          $('#AndroidSource').text(response)
-            hljs.highlightAll();
-        })
-        getData();
     }
     lifeCycle.onCreateView = function () {
         return `
         <h3 style="font-size: 39px;font-weight: 400;">Bluetooth<br><div style="display: flex;height: 50px;align-items: center;"><span>\t\tSupport</span><img style="width: 25px;height: 25px;margin-left: 10px;" src="../img/android.png">
         <img style="width: 25px;height: 25px;margin-left: 5px;" src="../img/ios.png"></div></h3>
-    <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
 <h3 style="color: #c41b1b;">Android Config</h3><br>
-     <a style="font-size: 15px;" onclick="glitter.openNewTab('https://github.com/sam38124/Glitter_Android')">Github resources</a>
- <br>
-   <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;"></div>
-<br>
  <span>Add into your build.gradle</span>
    <br>  <br>
  ${glitter.share.code.kotlin(`allprojects {
@@ -87,7 +77,7 @@ a{
 \t\t}
 \t}
 `)}
-  <br>
+  <br>  <br>
 <span>Add into your dependencies</span>
    <br>  <br>
    ${glitter.share.code.div(`<a style="color: dodgerblue;cursor: pointer;" href="https://jitpack.io/#sam38124/Glitter_Plugin_Bluetooth" target="_blank">https://jitpack.io/#sam38124/Glitter_Plugin_Bluetooth</a>
@@ -97,10 +87,6 @@ a{
 `)}<br>
    <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
 <h3 style="color: #c41b1b;">IOS Config</h3><br>
-     <a style="font-size: 15px;" onclick="glitter.openNewTab('https://github.com/sam38124/Glitter_IOS_Plugin_Bluetooth')">Github resources</a>
- <br>
-   <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;"></div>
-<br>
  <span>Add into your Xcode</span>
    <br>  <br>
  ${glitter.share.code.div(`<a style="color: dodgerblue;" href="https://github.com/sam38124/Glitter_IOS_Plugin_Bluetooth" target="_blank">https://github.com/sam38124/Glitter_IOS_Plugin_Bluetooth</a>
@@ -297,22 +283,22 @@ a{
 `
     }
 
-    function getData() {
-        $.ajax({
-            url: '../text/HelloWorld.html',
-            timeout: 60000,
-            contentType: "application/text; charset=utf-8;",
-            type: "get",
-            dataType: "text",
-            success: function (data) {
-                $('#codeInside').text(data)
-            },
-            error: function (data) {
-                error()
-                console.log("error:" + data)
-            }
-        });
-    }
+    // function getData() {
+    //     $.ajax({
+    //         url: '../text/HelloWorld.html',
+    //         timeout: 60000,
+    //         contentType: "application/text; charset=utf-8;",
+    //         type: "get",
+    //         dataType: "text",
+    //         success: function (data) {
+    //             $('#codeInside').text(data)
+    //         },
+    //         error: function (data) {
+    //             error()
+    //             console.log("error:" + data)
+    //         }
+    //     });
+    // }
 </script>
 </body>
 </html>

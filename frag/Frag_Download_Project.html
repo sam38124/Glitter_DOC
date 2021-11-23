@@ -45,6 +45,15 @@
     .js{
         text-align: left;
     }
+    h4{
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        line-height: 25px;
+    }
+    a{
+        font-size: 15px;
+    }
 </style>
 <body>
 <script>
@@ -53,15 +62,14 @@
     }
     lifeCycle.onCreateView=function (){
         return `
-        <h3 style="font-size: 39px;font-weight: 400;">Download Glitter project</h3>
+        <h3 style="font-size: 39px;font-weight: 400;">下載專案</h3>
     <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
-    <span>Download the version you need.</span>
-    <br><br>
-<a href="../v1.0/v1.0.zip">v1.0.0</a><br>
-<a href="../v1.1/v1.1.zip" style="margin-top: 5px;">v1.1.0</a>
+    <h4>版本列表</h4>
+<a href="../v1.0/v1.0.zip" style="margin-top: 5px;">1.0</a><br>
+<a href="../v1.1/v1.1.zip" style="margin-top: 5px;">1.1</a><br>
+<a href="../v2.0/v2.0.zip" style="margin-top: 5px;">2.0</a>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
-    <br>
- <span>Open with <a onclick="glitter.openNewTab('https://code.visualstudio.com/')">Intellij Idea</a> or <a onclick="glitter.openNewTab('https://code.visualstudio.com/')">Visual Studio Code</a></span>
+ <span>推薦使用 <a onclick="glitter.openNewTab('https://code.visualstudio.com/')">Intellij Idea</a> 或者 <a onclick="glitter.openNewTab('https://code.visualstudio.com/')">Visual Studio Code</a> 當作專案開發工具</span>
  <br><br>
  <div style="border-radius: 10px;background-color: whitesmoke;max-width: 100%;padding: 10px;">
  <img src="../img/projectEmpty.png" style="width: 100%;border-radius: 10px;">
