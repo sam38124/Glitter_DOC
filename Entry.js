@@ -19,8 +19,8 @@ function onCreate() {
         },
         getCode: function (type, text) {
             return `
-<pre>
-<code class="${type}" style="text-align: left;">
+<pre style=" display:inline-block;width: 100%;margin: 0;">
+<code class="${type}" style="text-align: left;clear: both;width: max-content;min-width: 100%;">
 ${text}
 </code>
 </pre>

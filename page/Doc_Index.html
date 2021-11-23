@@ -32,15 +32,13 @@
     var defaultFrag = (glitter.getUrlParameter('frag')) ? (glitter.getUrlParameter('frag')) : '../frag/Frag_About.html'
     var item = [
         {
-            title: 'Getting Started', items: [{
-                title: 'About Glitter', link: '../frag/Frag_About.html'
+            title: '開始', items: [{
+                title: '關於Glitter', link: '../frag/Frag_About.html'
             }, {
-                title: 'Download Glitter Project', link: '../frag/Frag_Download_Project.html'
-            }, {
-                title: 'Hello World', link: '../frag/Frag_First_Project.html'
+                title: '下載與引用', link: '../frag/Frag_Download_Project.html'
             },
-                {title: 'Android_Config', link: '../android/Frag_Sdk_Initial.html'},
-                {title: 'IOS_Config', link: '../ios/Frag_Sdk_Initial.html'}]
+                {title: '安卓配置', link: '../android/Frag_Sdk_Initial.html'},
+                {title: 'IOS配置', link: '../ios/Frag_Sdk_Initial.html'}]
         }, {
             title: 'Development', items: [
                 {title: 'Entry', link: '../Development/Frag_Entry.html'},
@@ -89,9 +87,8 @@ glitter.setUrlParameter('frag','${data.link}')
             })}
 </div>`)
         })
+        glitter.changeFrag(document.getElementById("AppSample"), 'https://www.squarestudio.tw/Petstagram/home.html', 'Petstagram', {})
         glitter.changeFrag(document.getElementById('frag'), (defaultFrag) ? defaultFrag : '../frag/Frag_About.html', 'doc', {})
-        glitter.changeFrag(document.getElementById("AppSample"), '../AppCase/Kmu/home.html', 'Kmu', {})
-
     }
     lifeCycle.onCreateView = function () {
         return `
@@ -116,9 +113,21 @@ View on Github</div>
 <div style="height: 40px;margin: 0;">
 <h3 style="color: white;width: 100%;text-align: left;padding-left: 20px;">Developed by Glitter</h3>
 </div>
-<div style="width: 100%;height: 1px;background-color: white;margin: 0;"></div>
-<select id="mySelect" style="width: 100%;height: 40px;" class="custom-select">
-  <option>台灣高雄醫學大學校友會</option>
+<div style="width: 100%;height: 1px;background-color: white;margin: 0;" onshow="alert('ss')"></div>
+<select id="mySelect" style="width: 100%;height: 40px;" class="custom-select" onchange="
+${event(function (e) {
+          switch ($(e).val()){
+              case "0":
+                  glitter.changeFrag(document.getElementById("AppSample"), '../AppCase/Kmu/home.html', 'Kmu', {})
+                  break
+              case "1":
+                  glitter.changeFrag(document.getElementById("AppSample"), 'https://www.squarestudio.tw/Petstagram/home.html', 'Petstagram', {})
+                  break
+          }
+        })}
+" >
+ <option value="1">Petstagram寵生活</option>
+  <option value="0">台灣高雄醫學大學校友會</option>
 </select>
 <div style="width: 100%;height: 700px;background-color: white;" id="AppSample"></div>
 <div style="width: 100%;height: calc(100% - 800px);background-color: #233659;text-align: left;">

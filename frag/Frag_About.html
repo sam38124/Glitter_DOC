@@ -38,12 +38,17 @@
         background-color: transparent;
     }
     span{
-        font-size: 15px;
-        letter-spacing: 1px;
         color: #233659;
     }
     .js{
         text-align: left;
+    }
+    h4{
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        margin: 5px;
+        line-height: 25px;
     }
 </style>
 <body>
@@ -53,23 +58,24 @@ hljs.highlightAll();
   }
   lifeCycle.onCreateView=function (){
     return `
-    <h3 style="font-size: 39px;font-weight: 400;">About Glitter</h3>
+    <h3 style="font-size: 39px;font-weight: 400;margin-top: 10px;">關於Glitter</h3>
     <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
-    <span>Glitter is a JS Framework to let you use javascript to develop (Android/IOS/WEB) at the same time.</span>
+    <h4>Glitter是由萊恩設計有限公司，所主導開發的前端框架，同時支援Android/IOS/Web的跨平台開發與MVVM設計模式，與React-Native概念相同，皆是透過JS接口去調用原生代碼來實現原生開發需求
+    !</h4>
     <br><br> <br>
-<span>This flow chart show how it works!!</span>
+<h4 style="color: #1a4064;">程式流程圖</span>
  <br><br>
 <div style="width: 100%;background-color: whitesmoke;border-radius: 10px;border:1px solid lightgray;text-align: center;">
 <img src="../img/glitter_process.png" style="max-width: 100%;">
 </div>
 <br><br>
-<h4>Use JsInterface to execute native code</h4>
+<h4>使用JavacScriptInterFace調用Android或IOS原生代碼</h4>
 <br>
 <div style="width: 100%;background-color: antiquewhite;border-radius: 10px;border:1px solid lightgray;text-align: left;">
-<h4 style="width: 100%;text-align: center;letter-spacing: 1px;">(Kotlin)-Add js Interface to Android</h4>
+<h4 style="width: 100%;text-align: center;">Kotlin - 添加Javascript Interface</h4>
 ${glitter.share.code.kotlin(`GlitterActivity.addJavacScriptInterFace(JavaScriptInterFace("getDeviceType"){
             request ->
-            //Get data from javascript
+            //K
             val message=request.receiveValue["message"]
             //Will response i am glitter
             Log.e("message",message.toString())
@@ -78,7 +84,7 @@ ${glitter.share.code.kotlin(`GlitterActivity.addJavacScriptInterFace(JavaScriptI
             //Execute Callback
             request.finish()
         })`)}
-<h4 style="width: 100%;text-align: center;letter-spacing: 1px;">(Swift)-Add js Interface to IOS</h4>
+<h4 style="width: 100%;text-align: center;">Swift - 添加Javascript Interface</h4>
 ${glitter.share.code.swift(`  glitterAct.addJavacScriptInterFace(interface: JavaScriptInterFace(functionName: "getDeviceType", function: {
             request in
             //Get data from javascript
@@ -90,7 +96,7 @@ ${glitter.share.code.swift(`  glitterAct.addJavacScriptInterFace(interface: Java
             //Execute Callback
             request.finish()
         }))`)}
-<h4 style="width: 100%;text-align: center;letter-spacing: 1px;">(Javascript)-Execute native code and get the response</h4>
+<h4 style="width: 100%;text-align: center;letter-spacing: 1px;">在JS中利用runJsInterFace執行原生代瑪</h4>
 ${glitter.share.code.js(`glitter.runJsInterFace("getDeviceType",{
         message:'I am Glitter'
     },function (response){

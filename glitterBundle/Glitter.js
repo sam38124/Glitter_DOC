@@ -19,7 +19,6 @@ class AppearType {
         this.Android = 1;
         this.Ios = 2;
     }
-
 } //Html類型
 
 
@@ -29,11 +28,11 @@ class HtmlType {
         this.Dialog = 1;
         this.Frag = 2;
     }
-
 }
 
 class Glitter {
     constructor() {
+        this.window=window
         this.webUrl = '';
         this.callBackId = 0;
         this.callBackList = new Map();
@@ -198,7 +197,7 @@ class Glitter {
             glitter.changeWait = function () {
                 try {
                     $('#' + map.pageIndex).show();
-                    document.getElementById(glitter.iframe[glitter.iframe.length - 1].pageIndex).contentWindow.lifeCycle.onPause();
+                    document.getElementById(glitter.iframe[glitter.iframe.length - 2].pageIndex).contentWindow.lifeCycle.onPause();
                     glitter.changePageListener(tag);
                 } catch (e) {
                 }
@@ -281,7 +280,7 @@ class Glitter {
                         $('#' + glitter.iframe[i].id).hide();
                     }
                 }, 500);
-                document.getElementById(glitter.iframe[glitter.iframe.length - 1].pageIndex).contentWindow.lifeCycle.onPause();
+                document.getElementById(glitter.iframe[glitter.iframe.length - 2].pageIndex).contentWindow.lifeCycle.onPause();
                 glitter.changePageListener(tag);
             };
         }; //顯示Dialog
@@ -567,6 +566,7 @@ class Glitter {
             } catch (e) {
             }
             glitter.changePageListener(glitter.iframe[index].id);
+            glitter.setUrlParameter('page',glitter.iframe[index].id)
         }; //添加script內容
 
 
@@ -673,7 +673,7 @@ class Glitter {
             //console.log("closeApp")
             switch (glitter.deviceType) {
                 case appearType.Android:
-                    window.GL.closeApp();
+                   glitter.runJsInterFace("closeAPP",{},function (response){})
                     break;
 
                 case appearType.Ios:
@@ -863,7 +863,7 @@ class Glitter {
         };
         /**
          * 取得Browser 類型
-         * {Android,IOS,Desktop}
+         * {android,mac,iphone,desktop}
          * **/
 
 
@@ -874,21 +874,23 @@ class Glitter {
             var isiOS = !!a.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
             if (isAndroid) {
-                return "Android";
+                return "android";
             }
 
             if (isiOS) {
-                return "IOS";
+                if(glitter.getBrowserFrom()==="pc"){
+                    return "mac";
+                }else{
+                    return "iphone";
+                }
             }
 
-            return "Desktop";
+            return "desktop";
         };
         /**
          * 開啟新視窗
          * Android and Ios呼叫 ｗｅｂｖｉｅｗ
          * */
-
-
         this.openNewTab = function (link) {
             switch (glitter.deviceType) {
                 case glitter.deviceTypeEnum.Web:
@@ -910,8 +912,6 @@ class Glitter {
         /**
          * 添加觀察者模式
          * */
-
-
         this.addObserver = function (map, obj, callback) {
             if (map.GlitterJsonStringConverSion === undefined) {
                 map.GlitterJsonStringConverSion = JSON.parse(JSON.stringify(map));
@@ -959,8 +959,6 @@ class Glitter {
          * 添加觀察者模式
          * 當內容改變及互叫Observer
          * */
-
-
         this.addObjObserver = function (map, callback) {
             if (map.GlitterJsonStringConverSion === undefined) {
                 map.GlitterJsonStringConverSion = JSON.parse(JSON.stringify(map));
@@ -1002,16 +1000,17 @@ class Glitter {
         /**
          移除html標籤
          * */
-
-
         this.removeTag = function (str) {
-            return str.replace(/<[^>]+>/g, ""); //去掉所有的html標記
+            try {
+                return str.replace(/<[^>]+>/g, ""); //去掉所有的html標記
+            }catch (e){
+                return str
+            }
+
         };
         /**
          判斷滾動位置，和滑動到哪裡
          * */
-
-
         this.addScrollListener = function (e, obj) {
             e.scroll(function () {
                 var map = {
@@ -1040,8 +1039,6 @@ class Glitter {
         /**
          判斷是否到底部
          * */
-
-
         this.isScrollBtn = function (e) {
             var map = {
                 scrollTop: e[0].scrollTop,
@@ -1053,8 +1050,6 @@ class Glitter {
         /**
          判斷是否到頂部
          * */
-
-
         this.isScrollTp = function (e) {
             var map = {
                 scrollTop: e[0].scrollTop,
@@ -1066,8 +1061,6 @@ class Glitter {
         /**
          * 滑動到底部
          * */
-
-
         this.scrollToBtn = function (e) {
             var map = {
                 scrollTop: e[0].scrollTop,
@@ -1079,8 +1072,6 @@ class Glitter {
         /**
          * Add window windowHeightChangeListener
          * */
-
-
         this.addWindowHeightChangeListener = function (callback) {
             windowHeightChangeListener = windowHeightChangeListener.concat(callback);
         };
@@ -1404,20 +1395,6 @@ class Glitter {
                 return `<a style="color: dodgerblue;" onclick="glitter.openNewTab('${url}')">${url}</a>`;
             })
         }
-        //取得Text
-        this.getText=function (routName,callBack){
-            $.ajax({
-                type: "GET",
-                url: routName,
-                timeout: 15*1000,
-                success: function (data) {
-                    callBack(data);
-                },
-                error: function (data) {
-                    callBack(undefined);
-                }
-            });
-        };
         this.print = function (fun) {
             return fun()
         }
@@ -1429,7 +1406,45 @@ class Glitter {
             } catch (e) {
             }
         }
-
+        //Get定時器
+        this.getClock=function Clock() {
+            return {
+                start: new Date(),
+                stop: function () {
+                    return ((new Date()) - (this.start))
+                },
+                zeroing: function () {
+                    this.start = new Date()
+                }
+            }
+        }
+        //防止冒泡事件的操作
+        this.clickEventToggle=true
+        this.clickEvent=function (callback){
+            if(!glitter.clickEventToggle){return}
+            callback()
+            glitter.clickEventToggle=false
+            setTimeout(function (){
+                glitter.clickEventToggle=true
+            },20)
+        }
+        //判斷瀏覽器開啟位置
+        this.getBrowserFrom=function (){
+            var sUserAgent = navigator.userAgent.toLowerCase();
+            var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+            var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+            var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+            var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+            var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+            var bIsAndroid = sUserAgent.match(/android/i) == "android";
+            var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+            var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+            if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+                return "phone"
+            } else {
+                return "pc"
+            }
+        }
 
     }
 
@@ -1437,14 +1452,11 @@ class Glitter {
 
 class LifeCycle {
     constructor(props) {
-        this.onResume = function () {
-        };
+        this.onResume = function () {};
 
-        this.onPause = function () {
-        };
+        this.onPause = function () {};
 
-        this.onDestroy = function () {
-        };
+        this.onDestroy = function () {};
     }
 
 } //window height
