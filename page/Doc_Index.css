@@ -163,3 +163,6 @@
 .custom-select {
     background: white none;
 }
+::-webkit-scrollbar{
+    display: none;
+}
