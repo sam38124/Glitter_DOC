@@ -36,13 +36,16 @@
     height: 100%;
     background-color: transparent;
   }
-  span{
-    font-size: 15px;
-    letter-spacing: 1px;
-    color: #233659;
-  }
+
   .js{
     text-align: left;
+  }
+  h4{
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 5px;
+    line-height: 25px;
   }
 </style>
 <body>
@@ -54,10 +57,11 @@
     return `
         <h3 style="font-size: 39px;font-weight: 400;">Entry point</h3>
 
- <span>Glitter uses a single html as the entry point what is named home.html at root directory.
- </span>
+ <h4>Glitter使用單一Html，多個Iframe子頁的開發模式，讓每個頁面之間都能互相共享數據，減少資料的重複撈取動作，避免後端的資源浪費，與畫面加載導致的卡頓問題，
+ 類似Android的One Activity Multiple Frgement的開發模式!
+ </h4>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
-  <span><h3 style="color: #c41b1b;">Important</h3>You must define your page switching and initial content in Entry.js</span>
+  <span><h3 style="color: #c41b1b;">Important</h3>於Entry.js中定義你要跳轉的畫面</span>
    <br>
     <br>
  ${glitter.share.code.js(`"use strict";
@@ -67,7 +71,7 @@ function onCreate() {
 }
 `)}
   <br> <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
-   <span><h3 style="color: #2a93b9;">Option</h3> You can get Url Parameter to define what page you want to switch.</span>
+   <span><h3 style="color: #2a93b9;">Option</h3>取得URL中Page的參數來決定是否要進行跳轉</span>
    <br>
     <br>
  ${glitter.share.code.js(`"use strict";
@@ -87,7 +91,7 @@ function onCreate() {
 }
 `)}
   <br> <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
-<span><h3 style="color: #2a93b9;">Option</h3> You can use glitter.share to define global variables to use anywhere.</span>
+<span><h3 style="color: #2a93b9;">Option</h3>使用gliiter.share來定義全域變數，於各個畫面間來共享數據!</span>
    <br>  <br>
    ${glitter.share.code.js(`
   glitter.share.token="12345"
@@ -98,13 +102,14 @@ function onCreate() {
 
 `)}
        <br> <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
-        <span><h3 style="color: #2a93b9;">Option</h3> You can import multiple js file like this.</span>
+        <span><h3 style="color: #2a93b9;">Option</h3>你可以在加載多項js套件或者定義完所需要的全域資源，在於Callback函式中進行畫面跳轉!</span>
    <br>  <br>
    ${glitter.share.code.js(`
   glitter.addMtScript(['script/library1.js','script/library2.js'],function (){
-  //If js initial finish will callback this function
+  //上方js皆加載完畢後回條此函式
    glitter.setHome('page/HelloWorld.html','HelloWorld',{})
   },function (){
+  //套件路徑錯誤導致加載失敗
     alert("Initial Error")
   })
 

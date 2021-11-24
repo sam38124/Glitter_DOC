@@ -37,11 +37,7 @@
     height: 100%;
     background-color: transparent;
   }
-  span{
-    font-size: 15px;
-    letter-spacing: 1px;
-    color: #233659;
-  }
+
   .js{
     text-align: left;
   }
@@ -53,34 +49,40 @@
   }
   lifeCycle.onCreateView=function (){
     return `
-        <h3 style="font-size: 39px;font-weight: 400;">Add Dependencies <span>\t\tSupport Swift Package</span></h3>
+        <h3 style="font-size: 39px;font-weight: 400;">IOS配置</h3>
     <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
     <a onclick="glitter.openNewTab('https://github.com/sam38124/Glitter_IOS')" >Github resources</a>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
     <br>
  <span>Step1. Add Swift Package</span>
    <br>  <br>
-   <img src="img/ios_swift.png" style="width: 100%;border-radius: 10px;">
+${glitter.share.code.div(`<a style="color: dodgerblue;" href="https://github.com/sam38124/Glitter_IOS" target="_blank">https://github.com/sam38124/Glitter_IOS</a>
+`)}
   <br><br>
-        <span>Step2. Initial  and set up glitter in your ViewController</span>
+        <span>Step2. 在你的ViewController內加載Glitter初始設定</span>
           <br>  <br>
         ${glitter.share.code.swift(`import UIKit
 import Glitter_IOS
+
 class ViewController: UIViewController {
+    //取得Glitter單例
     let glitterAct=GlitterActivity.getInstance()
 
     override func viewDidLoad() { }
 
     override func viewDidAppear(_ animated: Bool) {
+        //添加子元素到ViewController內
         addChild(glitterAct)
+        //在要顯示畫面的地方進行替換
         view.addSubview(glitterAct.view)
+        //設定frame的寬高
         glitterAct.view.frame=view.safeAreaLayoutGuide.layoutFrame
         glitterAct.didMove(toParent: self)
     }
 }
 `)}
-         <br>
-   <span>Step3. Add Gliiter project</span>
+         <br>  <br>
+   <span>Step3.添加Glitter專案包至你的根目錄</span>
    <br>  <br>
    <img src="img/addFiles.png" style="width: 100%;border-radius: 10px;">
 `

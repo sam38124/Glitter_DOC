@@ -48,11 +48,6 @@
         display: flex;
         align-items: center;
     }
-    span{
-        font-size: 15px;
-        letter-spacing: 1px;
-        color: #233659;
-    }
 </style>
 <body>
 <script>
@@ -63,11 +58,11 @@
     }
     lifeCycle.onCreateView=function (){
         return `
-        <h3 style="font-size: 39px;font-weight: 400;">Page management</h3>
+        <h3 style="font-size: 39px;font-weight: 400;">頁面管理</h3>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
-  <span><h3 style="color: #c41b1b;">Set home</h3>
+  <span><h3 style="color: #c41b1b;">首頁</h3>
   <span style="color: #2a93b9;">Parameter:(link,tag,obj)</span><br><br>
-  Use set home function to set up your root page.
+  使用此函式移除所有堆棧，並且將此頁面置於棧頂
   </span>
   <br>  <br>
   ${glitter.share.code.js(` glitter.setHome('page/HomePage.html','HomePage',{})
