@@ -2744,6 +2744,7 @@ glitter.closeDiaLogWithTag(getTag())
         'margin': '0',
         'padding': '0'
     })
+    $('::-webkit-scrollbar').css('display','none')
     let create = lifeCycle.onCreateView()
     var style = document.getElementsByTagName('style')[0];
     if (style === undefined) {
