@@ -36,14 +36,12 @@
         height: 100%;
         background-color: transparent;
     }
-    span{
-        font-size: 15px;
-        letter-spacing: 1px;
-        color: #233659;
-    }
     .js{
         text-align: left;
     }
+span{
+    color: #1a4064;
+}
 </style>
 <body>
 <script>
@@ -54,14 +52,32 @@
     }
     lifeCycle.onCreateView=function (){
         return `
-            <h3 style="font-size: 39px;font-weight: 400;">Frag</h3>
+            <h3 style="font-size: 39px;font-weight: 400;">片段與視窗</h3>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
-  <span><h3 style="color: #c41b1b;">Change Frag</h3></span>
-  <span style="color: #2a93b9;">Parameter:(element,link,tag,obj)</span><br><br>
-          <span style="color: #0062c0;">-Element</sapn><span>-Use your div element to change frag</span><br><br>
-  ${glitter.share.code.js(`  glitter.changeFrag(document.getElementById("MyFrag"),'../Frag/MyFrag.html','MyFrag',{})
+ <h3 style="color: #c41b1b;">切換片段</h3>
+  <span style="color: #2a93b9;">參數:(element,link,tag,obj)</span><br><br>
+          <span style="color: #0062c0;">[element]</sapn><span>-你的DIV</span><br><br>
+          <span style="color: #0062c0;">[link]</sapn><span>-相對於此頁面的URL</span><br><br>
+            <span style="color: #0062c0;">[obj]</sapn><span>-TAG標籤.</span><br><br>
+             <span style="color: #0062c0;">[dismiss]</sapn><span>-要傳遞的資料.</span><br><br>
+  ${glitter.share.code.js(`  glitter.changeFrag(document.getElementById("MyFrag"),'../Frag/MyFrag.html','MyFrag',{
+  data:'mydata'
+  })
   `)}
 <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+ <h4><h3 style="color: #c41b1b;">提示窗</h3></h4>
+  <span style="color: #2a93b9;">參數:(link,tag,swipe,cancelable,obj,dismiss)</span><br><br>
+          <span style="color: #0062c0;">[swipe]</sapn><span>-背景透明</span><br><br>
+          <span style="color: #0062c0;">[cancelable]</sapn><span>-點擊關閉.</span><br><br>
+            <span style="color: #0062c0;">[obj]</sapn><span>-傳遞的資料.</span><br><br>
+             <span style="color: #0062c0;">[dismiss]</sapn><span>-當視窗關閉時回傳.</span><br><br>
+  ${glitter.share.code.js(` glitter.openDiaLog('dialog/HelloWorld.html','HelloWorld',true,true,{},function (){})
+  `)}
+<div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+<span><h3 style="color: #c41b1b;">關閉視窗</h3></span>
+  <span style="color: #2a93b9;">Parameter:(tag)</span><br><br>
+  <span style="color: #0062c0;">[標籤]-</sapn><span>關閉此標籤的視窗，如果未定義則會關閉所有視窗.</span><br><br>
+  <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
 `
     }
 

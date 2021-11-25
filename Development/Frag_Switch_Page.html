@@ -36,11 +36,6 @@
         height: 100%;
         background-color: transparent;
     }
-    span{
-        font-size: 15px;
-        letter-spacing: 1px;
-        color: #233659;
-    }
     .js{
         text-align: left;
     }
@@ -61,44 +56,42 @@
         <h3 style="font-size: 39px;font-weight: 400;">頁面管理</h3>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
   <span><h3 style="color: #c41b1b;">首頁</h3>
-  <span style="color: #2a93b9;">Parameter:(link,tag,obj)</span><br><br>
-  使用此函式移除所有堆棧，並且將此頁面置於棧頂
+  <span style="color: #2a93b9;">帶入參數:(link,tag,obj)</span><br><br>
+  使用此函式移除所有堆棧，並且將此頁面置於棧頂.
   </span>
   <br>  <br>
   ${glitter.share.code.js(` glitter.setHome('page/HomePage.html','HomePage',{})
   `)}
    <br><div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
-   <span><h3 style="color: #c41b1b;">Change page  </h3>
-   <span style="color: #2a93b9;">Parameter:(link,tag,GoBack,obj)</span><br><br>
-   <span>-GoBack</sapn>:True or False is used to define this page can go back or not.<br><br>
-  Use change page to switch page.
-  </span></span>
-  <br>  <br>
+   <span><h3 style="color: #c41b1b;">頁面切換</h3>
+   <span style="color: #2a93b9;">帶入參數:(link,tag,goBack,obj)</span><br><br>
+   <span>goBack</sapn>:此參數為布林值，用來定義此頁面是否可以被加入堆棧來進行頁面返回.<br><br>
+
   ${glitter.share.code.js(` glitter.changePage('page/SecPage.html','SecPage.html',true,{})
   `)}
    <br><div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
-  <span><h3 style="color: #c41b1b;">Go back</h3>
-  <span style="color: #2a93b9;">Parameter:(tag)</span><br><br>
-  Go back to previous page.
+  <span><h3 style="color: #c41b1b;">頁面返回</h3>
+  <span style="color: #2a93b9;">帶入參數:(tag)</span><br><br>
+  使用此函式返回上一頁或者帶入Tag參數返回特定頁面.
   </span>
   <br>  <br>
-  ${glitter.share.code.js(`   //Option1.
+  ${glitter.share.code.js(`   //選項一.
    glitter.goBack();
-   //Option2.
+   //選項二.
    glitter.goBack("SecPage");
   `)}
     <br><div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
-  <span><h3 style="color: #c41b1b;">Remove Page</h3>
-  <span style="color: #2a93b9;">Parameter:(tag)</span><br><br>
-  Remove page from stack.
+  <span><h3 style="color: #c41b1b;">移除堆棧</h3>
+  <span style="color: #2a93b9;">帶入參數:(tag)</span><br><br>
+  將此頁面移除堆棧中.
   </span>
   <br>  <br>
   ${glitter.share.code.js(`  glitter.removePage("SecPage")
   `)}
    <br><div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
-  <span><h3 style="color: #c41b1b;">Go Menu</h3>
-  <span style="color: #2a93b9;">Parameter:(tag)</span><br><br>
-  Reserve top stack and remove other page.
+  <span><h3 style="color: #c41b1b;">返回首頁</h3>
+  <br>
+  返回棧頂
   </span>
   <br>  <br>
   ${glitter.share.code.js(`  glitter.goMenu()

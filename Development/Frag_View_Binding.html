@@ -39,11 +39,19 @@
     }
 
 
-
     .js {
         text-align: left;
     }
-    h4{
+
+    h4 {
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        margin: 5px;
+        line-height: 25px;
+    }
+
+    h4 {
         font-size: 16px;
         font-weight: 400;
         letter-spacing: 1px;
@@ -58,33 +66,51 @@
 
 
     }
-    lifeCycle.onCreateView = function () {
-        return `
-            <h3 style="font-size: 39px;font-weight: 400;">資料傳遞</h3>
- <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
-  <span><h3 style="color: #c41b1b;">帶入參數</h3></span>
-   <h4>
-   你可以將你的物件封裝好後，帶入頁面，視窗或者片段的切換函示之中，來進行資料傳遞，類似Android中的Intent功能!!
-</h4><br>
-  ${glitter.share.code.js(`    //將資料進行key和value封裝後進行傳遞
-    var obj={
-    getData:function (text){
-    alert("Message Callback"+text)},
-    putData:'You love me?'}
 
-    //切換片段
-    glitter.changeFrag(document.getElementById("MyFrag"),'../Frag/MyFrag.html','MyFrag',obj)
-    //切換頁面
-    glitter.changePage('page/SecPage.html','SecPage.html',true,obj)
-    //打開視窗
-    glitter.openDiaLog('dialog/HelloWorld.html','HelloWorld',true,true,obj,function (){})
+
+    lifeCycle.onCreateView = function () {
+        // bindView()
+        return `
+            <h3 style="font-size: 39px;font-weight: 400;">雙向綁定</h3>
+            <h4>Glitter支援MVVM設計模式，透過添加bindView函式將你的資料和畫面進行綁定，當資料發生變動時，畫面也會同步進行重繪，當使用者觸發事件時，也能同步更改資料!
+            </h4>
+ <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
+  <span><h3 style="color: #c41b1b;">導入</h3></span>
+   <span>在Head中加入Glitter控制實例</span>
+   <br> <br>
+  ${glitter.share.code.js(`   &lt;script src="../glitterBundle/ControlInstance.js">&lt;/script>
   `)}
-<span><h3 style="color: #c41b1b;">取得參數</h3></span>
-  <span style="">從gbundle之中獲取資料</span><br><br>
-  ${glitter.share.code.js(`   //從gBundle中撈取資料
-   alert(gBundle.putData)
-   //回調函式
-   gBundle.getData('Yes i love you!!')
+<span><h3 style="color: #c41b1b;">ViewBinding</h3></span>
+  <span style="">創建一個DIV區塊並且定義ID名稱，執行bindView函式掛載至DOM中，
+  在下方範例中，我創建一個obj名為viewData其中包函text的宣告內容，並且和名為myBindId的DIV物件進行綁定，當我更改
+  viewData中的text內容，會自動回調bindView中的view函式，將DIV區塊進行畫面上的重繪!</span><br><br>
+  ${glitter.share.code.js(`var viewData = {text: 'sampleText'}
+
+    lifeCycle.onCreateView=function (){ return
+     \`&lt;div id="myBindId">&lt;/div>\`;
+     }
+
+
+
+     lifeCycle.onCreate=function(){
+      //調用BindView函式綁定DIV區塊
+     bindView({
+            bind: 'myBindId',
+            view: function () {
+                return
+                \`&lt;div style="width: 100%;display: flex;flex-direction: column;height: 200px;">
+        &lt;div style="width: 40px;height: 40px;background-color: black;" onclick="
+\${event(function () {
+                    viewData.text = "hello World"
+                })}
+">
+&lt;/div>
+&lt;h3 style="color: black;margin: 0 0 0 10px;font-size: 15px;">\${viewData.text}&lt;/h3>
+\`
+            },
+            obj:[{obj:viewData,key:"text"}]
+        })
+     }
   `)}
 <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
 `

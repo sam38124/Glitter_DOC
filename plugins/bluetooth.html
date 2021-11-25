@@ -39,13 +39,6 @@
         background-color: transparent;
     }
 
-    span {
-        font-size: 15px;
-        letter-spacing: 1px;
-        color: #233659;
-        font-weight: 600;
-    }
-
     .js {
         text-align: left;
     }
@@ -65,9 +58,9 @@ a{
     }
     lifeCycle.onCreateView = function () {
         return `
-        <h3 style="font-size: 39px;font-weight: 400;">Bluetooth<br><div style="display: flex;height: 50px;align-items: center;"><span>\t\tSupport</span><img style="width: 25px;height: 25px;margin-left: 10px;" src="../img/android.png">
+        <h3 style="font-size: 39px;font-weight: 400;">藍芽插件<br><div style="display: flex;height: 50px;align-items: center;"><span style="font-size: 15px;">\t\tSupport</span><img style="width: 25px;height: 25px;margin-left: 10px;" src="../img/android.png">
         <img style="width: 25px;height: 25px;margin-left: 5px;" src="../img/ios.png"></div></h3>
-<h3 style="color: #c41b1b;">Android Config</h3><br>
+<h3 style="color: #c41b1b;">Android 配置</h3><br>
  <span>Add into your build.gradle</span>
    <br>  <br>
  ${glitter.share.code.kotlin(`allprojects {
@@ -78,20 +71,20 @@ a{
 \t}
 `)}
   <br>  <br>
-<span>Add into your dependencies</span>
+<span>添加你的依賴</span>
    <br>  <br>
    ${glitter.share.code.div(`<a style="color: dodgerblue;cursor: pointer;" href="https://jitpack.io/#sam38124/Glitter_Plugin_Bluetooth" target="_blank">https://jitpack.io/#sam38124/Glitter_Plugin_Bluetooth</a>
 `)}<br>
-   <span>Add into your application</span><br><br>
-      ${glitter.share.code.kotlin(`Glitter_BLE(applicationContext).create()
+   <span>於Application中進行引用</span><br><br>
+      ${glitter.share.code.kotlin(` Glitter_BLE(applicationContext).create()
 `)}<br>
    <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
-<h3 style="color: #c41b1b;">IOS Config</h3><br>
- <span>Add into your Xcode</span>
+<h3 style="color: #c41b1b;">IOS 配置</h3><br>
+ <span>將Swift Package導入到Xcode</span>
    <br>  <br>
  ${glitter.share.code.div(`<a style="color: dodgerblue;" href="https://github.com/sam38124/Glitter_IOS_Plugin_Bluetooth" target="_blank">https://github.com/sam38124/Glitter_IOS_Plugin_Bluetooth</a>
 `)} <br>
-  <span>Code initial</span><br><br>
+  <span>創建實例並且啟用</span><br><br>
       ${glitter.share.code.swift(`Glitter_BLE.getInstance().create()
 `)}<br>
     <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>

@@ -13,9 +13,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"></script>
 </head>
 <style>
-    html{
+    html {
         user-select: text;
-        -webkit-user-select:text;
+        -webkit-user-select: text;
         height: 100%;
         background-color: transparent;
         width: calc(100% - 20px);
@@ -25,44 +25,69 @@
         padding-top: 50px !important;
 
     }
-    body{
+
+    body {
         width: 100%;
         transform: translateX(-50%);
         left: 50%;
         position: relative;
         user-select: text;
-        -webkit-user-select:text;
+        -webkit-user-select: text;
         max-width: 800px;
         height: 100%;
         background-color: transparent;
     }
-    .js{
+
+
+
+    .js {
         text-align: left;
+    }
+    h4{
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        margin: 5px;
+        line-height: 25px;
     }
 </style>
 <body>
 <script>
-    lifeCycle.onCreate=function (){
+    lifeCycle.onCreate = function () {
         hljs.highlightAll();
-        glitter.closeDiaLog()
+
+
     }
-    lifeCycle.onCreateView=function (){
+    lifeCycle.onCreateView = function () {
         return `
-            <h3 style="font-size: 39px;font-weight: 400;">Dialog</h3>
+            <h3 style="font-size: 39px;font-weight: 400;">View的繪製</h3>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
-  <h4><h3 style="color: #c41b1b;">提示窗</h3></h4>
-  <span style="color: #2a93b9;">參數:(link,tag,swipe,cancelable,obj,dismiss)</span><br><br>
-          <span style="color: #0062c0;">-swipe</sapn><span>-(Boolean) 背景透明</span><br><br>
-          <span style="color: #0062c0;">-cancelable</sapn><span>-(True or False) Click to close.</span><br><br>
-            <span style="color: #0062c0;">-obj</sapn><span>-The data waht you wnat to transfer for this page.</span><br><br>
-             <span style="color: #0062c0;">-dismiss</sapn><span>-Will callBack when the dialog close.</span><br><br>
-  ${glitter.share.code.js(` glitter.openDiaLog('dialog/HelloWorld.html','HelloWorld',true,true,{},function (){})
+  <span><h3 style="color: #c41b1b;">Import</h3></span>
+   <span>在Head中加入Glitter控制實例</span>
+   <br> <br>
+  ${glitter.share.code.js(`   &lt;script src="../glitterBundle/ControlInstance.js">&lt;/script>
+  `)}
+<span><h3 style="color: #c41b1b;">生命週期</h3></span>
+  <span style="">利用生命週期來管理你的頁面</span><br><br>
+  ${glitter.share.code.js(`   //當頁面被創建時會先呼叫，Return Html來返回你的畫面
+    lifeCycle.onCreateView=function (){ return
+     \`&lt;h3 style="font-size: 39px;font-weight: 400;">
+     View的繪製&lt;/h3>\`;
+     }
+    //當頁面創建完畢時呼叫
+    lifeCycle.onCreate=function (){
+    //Your Code
+    }
+    //當頁面暫停時呼叫
+    lifeCycle.onPause=function (){
+    //Your Code
+    }
+    //當頁面要被移除堆棧時呼叫
+    lifeCycle.onDestroy=function (){
+    //Your Code
+    }
   `)}
 <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
-<span><h3 style="color: #c41b1b;">Close Dialog</h3></span>
-  <span style="color: #2a93b9;">Parameter:(tag)</span><br><br>
-  <span style="color: #0062c0;">-Tag</sapn><span>-(Option) if undefined will close all dialog</span><br><br>
-  <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
 `
     }
 

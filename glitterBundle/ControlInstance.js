@@ -2605,25 +2605,14 @@ function getGlitter() {
         return tglitter
     }
     var parent = window.parent
-    while (parent.rootGlitter === undefined) {
-        parent = parent.window.parent
+    if(parent.glitter){
+        tglitter = parent.glitter
+    }else{
+        tglitter = parent.rootGlitter
     }
-    tglitter = parent.rootGlitter
     return tglitter
 }
 
-//取得MainActivity
-function rootActivity() {
-    if (rparent !== undefined) {
-        return rparent
-    }
-    var parent = window.parent
-    while (parent.rootGlitter === undefined) {
-        parent = parent.window.parent
-    }
-    rparent = parent
-    return parent
-}
 
 //取得此畫面的Tag
 function getTag() {
