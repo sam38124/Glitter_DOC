@@ -116,11 +116,14 @@
         width: 0;
         display: none;
     }
+    .github i{
+        display: none;
+    }
 }
 
 @media screen and (min-width: 769px) {
-    .github i{
-        display: none;
+    .fas{
+        display: none !important;
     }
     .github {
         width: 400px;
