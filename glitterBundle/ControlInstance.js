@@ -2605,14 +2605,25 @@ function getGlitter() {
         return tglitter
     }
     var parent = window.parent
-    if(parent.glitter){
-        tglitter = parent.glitter
-    }else{
-        tglitter = parent.rootGlitter
+    while (parent.rootGlitter === undefined) {
+        parent = parent.window.parent
     }
+    tglitter = parent.rootGlitter
     return tglitter
 }
 
+//取得MainActivity
+function rootActivity() {
+    if (rparent !== undefined) {
+        return rparent
+    }
+    var parent = window.parent
+    while (parent.rootGlitter === undefined) {
+        parent = parent.window.parent
+    }
+    rparent = parent
+    return parent
+}
 
 //取得此畫面的Tag
 function getTag() {
@@ -2878,10 +2889,13 @@ var bindViewList = {}
 
 function bindView(map) {
     bindViewList[map.bind] = map.view
-    if(map.obj){
-        map.obj.map(function (data){
+    if(map.dataList){
+        map.dataList.map(function (data){
             addObserver(data,function (){notifyDataChange(map.bind)})
         })
+    }
+    if(document.getElementById(map.bind)){
+        $(`#${map.bind}`).html(map.view())
     }
     return map.view()
 }

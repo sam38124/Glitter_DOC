@@ -58,13 +58,14 @@
         margin: 5px;
         line-height: 25px;
     }
+    span{
+        color: #1a4064;
+    }
 </style>
 <body>
 <script>
     lifeCycle.onCreate = function () {
         hljs.highlightAll();
-
-
     }
 
 
@@ -84,31 +85,36 @@
   <span style="">創建一個DIV區塊並且定義ID名稱，執行bindView函式掛載至DOM中，
   在下方範例中，我創建一個obj名為viewData其中包函text的宣告內容，並且和名為myBindId的DIV物件進行綁定，當我更改
   viewData中的text內容，會自動回調bindView中的view函式，將DIV區塊進行畫面上的重繪!</span><br><br>
+    <span style="color: #2a93b9;">參數:(bind,view,event,dataList)</span><br><br>
+          <span style="color: #0062c0;">[bind]</sapn><span>-調用BindView函式綁定DIV區塊</span><br><br>
+          <span style="color: #0062c0;">[view]</sapn><span>-返回你的Html樣板字串.</span><br><br>
+            <span style="color: #0062c0;">[event]</sapn><span>-使用\${event(function () {})}來綁定事件.</span><br><br>
+             <span style="color: #0062c0;">[dataList]</sapn><span>-將要監聽的物件和變數加入陣列中.</span><br><br>
   ${glitter.share.code.js(`var viewData = {text: 'sampleText'}
 
     lifeCycle.onCreateView=function (){ return
      \`&lt;div id="myBindId">&lt;/div>\`;
      }
 
-
-
      lifeCycle.onCreate=function(){
-      //調用BindView函式綁定DIV區塊
      bindView({
+            //你要綁定的DIV
             bind: 'myBindId',
+            //返回html樣板字串
             view: function () {
                 return
-                \`&lt;div style="width: 100%;display: flex;flex-direction: column;height: 200px;">
-        &lt;div style="width: 40px;height: 40px;background-color: black;" onclick="
+                \`&lt;div>
+        &lt;div  onclick="
 \${event(function () {
                     viewData.text = "hello World"
                 })}
-">
+">點我更改字串&lt;/div>
+&lt;h3>\${viewData.text}&lt;/h3>
 &lt;/div>
-&lt;h3 style="color: black;margin: 0 0 0 10px;font-size: 15px;">\${viewData.text}&lt;/h3>
 \`
             },
-            obj:[{obj:viewData,key:"text"}]
+            //將要監聽變化的物件變數加入到dataList中
+            dataList:[{obj:viewData,key:"text"}]
         })
      }
   `)}
