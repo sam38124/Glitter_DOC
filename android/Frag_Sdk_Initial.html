@@ -86,7 +86,7 @@
     override fun onCreate() {
         super.onCreate()
         //設定你的專案路徑
-        GlitterActivity.setUp("file:///android_asset/appData",appName = "appData")
+        GlitterActivity.setUp("file:///android_asset/appData",appName = "appData",parameter="?mydata=data")
         //取得裝置類型
         GlitterActivity.addJavacScriptInterFace(JavaScriptInterFace("getDeviceType"){
             request ->

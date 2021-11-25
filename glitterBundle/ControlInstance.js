@@ -2756,7 +2756,6 @@ glitter.closeDiaLogWithTag(getTag())
     }
     try {
         console.log("switchTo->" + location.href)
-        addScript()
         lifeCycle.onCreate()
         glitter.changeWait()
         glitter.changeWait = function () {
