@@ -122,7 +122,7 @@
 }
 
 @media screen and (min-width: 769px) {
-    .fas{
+    .fa-bars{
         display: none !important;
     }
     .github {
