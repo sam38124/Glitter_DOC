@@ -100,10 +100,6 @@
         box-sizing: border-box;
 
     }
-    #frag {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
 
     #sample {
         width: 0;
@@ -146,10 +142,6 @@
         height: 100%;
     }
 
-    #frag {
-        margin-left: 50px;
-        margin-right: 50px;
-    }
 
     .navBar {
         background-color: #F9F9F9;
