@@ -22,20 +22,18 @@
     }
     lifeCycle.onCreateView = function () {
         return `
-        <h3 style="font-size: 39px;font-weight: 400;">資料庫存取<br><div style="display: flex;height: 50px;align-items: center;"><span>\t\tSupport</span><img style="width: 25px;height: 25px;margin-left: 10px;" src="../img/android.png">
+        <h3 style="font-size: 39px;font-weight: 400;">檔案資料夾存取<br><div style="display: flex;height: 50px;align-items: center;"><span>\t\tSupport</span><img style="width: 25px;height: 25px;margin-left: 10px;" src="../img/android.png">
         <img style="width: 25px;height: 25px;margin-left: 5px;" src="../img/ios.png"></div></h3>
     <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 30px;"></div>
 <h4 style="color: darkred;">無須添加額外插件，導入Glitter即可使用．</h4><br>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-bottom: 20px;"></div>
-<span>執行資料庫語法</span>
+<span>判斷檔案是否存在</span>
 
  <br><br>
 
-  ${glitter.share.code.js(`  //string為sql語法
-  //name為資料庫名稱，(當資料庫不存在時則會進行創建)
-       glitter.runJsInterFace("DataBase_exSql",{
-                        string:text,
-                        name:dataBase
+  ${glitter.share.code.js(`  //route為檔案路徑
+       glitter.runJsInterFace("FileManager_checkFileExists",{
+                        route:text
                     },function (response){
                         if(response.result){
                             success()
@@ -45,56 +43,41 @@
                     })
 `)}
  <br><br>
-<span>查詢資料庫</span>
-
+<span>下載檔案至檔案路徑</span>
  <br><br>
-  ${glitter.share.code.js(`  //string為sql語法
-  //name為資料庫名稱，(當資料庫不存在時則會進行創建)
-       glitter.runJsInterFace("DataBase_Query",
-            {string: text, name: dataBase},
+  ${glitter.share.code.js(` //timeOut單位為秒
+       glitter.runJsInterFace("FileManager_downloadFile",
+            {
+             url:webUrl,
+             timeOut:10,
+             route:fileRoute
+            },
             function (response) {
                 if (response.result) {
-                    success(response.data)
+                    success()
                 } else {
                     error()
                 }
             })
 `)}
  <br><br>
-<span>從Assets中預載資料庫</span>
+<span>取得檔案</span>
 
  <br><br>
-  ${glitter.share.code.js(`  //rout為要預載的檔案路徑[以Glitter專案包作為相對路徑，例："database/test.db"]
-  //name為資料庫名稱，(當資料庫不存在時則會進行創建，存在則會覆蓋)
-       glitter.runJsInterFace("DataBase_InitByAssets",{
-                        rout:rout,
-                        name:dataBase
+  ${glitter.share.code.js(`  //type為檔案讀取方式["hex","bytes","text"]
+       glitter.runJsInterFace("FileManager_getFile",{
+                        route:fileRoute,
+                        type:"hex"
                     },function (response){
                         if(response.result){
-                            success()
+                            success(response.data)
                         }else{
                             error()
                         }
                     })
 `)}
  <br><br>
-<span>從Android和IOS的專案檔案夾中進行預載</span>
 
- <br><br>
-  ${glitter.share.code.js(`  //rout為要預載的檔案路徑[以Android和IOS專案包作為相對路徑{filesDir}]
-  //name為資料庫名稱，(當資料庫不存在時則會進行創建，存在則會覆蓋)
-       glitter.runJsInterFace("DataBase_InitByLocal",{
-                        rout:rout,
-                        name:dataBase
-                    },function (response){
-                        if(response.result){
-                            success()
-                        }else{
-                            error()
-                        }
-                    })
-`)}
- <br>
 `
     }
 
