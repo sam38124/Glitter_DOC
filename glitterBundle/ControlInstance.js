@@ -2605,25 +2605,14 @@ function getGlitter() {
         return tglitter
     }
     var parent = window.parent
-    while (parent.rootGlitter === undefined) {
-        parent = parent.window.parent
+    if(parent.glitter){
+        tglitter = parent.glitter
+    }else{
+        tglitter = parent.rootGlitter
     }
-    tglitter = parent.rootGlitter
     return tglitter
 }
 
-//取得MainActivity
-function rootActivity() {
-    if (rparent !== undefined) {
-        return rparent
-    }
-    var parent = window.parent
-    while (parent.rootGlitter === undefined) {
-        parent = parent.window.parent
-    }
-    rparent = parent
-    return parent
-}
 
 //取得此畫面的Tag
 function getTag() {
@@ -2642,34 +2631,38 @@ function addCss(fileName) {
 
 //取得夾帶的物件
 function getObject() {
-    if (getUrlParameter("naviGation") === "true") {
-        return glitter.naviGationObj
-    }
-    var pageIndex = parseInt(getUrlParameter('pageIndex'))
-    //console.log('pageIndex'+pageIndex+'tag'+getTag())
-    for (var a = 0; a < glitter.dialog.length; a++) {
-        //console.log(glitter.dialog[a].pageIndex)
-        if (glitter.dialog[a].pageIndex === pageIndex) {
-            return glitter.dialog[a].obj
+    try {
+        if (getUrlParameter("naviGation") === "true") {
+            return glitter.naviGationObj
         }
-    }
-    for (var i = 0; i < glitter.iframe.length; i++) {
-        //console.log(glitter.iframe[i].pageIndex)
-        if (glitter.iframe[i].pageIndex === pageIndex) {
-            return glitter.iframe[i].obj
+        var pageIndex = parseInt(getUrlParameter('pageIndex'))
+        //console.log('pageIndex'+pageIndex+'tag'+getTag())
+        for (var a = 0; a < glitter.dialog.length; a++) {
+            //console.log(glitter.dialog[a].pageIndex)
+            if (glitter.dialog[a].pageIndex === pageIndex) {
+                return glitter.dialog[a].obj
+            }
         }
-    }
-    for (var c = 0; c < glitter.ifrag.length; c++) {
-        //console.log(glitter.ifrag[c].pageIndex)
-        if (glitter.ifrag[c].pageIndex === pageIndex) {
-            return glitter.ifrag[c].obj
+        for (var i = 0; i < glitter.iframe.length; i++) {
+            //console.log(glitter.iframe[i].pageIndex)
+            if (glitter.iframe[i].pageIndex === pageIndex) {
+                return glitter.iframe[i].obj
+            }
         }
-    }
-    for (var c = 0; c < glitter.bottomSheet.length; c++) {
-        //console.log(glitter.bottomSheet[c].pageIndex)
-        if (glitter.bottomSheet[c].pageIndex === pageIndex) {
-            return glitter.bottomSheet[c].obj
+        for (var c = 0; c < glitter.ifrag.length; c++) {
+            //console.log(glitter.ifrag[c].pageIndex)
+            if (glitter.ifrag[c].pageIndex === pageIndex) {
+                return glitter.ifrag[c].obj
+            }
         }
+        for (var c = 0; c < glitter.bottomSheet.length; c++) {
+            //console.log(glitter.bottomSheet[c].pageIndex)
+            if (glitter.bottomSheet[c].pageIndex === pageIndex) {
+                return glitter.bottomSheet[c].obj
+            }
+        }
+    }catch (e){
+
     }
 }
 
@@ -2694,7 +2687,6 @@ var gBundle = getObject()
 
 var pageType = getUrlParameter("type")
 
-var publicBeans = glitter.publicBeans
 
 
 var lifeCycle = new LifeCycle()
@@ -2757,8 +2749,10 @@ glitter.closeDiaLogWithTag(getTag())
     try {
         console.log("switchTo->" + location.href)
         lifeCycle.onCreate()
-        glitter.changeWait()
-        glitter.changeWait = function () {
+        if(glitter){
+            glitter.changeWait()
+            glitter.changeWait = function () {
+            }
         }
     } catch (e) {
         //console.log(e)
