@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/xcode.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
     <link href="../css/article.css" rel="stylesheet">
 </head>
 
@@ -17,18 +19,20 @@
 <script>
   lifeCycle.onCreate=function (){
 hljs.highlightAll();
+
   }
   lifeCycle.onCreateView=function (){
     return `
-    <h3 style="font-size: 39px;font-weight: 400;margin-top: 10px;">關於Glitter</h3>
+<div class="inner">
+  <h3 style="font-size: 39px;font-weight: 400;margin-top: 10px;">關於Glitter</h3>
     <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
-    <h4>Glitter是永久開源的前端框架，此框架借鏡了React、Vue、SwiftUI、Android、WPA....的各項優點，
+    <h4>Glitter是開源的前端框架，此框架借鏡了React、Vue、SwiftUI、Android、WPA....的各項優點，
     也同時支援Android/IOS/Web的跨平台開發與MVVM設計模式，幫助開發者在最短的時間，同時構建三方的應用!</h4>
     <br>
     <h4>採用單一HTML，多個IFrame子頁的開發模式，讓每個頁面之間都能互相共享數據，減少資料的重複撈取動作，避免後端的資源浪費，與畫面加載導致的卡頓問題，
  類似Android的One Activity multiple Frgement的開發模式!</h4>
     <br><br>
-<h4 style="color: #1a4064;">程式流程圖</span>
+<h4 style="color: darkcyan;">程式流程圖</span>
  <br><br>
 <div style="width: 100%;background-color: whitesmoke;border-radius: 10px;border:1px solid lightgray;text-align: center;">
 <img src="../img/glitter_process.png" style="max-width: 100%;">
@@ -37,7 +41,7 @@ hljs.highlightAll();
 <h4>使用JavacScriptInterFace調用Android或IOS原生代碼</h4>
 <br>
 <div style="width: 100%;background-color: antiquewhite;border-radius: 10px;border:1px solid lightgray;text-align: left;">
-<h4 style="width: 100%;text-align: center;">Kotlin - 添加Javascript Interface</h4>
+<h4 style="width: 100%;text-align: center;color: black;">Kotlin - 添加Javascript Interface</h4>
 ${glitter.share.code.kotlin(`GlitterActivity.addJavacScriptInterFace(JavaScriptInterFace("getDeviceType"){
             request ->
             //K
@@ -49,7 +53,7 @@ ${glitter.share.code.kotlin(`GlitterActivity.addJavacScriptInterFace(JavaScriptI
             //Execute Callback
             request.finish()
         })`)}
-<h4 style="width: 100%;text-align: center;">Swift - 添加Javascript Interface</h4>
+<h4 style="width: 100%;text-align: center;color: black;">Swift - 添加Javascript Interface</h4>
 ${glitter.share.code.swift(`  glitterAct.addJavacScriptInterFace(interface: JavaScriptInterFace(functionName: "getDeviceType", function: {
             request in
             //Get data from javascript
@@ -61,7 +65,7 @@ ${glitter.share.code.swift(`  glitterAct.addJavacScriptInterFace(interface: Java
             //Execute Callback
             request.finish()
         }))`)}
-<h4 style="width: 100%;text-align: center;letter-spacing: 1px;">在JS中利用runJsInterFace執行原生代瑪</h4>
+<h4 style="width: 100%;text-align: center;letter-spacing: 1px;color: black;">在JS中利用runJsInterFace執行原生代瑪</h4>
 ${glitter.share.code.js(`glitter.runJsInterFace("getDeviceType",{
         message:'I am Glitter'
     },function (response){
@@ -69,6 +73,8 @@ ${glitter.share.code.js(`glitter.runJsInterFace("getDeviceType",{
     })
 `)}
 </div>
+</div>
+
 
     `
   }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="../glitterBundle/ControlInstance.js"></script>
-    <link href="../glitterBundle/bootstrap.css" rel="stylesheet">
+    <link href="../glitterBundle/bootstrap2.css" rel="stylesheet">
     <link href="../fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
     <link href="Doc_Index.css" rel="stylesheet">
 </head>
@@ -12,11 +12,13 @@
     html {
         width: calc(100%);
         height: 100%;
+        overflow-x: hidden;
         overflow-y: hidden;
         background-color: #2B333F;
     }
 
     body {
+        overflow-x: hidden;
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -55,7 +57,7 @@ if(closeNavigation){
             })}
 </div>`)
         })
-        glitter.changeFrag(document.getElementById("AppSample"), 'https://www.squarestudio.tw/Petstagram/home.html', 'Petstagram', {})
+        // glitter.changeFrag(document.getElementById("AppSample"), 'https://www.squarestudio.tw/Petstagram/home.html', 'Petstagram', {})
         glitter.changeFrag(document.getElementById('frag'), (defaultFrag) ? defaultFrag : '../frag/Frag_About.html', 'doc', {})
     }
     var closeNavigation=false
@@ -65,53 +67,17 @@ if(closeNavigation){
 <img src="../img/glitter.png" style="height: 40px;width: 40px;margin-left: 20px;border-radius: 50%;background-color: white;padding: 5px;">
 <h3 style="color:  white;font-size: 18px;margin-left: 10px;margin-top: 0;margin-bottom: 0;letter-spacing: 1px;">Glitter Docs V1.0</h3>
 <div style="flex: auto;"></div>
-<div class="github">
-<svg height="32" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="32" data-view-component="true" style="fill: white;margin-right: 10px;" class="octicon octicon-mark-github v-align-middle">
-    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-</svg>
-<i class="fas fa-bars" style="color: white;font-size: 20px;width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;" onclick="$('.navBar').toggle();closeNavigation=true;"></i>
-<span>View on Github</span>
+<i class="fas fa-bars d-flex d-sm-none" style="color: white;font-size: 20px;height: 100%;display: flex;align-items: center;justify-content: center;margin-right: 15px;" onclick="$('.navBar').toggle();closeNavigation=true;"></i>
 </div>
-</div>
-<div style="display: flex;flex: auto;width: 100%;height: 100%;background-color: white;">
-<div class="navBar">
+<div class="row h-100">
+<div class="navBar col-0  col-lg-2">
 <div id="itemList" style="width: 100%;height: calc(100% - 40px);overflow-y: scroll;">
 </div>
 </div>
-<div id="frag" style="width: 100%;height: calc(100% - 10px);">
+<div id="frag" class="h-100 col-12 p-0  col-lg-8 "></div>
+<div id="sample" class="col-2 p-0 d-none d-lg-block"></div>
 </div>
-<div id="sample" style="border-left: 1px solid lightseagreen;">
-<div style="height: 40px;margin: 0;">
-<h3 style="color: white;width: 100%;text-align: left;padding-left: 20px;">Developed by Glitter</h3>
-</div>
-<div style="width: 100%;height: 1px;background-color: white;margin: 0;" onshow="alert('ss')"></div>
-<select id="mySelect" style="width: 100%;height: 40px;" class="custom-select" onchange="
-${event(function (e) {
-          switch ($(e).val()){
-              case "0":
-                  glitter.changeFrag(document.getElementById("AppSample"), '../AppCase/Kmu/home.html', 'Kmu', {})
-                  break
-              case "1":
-                  glitter.changeFrag(document.getElementById("AppSample"), 'https://www.squarestudio.tw/Petstagram/home.html', 'Petstagram', {})
-                  break
-          }
-        })}
-" >
- <option value="1">Petstagram寵生活</option>
-  <option value="0">台灣高雄醫學大學校友會</option>
-</select>
-<div style="width: 100%;height: 700px;background-color: white;" id="AppSample"></div>
-<div style="width: 100%;height: calc(100% - 800px);background-color: #233659;text-align: left;">
-<div style="display: flex;height: 100%;text-align: left;padding-left: 20px;">
 
-<div style="
-display:flex;justify-content:center;flex-direction:column;height: 100%;color: white;font-size: 40px;font-weight: 500;letter-spacing: 1px;text-align: left;">Glitter
-<span style="font-size: 10px;">© N.C DESIGN | All rights reserved</span>
-</div>
-</div>
-</div>
-</div>
-</div>
     `
     }
 </script>

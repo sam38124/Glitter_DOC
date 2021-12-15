@@ -3,71 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-  <script src="../glitterBundle/ControlInstance.js"></script>
-    <link href="../glitterBundle/bootstrap2.css" rel="stylesheet" >
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+    <link href="../glitterBundle/bootstrap2.css" rel="stylesheet">
+    <link href="../fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/xcode.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"></script>
+    <link href="../css/article.css" rel="stylesheet">
 
 </head>
-<style>
-    html{
-        width: 100%;
-        height: 100%;
-        padding: 0;
-        margin: 0;
-    }
-    body{
-        width: 100%;
-        height: 100%;
-        padding: 0;
-        margin: 0;
-    linear-gradient(45deg, #9dc66b 5%, #4fa49a 30%, #4361c2);
-    }
-    .col{
-        background-color: rgba(222, 189, 189, 0.05);
-    }
-    .head{
 
-    }
-</style>
 <body>
-
 <script>
-    lifeCycle.onCreate=function () {
-        VANTA.BIRDS({
-            el: "BODY",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            backgroundColor: 0x7192f,
-            color1: 0xb35151,
-            birdSize: 1.10,
-            wingSpan: 40.00,
-            speedLimit: 3.00,
-            separation: 100.00,
-            alignment: 100.00,
-            cohesion: 100.00
-        })
+    lifeCycle.onCreate=function (){
+        hljs.highlightAll();
+
+
     }
     lifeCycle.onCreateView=function (){
         return `
-<div class="container" >
-<div class="vh-100 row  align-items-center" >
- <div class="text-white col bg-transparent">
-        <h1  style="font-size: 60px;"> 王建智 </h1>
-        <h3> 對元宇宙充滿憧憬的工程師</h3>
-        <div class="btn restart" style="display: none;"> Randomize! </div>
-      </div>
-</div>
-    </div>
+    <h3 id="info" style="font-size: 39px;font-weight: 400;margin-top: 10px;color: black;">開發者資訊</h3>
+    <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;"></div>
+<div class="row" style="background-image: url('../img/720.jpeg');justify-content: center;">
+  <div class="col-12 col-12-medium justify-content-center justify-content-sm-end align-items-center flex-column flex-sm-row" style="display:flex;border-radius: 10px;">
+   <img class="mx-sm-3 mx-0 mt-4 mt-sm-0" style="border-radius: 50%;max-width: 50%;max-height: 70%;" src="../img/ceo.jpeg" alt="">
+   <div style="display: flex;flex-direction: column;max-width: 100%;">
+      <h3 class="text-md-start text-center" style="margin-top: 20px;color: darkcyan;font-weight: 600;width: 100%;margin-bottom: 20px;b">專案領導者．王建智</h3>
+        <article style="font-weight: 400;font-size: 18px;letter-spacing: 1px;color: black;">萊恩設計的創辦人，同時也於上市櫃公司擔任軟體專案的技術領導與架構設計者，有十分熱忱的軟體專案技術追求，目前在業界已累積開發超過20樣上市產品，
+        為了加速產品開發流程與提升程式的可維護性，而創建了此框架．</article>
+        </div>
+        </div>
+        </div>
 
-        `
+    `
     }
+
 </script>
 </body>
 </html>

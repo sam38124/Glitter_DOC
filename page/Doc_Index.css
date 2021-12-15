@@ -101,26 +101,18 @@
 
     }
 
-    #sample {
-        width: 0;
-        display: none;
-    }
+
 }
 
 @media screen and (max-width: 900px) {
-    #sample {
-        width: 0;
-        display: none;
-    }
+
     .github i{
         display: none;
     }
 }
 
 @media screen and (min-width: 769px) {
-    .fa-bars{
-        display: none !important;
-    }
+
     .github {
         width: 400px;
         background-color: black;
@@ -135,20 +127,17 @@
     }
 
     #sample {
-        width: 400px;
-        min-width: 400px;
-        background-color: #1c1c1c;
         text-align: left;
         height: 100%;
     }
 
 
     .navBar {
-        background-color: #F9F9F9;
-        width: 250px;
+        background: floralwhite;
         min-width: 250px;
         height: 100%;
-        padding: 20px;
+        padding-top: 1%;
+        padding-left: 2%;
         box-sizing: border-box;
 
     }
@@ -240,7 +229,9 @@
     }
 
 }
-
+i{
+    font-size: 20px;
+}
 .custom-select {
     background: white none;
 }
