@@ -2901,14 +2901,14 @@ function notifyDataChange(id) {
 var clickID = 0
 var clickMap = {}
 
-function event(fun, clid) {
-    if (clid === undefined) {
+function event(fun, id) {
+    if (id === undefined) {
         clickID++
         clickMap[`${clickID}`] = fun
         return `clickMap['${clickID}'](this);`
     } else {
-        clickMap[clid] = fun
-        return `clickMap['${clid}'](this);`
+        clickMap[id] = fun
+        return `clickMap['${id}'](this);`
     }
 }
 

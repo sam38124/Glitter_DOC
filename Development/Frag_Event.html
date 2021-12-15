@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+    <link href="../glitterBundle/bootstrap.css" rel="stylesheet">
+    <link href="../fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/xcode.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"></script>
+    <link href="../css/article.css" rel="stylesheet">
+</head>
+<style>
+
+</style>
+<body>
+<script>
+    lifeCycle.onCreate = function () {
+        hljs.highlightAll();
+
+    }
+
+
+    lifeCycle.onCreateView = function () {
+        // bindView()
+        return `
+            <h3 style="font-size: 39px;font-weight: 400;">事件控制</h3>
+            <h4>你可以定義好你的事件，並將事件綁入使用者的觸發事件中．
+            </h4>
+ <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
+  <span><h3 style="color: #c41b1b;">導入</h3></span>
+   <span>在Head中加入Glitter控制實例</span>
+   <br> <br>
+  ${glitter.share.code.js(`   &lt;script src="../glitterBundle/ControlInstance.js">&lt;/script>
+  `)}
+<span><h3 style="color: #c41b1b;">Event</h3></span>
+  <span style="">創建一個Event，綁定到觸發事件的元件，另外也可以同時對多個元件綁入相同的事件，或者在程式中使用eval去觸發事件函示．</span><br><br>
+    <span style="color: #2a93b9;">參數:(fun,id)</span><br><br>
+          <span style="color: #0062c0;">[fun]</sapn><span>-此事件要執行的程式語法．</span><br><br>
+          <span style="color: #0062c0;">[ id ]</sapn><span>-可為空．如帶入的話則只會定義一個為此ID的事件，如創建新的事件則會覆蓋原先ID的事件，.</span><br><br>
+  ${glitter.share.code.js(`     //定義你的事件
+     var eventFunction=event(function () {
+           alert('Hello World')
+       },"事件名稱")
+
+    lifeCycle.onCreateView=function (){
+    //直接掛載至DOM元件
+     return \`&lt;div onclick='\${eventFunction}'>點擊元件一&lt;/div>
+             &lt;div onclick='\${eventFunction}'>點擊元件二&lt;/div>\`;
+     }
+
+     lifeCycle.onCreate=function(){
+     //或者使用eval呼叫事件
+     eval(eventFunction)
+     //更改事件方法，因為事件名稱相同，所以會取代原先事件方法
+     eventFunction=event(function () {
+           alert('Replace Event')
+       },"事件名稱")
+     }
+  `)}
+<div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+`
+    }
+
+</script>
+</body>
+</html>
+

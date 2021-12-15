@@ -43,6 +43,7 @@ ${text}
                 {title: '頁面的切換', link: '../Development/Frag_Switch_Page.html'},
                 {title: '片段與視窗', link: '../Development/Frag_Frag.html'},
                 {title: 'MVVM雙向綁定', link: '../Development/Frag_View_Binding.html'},
+                {title: '事件控制', link: '../Development/Frag_Event.html'},
                 {title: '資料的傳遞', link: '../Development/Frag_DataTransFer.html'}
             ]
         }, {
