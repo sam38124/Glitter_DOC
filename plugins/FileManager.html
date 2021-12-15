@@ -32,7 +32,7 @@
  <br><br>
 
   ${glitter.share.code.js(`  //route為檔案路徑
-       glitter.runJsInterFace("FileManager_checkFileExists",{
+       glitter.runJsInterFace("FileManager_CheckFileExists",{
                         route:text
                     },function (response){
                         if(response.result){
@@ -46,7 +46,7 @@
 <span>下載檔案至檔案路徑</span>
  <br><br>
   ${glitter.share.code.js(` //timeOut單位為秒
-       glitter.runJsInterFace("FileManager_downloadFile",
+       glitter.runJsInterFace("FileManager_DownloadFile",
             {
              url:webUrl,
              timeOut:10,
@@ -65,7 +65,7 @@
 
  <br><br>
   ${glitter.share.code.js(`  //type為檔案讀取方式["hex","bytes","text"]
-       glitter.runJsInterFace("FileManager_getFile",{
+       glitter.runJsInterFace("FileManager_GetFile",{
                         route:fileRoute,
                         type:"hex"
                     },function (response){
