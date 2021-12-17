@@ -25,23 +25,26 @@
         <h3 style="font-size: 39px;font-weight: 400;">原生調用<br><div style="display: flex;height: 50px;align-items: center;"><span style="font-size: 15px;">\t\tSupport</span><img style="width: 25px;height: 25px;margin-left: 10px;" src="../img/android.png">
         <img style="width: 25px;height: 25px;margin-left: 5px;" src="../img/ios.png"></div></h3>
     <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 30px;"></div>
-<h4 style="color: darkred;">無須添加額外插件，導入Glitter即可使用．</h4><br>
+<h4>在原生環境下，也能夠調用Glitter插件進行使用．</h4><br>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-bottom: 20px;"></div>
 <span>[Kotlin] - 在Android原生環境下調用插件</span>
  <br><br>
   ${glitter.share.code.kotlin(`
       GlitterInterFace.run("FileManager_CheckFileExists",
-       mutableMapOf("route:text" to "data.text")) {
+       mutableMapOf("route" to "data.text")) {
             Log.d("filexists",it["result"].toString())
         }
 `)}
  <br><br>
 <span>[IOS] - 在IOS原生環境下調用插件</span>
  <br><br>
-  ${glitter.share.code.js(`
-      GlitterInterFace.run("FileManager_CheckFileExists", mutableMapOf("route:text" to "data.text")) {
-            Log.d("filexists",it["result"].toString())
-        }
+  ${glitter.share.code.swift(`
+      GlitterFunction.run(functionName: "FileManager_CheckFileExists",
+          obj: [ "route" : "rout.txt"],
+       finish: {
+            response in
+            print("filexists-->"+response["result"])
+        })
 `)}
  <br><br>
 `
