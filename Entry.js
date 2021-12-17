@@ -49,6 +49,7 @@ ${text}
         }, {
             title: '原生組件', items: [
                 {title: '原生調用', link: '../plugins/NativeFunction.html'},
+                {title: '資料存取', link: '../plugins/DataManager.html'},
                 {title: '藍芽', link: '../plugins/bluetooth.html'},
                 {title: '資料庫', link: '../plugins/DataBase.html'},
                 {title: '檔案存取', link: '../plugins/FileManager.html'},
