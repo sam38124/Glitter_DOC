@@ -48,11 +48,13 @@ ${text}
             ]
         }, {
             title: '原生組件', items: [
+                {title: '原生調用', link: '../plugins/NativeFunction.html'},
                 {title: '藍芽', link: '../plugins/bluetooth.html'},
                 {title: '資料庫', link: '../plugins/DataBase.html'},
                 {title: '檔案存取', link: '../plugins/FileManager.html'},
                 {title: '聲音播放', link: '../plugins/SoundManager.html'},
-                {title: '權限請求', link: '../android/plugins/Permission.html'}
+                {title: '權限請求', link: '../android/plugins/Permission.html'},
+                {title: '定位功能', link: '../plugins/GpsManager.html'}
             ]
         }
     ]

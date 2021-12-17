@@ -37,7 +37,7 @@
         item.map(function (data) {
             $('#itemList').append(`<div class="folderClose ${(data.items.filter(function (dd) {
                 return dd.link === defaultFrag
-            }).length > 0) ? 'folderOpen' : ''}"  >
+            }).length > 0) ? 'folderOpen' : 'folderOpen'}"  >
 <div class="folder" onclick="$(this).parent().toggleClass('folderOpen');$(this).children('i').toggleClass('open');"><i class="fas fa-folder-open close ${(data.items.filter(function (dd) {
                 return dd.link === defaultFrag
             }).length > 0) ? 'open' : ''}"></i>${data.title}</div>
