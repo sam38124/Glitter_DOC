@@ -47,17 +47,13 @@ ${text}
                 {title: '資料的傳遞', link: '../Development/Frag_DataTransFer.html'}
             ]
         }, {
-            title: '通用插件', items: [
+            title: '原生組件', items: [
                 {title: '藍芽', link: '../plugins/bluetooth.html'},
                 {title: '資料庫', link: '../plugins/DataBase.html'},
-                {title: '檔案存取', link: '../plugins/FileManager.html'}
+                {title: '檔案存取', link: '../plugins/FileManager.html'},
+                {title: '聲音播放', link: '../plugins/SoundManager.html'},
+                {title: '權限請求', link: '../android/plugins/Permission.html'}
             ]
-        }, {
-            title: 'Android插件', items: [
-                {title: 'Permission', link: '../android/plugins/Permission.html'}
-            ]
-        }, {
-            title: 'IOS插件', items: []
         }
     ]
     glitter.setHome('page/Doc_Index.html', 'Doc_Index', {})
