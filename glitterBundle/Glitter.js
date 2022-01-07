@@ -198,6 +198,7 @@ class Glitter {
                 try {
                     $('#' + map.pageIndex).show();
                     document.getElementById(glitter.iframe[glitter.iframe.length - 2].pageIndex).contentWindow.lifeCycle.onPause();
+                    $('#'+glitter.iframe[glitter.iframe.length - 2].pageIndex).hide()
                     glitter.changePageListener(tag);
                 } catch (e) {
                 }

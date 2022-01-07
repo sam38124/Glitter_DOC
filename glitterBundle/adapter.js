@@ -33,6 +33,11 @@ function createLinearAdapter(map,finish){
             }
         }),
         InfiniteList: createReactClass({
+            componentDidMount: function () {
+                if(map.onCreate){
+                    map.onCreate()
+                }
+            },
             getInitialState: function () {
                 return {
                     isInfiniteLoading: false,
