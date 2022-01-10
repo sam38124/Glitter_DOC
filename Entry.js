@@ -37,9 +37,9 @@ ${text}
                 {title: 'IOS配置', link: '../ios/Frag_Sdk_Initial.html'}
             ]
         }, {
-            title: '開發組件', items: [
+            title: 'H5開發', items: [
                 {title: '進入點', link: '../Development/Frag_Entry.html'},
-                {title: '畫面的繪製', link: '../Development/Frag_View_Paint.html'},
+                {title: '產生頁面', link: '../Development/Frag_View_Paint.html'},
                 {title: '頁面的切換', link: '../Development/Frag_Switch_Page.html'},
                 {title: '片段與視窗', link: '../Development/Frag_Frag.html'},
                 {title: 'MVVM雙向綁定', link: '../Development/Frag_View_Binding.html'},

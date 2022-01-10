@@ -23,9 +23,6 @@
     return `
         <h3 style="font-size: 39px;font-weight: 400;">Entry point</h3>
 
- <h4>Glitter使用單一Html，多個Iframe子頁的開發模式，讓每個頁面之間都能互相共享數據，減少資料的重複撈取動作，避免後端的資源浪費，與畫面加載導致的卡頓問題，
- 類似Android的One Activity Multiple Frgement的開發模式!
- </h4>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
   <span><h3 style="color: #c41b1b;">Important</h3>於Entry.js中定義你要跳轉的畫面</span>
    <br>
@@ -42,7 +39,10 @@ function onCreate() {
     <br>
  ${glitter.share.code.js(`"use strict";
 function onCreate() {
-  //Determine which page you want to jump to!!
+
+  //當頁面切換時皆會帶入參數Page的UrlParameter
+  //你可以做一些資料比對，與認證行為後，來讓用戶跳轉至該畫面，
+  //或者導向登入頁面，諸如此類的行為
   switch (glitter.getUrlParameter("page")){
     case 'SecPage':
       glitter.setHome('page/SecPage.html','SecPage',{userID:glitter.getUrlParameter("userID")})
