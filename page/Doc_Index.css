@@ -7,32 +7,32 @@
         align-items: center;
         margin-top: 5px;
         margin-bottom: 0px;
-        color: #233659;
+        color: lightgray;
         font-weight: 600;
         cursor: pointer;
     }
 
     .item:hover {
-        color: dodgerblue !important;
+        color: lightcoral !important;
     }
 
     .open {
-        color: dodgerblue !important;
+        color: lightcoral !important;
         opacity: 1 !important;
     }
 
     .close {
-        color: dodgerblue;
+        color: lightcoral;
         margin-right: 10px;
         opacity: 0.4;
     }
 
     .doClose {
-        color: lightgray;
+        color: white;
     }
 
     .doOpen {
-        color: dodgerblue !important;
+        color: lightcoral !important;
     }
 
     .doIcon {
@@ -51,6 +51,7 @@
 
     .folderOpen {
         height: auto !important;
+        color: lightcoral !important;
     }
 
     .folder {
@@ -58,14 +59,14 @@
         margin: 0;
         display: flex;
         align-items: center;
-        color: #233659;
+        color: white;
         font-size: 12px;
         font-weight: 600;
         cursor: pointer;
     }
 
     .folder:hover {
-        color: dodgerblue !important;
+        color: lightcoral !important;
     }
     .github {
         min-width: 50px;
@@ -92,7 +93,7 @@
     }
     .navBar {
         position: absolute;
-        background-color: #F9F9F9;
+        background:#07192f;
         width: 250px;
         min-width: 250px;
         height: 100%;
@@ -133,13 +134,12 @@
 
 
     .navBar {
-        background: floralwhite;
+        background:#07192f;
         min-width: 250px;
         height: 100%;
         padding-top: 1%;
         padding-left: 2%;
         box-sizing: border-box;
-
     }
 
     .tit {
@@ -162,7 +162,7 @@
         height: 30px;
         overflow: hidden;
         font-size: 12px;
-        color: black;
+        color: white !important;
         margin: 10px 0px 0px;
 
     }
@@ -176,14 +176,15 @@
         margin: 0;
         display: flex;
         align-items: center;
-        color: #233659;
+        color: white;
         font-size: 12px;
         font-weight: 600;
         cursor: pointer;
     }
 
     .folder:hover {
-        color: dodgerblue !important;
+
+        color: lightcoral !important;
     }
 
     .item {
@@ -194,32 +195,32 @@
         align-items: center;
         margin-top: 5px;
         margin-bottom: 0px;
-        color: #233659;
+        color: lightgray;
         font-weight: 600;
         cursor: pointer;
     }
 
     .item:hover {
-        color: dodgerblue !important;
+        color: lightcoral !important;
     }
 
     .open {
-        color: dodgerblue !important;
+        color: lightcoral !important;
         opacity: 1 !important;
     }
 
     .close {
-        color: dodgerblue;
+        color: white;
         margin-right: 10px;
         opacity: 0.4;
     }
 
     .doClose {
-        color: lightgray;
+        color: white;
     }
 
     .doOpen {
-        color: dodgerblue !important;
+        color: lightcoral !important;
     }
 
     .doIcon {

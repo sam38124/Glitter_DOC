@@ -62,21 +62,18 @@
         super.onCreate()
         //設定你的專案路徑
         GlitterActivity.setUp("file:///android_asset/appData",appName = "appData",parameter="?mydata=data")
-        //取得裝置類型
-        GlitterActivity.addJavacScriptInterFace(JavaScriptInterFace("getDeviceType"){
-            request ->
-            //將資料帶入MutableMap
-            request.responseValue["data"]="Android"
-            //回調前端函式
-            request.finish()
-        })
     }}`)}
+         <br> <br>
+          <span>Or you can open your glitter project by intent</span>
+          <br>  <br>
+        ${glitter.share.code.kotlin(`GlitterActivity.setUp("file:///android_asset/sample",appName = "sample").open(activity)`)}
          <br> <br>
  <span>Step5. Copy your gliiter project to asset rout</span>
           <br>  <br>
             <img src="img/android_asset.png" style="width: 100%;border-radius: 10px;">
 `
     }
+
 </script>
 </body>
 </html>

@@ -12,6 +12,7 @@ html{
     padding-top: 20px !important;
     padding-left: 10px;
     padding-right: 10px;
+    overflow-x: hidden;
 }
 body{
     padding-left: 10px;
@@ -21,6 +22,7 @@ body{
     transform: translateX(-50%);
     left: 50%;
     box-sizing: border-box;
+    overflow-x: hidden;
     position: relative;
     overflow-y: scroll;
     user-select: text;

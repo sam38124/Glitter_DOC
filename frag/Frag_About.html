@@ -26,53 +26,25 @@ hljs.highlightAll();
 <div class="inner">
   <h3 style="font-size: 39px;font-weight: 400;margin-top: 10px;">關於Glitter</h3>
     <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
-    <h4>Glitter是開源的前端框架，此框架借鏡了React、Vue、SwiftUI、Android、WPA....的各項優點，
-    也同時支援Android/IOS/Web的跨平台開發與MVVM設計模式，幫助開發者在最短的時間，同時構建三方的應用!</h4>
+    <h4>Glitter是由github開源協作者<a href="https://github.com/sam38124" onclick="glitter.openNewTab('https://github.com/sam38124')"> Jianzhi.Wang</a>，所開發的開源的前端框架，此框架借鏡了React、Vue、SwiftUI、Android、WPA....的各項優點，
+    也同時支援Android/IOS/Web的跨平台開發與MVVM設計模式，幫助開發者在最短的時間，同時構建三方的應用．</h4>
     <br>
-    <h4>採用單一HTML，多個IFrame子頁的開發模式，讓每個頁面之間都能互相共享數據，減少資料的重複撈取動作，避免後端的資源浪費，與畫面加載導致的卡頓問題，
- 類似Android的One Activity multiple Frgement的開發模式!</h4>
-    <br><br>
-<h4 style="color: darkcyan;">程式流程圖</span>
- <br><br>
+    <div class="w-100" style="height: 1px;border-bottom: 1px solid darkred;margin-top: 10px;margin-bottom: 10px;"></div>
+    <h4 style="color: darkred;font-size: 30px;">※特點※</h4>
+     <div class="w-100" style="height: 1px;border-bottom: 1px solid darkred;margin-top: 10px;margin-bottom: 10px;"></div>
+    <h4><i class="fas fa-star" style="color: darkred;"></i> 採用單一HTML，多個IFrame子頁的堆棧管理模式，讓每個頁面之間都能互相共享數據，減少資料的重複撈取動作，避免後端的資源浪費，與畫面加載導致的卡頓問題，
+     類似Android的One Activity multiple Frgement的開發模式!</h4><br>
+    <h4><i class="fas fa-star" style="color: darkred;"></i> 支援MVVM設計模式與資料雙向綁定．</h4><br>
+    <h4><i class="fas fa-star" style="color: darkred;"></i> 使用原生開發也能調用Glitter插件．</h4><br>
+    <h4><i class="fas fa-star" style="color: darkred;"></i> 一次撰寫三方運行．</h4><br>
+    <h4><i class="fas fa-star" style="color: darkred;"></i> 透過JS Core進行原生代碼橋接，你可以為你的框架無限拓展其功能，使用官方提供的插件，或自行開發的插件達成所有原生開發需求．</h4><br>
+ <div class="w-100" style="height: 1px;border-bottom: 1px solid darkcyan;margin-top: 10px;margin-bottom: 10px;"></div>
+<h4 style="color: darkcyan;font-size: 30px;">※流程圖※</span>
+ <div class="w-100" style="height: 1px;border-bottom: 1px solid darkcyan;margin-top: 10px;margin-bottom: 10px;"></div>
 <div style="width: 100%;background-color: whitesmoke;border-radius: 10px;border:1px solid lightgray;text-align: center;">
 <img src="../img/glitter_process.png" style="max-width: 100%;">
 </div>
-<br><br>
-<h4>使用JavacScriptInterFace調用Android或IOS原生代碼</h4>
-<br>
-<div style="width: 100%;background-color: antiquewhite;border-radius: 10px;border:1px solid lightgray;text-align: left;">
-<h4 style="width: 100%;text-align: center;color: black;">Kotlin - 添加Javascript Interface</h4>
-${glitter.share.code.kotlin(`GlitterActivity.addJavacScriptInterFace(JavaScriptInterFace("getDeviceType"){
-            request ->
-            //K
-            val message=request.receiveValue["message"]
-            //Will response i am glitter
-            Log.e("message",message.toString())
-            //Response value to javascript
-            request.responseValue["data"]="Android"
-            //Execute Callback
-            request.finish()
-        })`)}
-<h4 style="width: 100%;text-align: center;color: black;">Swift - 添加Javascript Interface</h4>
-${glitter.share.code.swift(`  glitterAct.addJavacScriptInterFace(interface: JavaScriptInterFace(functionName: "getDeviceType", function: {
-            request in
-            //Get data from javascript
-            let message=request.receiveValue["message"]
-            //Will response i am glitter
-            print(message as! String)
-            //Response value to javascript
-            request.responseValue["data"]="IOS"
-            //Execute Callback
-            request.finish()
-        }))`)}
-<h4 style="width: 100%;text-align: center;letter-spacing: 1px;color: black;">在JS中利用runJsInterFace執行原生代瑪</h4>
-${glitter.share.code.js(`glitter.runJsInterFace("getDeviceType",{
-        message:'I am Glitter'
-    },function (response){
-        alert(\`Device type is \${response.data}\`)
-    })
-`)}
-</div>
+
 </div>
 
 
