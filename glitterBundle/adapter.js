@@ -1,6 +1,7 @@
 "use strict";
 //行式列表
-function createLinearAdapter(map,finish){
+function createLinearAdapter(map,finish,doc){
+    var docum=doc||document
     var adapter={
         spanCount:0,
         reactView: undefined,
@@ -101,7 +102,7 @@ function createLinearAdapter(map,finish){
                 }
                 return <Infinite
                     elementHeight={getElementHeights()}
-                    containerHeight={$(`#${adapter.elementId}`).height()}
+                    containerHeight={docum.querySelector(`#${adapter.elementId}`).clientHeight}
                     infiniteLoadBeginEdgeOffset={200}
                     onInfiniteLoad={this.handleInfiniteLoad}
                     loadingSpinnerDelegate={this.elementInfiniteLoad()}
@@ -144,10 +145,14 @@ function createLinearAdapter(map,finish){
         getItem:function (index){
             return adapter.item[index]
         },
-        notifyDataSetChange:function (){
-            adapter.reactView.setState({
-                item: adapter.item.map(function (data){return {elementHeight:100,data:data}})
-            })
+        notifyDataSetChange:function (index){
+            if(index){
+                adapter.listItemView[index].setState({})
+            }else{
+                adapter.reactView.setState({
+                    item: adapter.item.map(function (data){return {elementHeight:100,data:data}})
+                })
+            }
         },
         emptyView:function (){
             return ``
@@ -164,7 +169,7 @@ function createLinearAdapter(map,finish){
     if(map.getLoadingView){adapter.getLoadingView=map.getLoadingView}
     if(map.componentDidMount){adapter.componentDidMount=map.componentDidMount}
     setTimeout(function (){
-        ReactDOM.render(<adapter.InfiniteList/>, document.getElementById(adapter.elementId));
+        ReactDOM.render(<adapter.InfiniteList/>, docum.getElementById(adapter.elementId));
         if(finish){
             finish()
         }

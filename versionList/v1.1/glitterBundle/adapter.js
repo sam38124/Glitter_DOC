@@ -2,7 +2,6 @@
 //行式列表
 function createLinearAdapter(map,finish){
     var adapter={
-        spanCount:0,
         reactView: undefined,
         elementId: '',
         componentDidMount:function (pos){

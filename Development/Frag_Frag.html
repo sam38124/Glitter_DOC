@@ -28,8 +28,8 @@
   <span style="color: #2a93b9;">參數:(element,link,tag,obj)</span><br><br>
           <span style="color: #0062c0;">[element]</sapn><span>-你的DIV</span><br><br>
           <span style="color: #0062c0;">[link]</sapn><span>-相對於此頁面的URL</span><br><br>
-            <span style="color: #0062c0;">[obj]</sapn><span>-TAG標籤.</span><br><br>
-             <span style="color: #0062c0;">[dismiss]</sapn><span>-要傳遞的資料.</span><br><br>
+            <span style="color: #0062c0;">[tag]</sapn><span>-TAG標籤.</span><br><br>
+             <span style="color: #0062c0;">[obj]</sapn><span>-要傳遞的資料.</span><br><br>
   ${glitter.share.code.js(`  glitter.changeFrag(document.getElementById("MyFrag"),'../Frag/MyFrag.html','MyFrag',{
   data:'mydata'
   })
@@ -40,7 +40,7 @@
           <span style="color: #0062c0;">[swipe]</sapn><span>-背景透明</span><br><br>
           <span style="color: #0062c0;">[cancelable]</sapn><span>-點擊關閉.</span><br><br>
             <span style="color: #0062c0;">[obj]</sapn><span>-傳遞的資料.</span><br><br>
-             <span style="color: #0062c0;">[dismiss]</sapn><span>-當視窗關閉時回傳.</span><br><br>
+             <span style="color: #0062c0;">[dismiss]</sapn><span>-當視窗關閉時回調.</span><br><br>
   ${glitter.share.code.js(` glitter.openDiaLog('dialog/HelloWorld.html','HelloWorld',true,true,{},function (){})
   `)}
 <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>

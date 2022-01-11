@@ -1448,6 +1448,10 @@ class Glitter {
                 return "pc"
             }
         }
+        //取得無限列表佈局
+        this.createLinearAdapter=function (map,finish,doc){
+            return createLinearAdapter(map,finish,doc)
+        }
 
     }
 
