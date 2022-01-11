@@ -35,9 +35,60 @@
    <div class="w-100" style="height: 1px;border-bottom: 1px solid darkcyan;margin-top: 10px;margin-bottom: 10px;"></div>
     <h4 style="color: darkcyan;font-size: 30px;">※特點※</h4>
      <div class="w-100" style="height: 1px;border-bottom: 1px solid darkcyan;margin-top: 10px;margin-bottom: 10px;"></div><br>
-    <h4><i class="fas fa-star" style="color: red;"></i> 利用Glitter特有的無限列表技術，能不斷向下滑動，動態產生畫面與資料來源，與 Android 中的RecycleView 以及 IOS 中的 UITableView 概念相同．</h4><br>
-  ${glitter.share.code.js(`
+    <h4><i class="fas fa-star" style="color: red;"></i> 利用Glitter特有的無限列表技術，能不斷向下滑動，動態產生畫面與資料來源，與 Android 中的RecycleView 以及 IOS 中的 UITableView 概念相同．</h4>
+   <br> <br><span style="font-size: 20px;">橫向佈局</span><br><br>
+  ${glitter.share.code.js(`//橫向佈局
   var adapter = glitter.createLinearAdapter({
+        //初始資料
+        item: [],
+        //要綁定的DIV  *注意DIV需設定好寬度與高度*
+        id: 'view',
+        //回調產生該行列的畫面
+        onBindViewHolder: function (data, index) {
+            return \`&lt;div>\${data}&lt;/div>\`
+        },
+        //當該行加載完畢時觸發
+        componentDidMount: function (index) {
+
+        },
+        //取得新資料
+        getNewData: function (callback, listView) {
+            //模擬ajax網路請求
+            function getData() {
+                setTimeout(function () {
+                    //返回陣列資料
+                    callback(["1","2","3","4","5","6","7","8","9","10"])
+                    //假設資料已經50筆代表加載完畢時，調用adapter.isBtn = true，則不會在呼叫此函式
+                    if(adapter.getItems().length===50){
+                        adapter.isBtn=true
+                    }
+                },500)
+            }
+            getData()
+        },
+        //返回加載動畫
+        getLoadingView: function () {
+
+            return \`&lt;div  style="width: 100%;">
+         &lt;img src="../img/loading.gif"  background="transparent"  speed="1"  style="position:relative;width: 70px; height: 70px;transform: translateX(-50%);left: 50%;"  loop  autoplay>
+         &lt;h3 style="color: #323643;font-size: 13px;margin-top: 0px;width: 100%;text-align: center">請稍候...&lt;/h3>
+     &lt;/div>\`
+        },
+        //當資料為空，且adapter.isBtn為true時，返回無資料時要顯示的畫面．
+        emptyView:function () {
+            return \`&lt;div>沒有資料喔&lt;/div>\`
+        },
+        //當Render完畢時觸發
+        onCreate:function (){}
+    }, function () {
+        //當掛載完畢時觸發
+    },document)
+  `)}
+  <br><br><span  style="font-size: 20px;">網格佈局</span><br><br>
+    ${glitter.share.code.js(`  //網格佈局
+    var adapter2 = glitter.createGridAdapter({
+        //每行有個畫面
+        spanCount:2,
         //初始資料
         item: [],
         //要綁定的DIV  *注意DIV需設定好寬度與高度*

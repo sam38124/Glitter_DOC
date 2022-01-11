@@ -1448,9 +1448,13 @@ class Glitter {
                 return "pc"
             }
         }
-        //取得無限列表佈局
+        //取得無限列表佈局[LinearLayout]
         this.createLinearAdapter=function (map,finish,doc){
             return createLinearAdapter(map,finish,doc)
+        }
+        //取得無限列表佈局[GridLayout]
+        this.createGridAdapter=function (map,finish,doc){
+            return createGridAdapter(map,finish,doc)
         }
 
     }
