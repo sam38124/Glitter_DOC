@@ -46,12 +46,20 @@ ${glitter.print(function () {
                 var html = ''
                 data.items.map(function (data) {
                     html += `<div class="item ${(data.link === defaultFrag) ? 'doOpen' : ''}" onclick="
-$('.doOpen').removeClass('doOpen');$(this).addClass('doOpen');
-glitter.changeFrag(document.getElementById('frag'),'${data.link}','doc',{})
-glitter.setUrlParameter('frag','${data.link}')
-if(closeNavigation){
-    $('.navBar').toggle();
-}
+${event(function (e) {
+                        if(data.link.indexOf('github')!==-1){
+                            glitter.openNewTab('https://github.com/sam38124')
+                            return
+                        }
+
+                        $('.doOpen').removeClass('doOpen');$(e).addClass('doOpen');
+                        glitter.changeFrag(document.getElementById('frag'),data.link,'doc',{})
+                        glitter.setUrlParameter('frag',data.link)
+                        if(closeNavigation){
+                            $('.navBar').toggle();
+                        }
+                    })}
+
 "><i class="fas fa-file-alt doIcon" ></i>${data.title}</div>`
                 })
                 return html
@@ -66,7 +74,7 @@ if(closeNavigation){
         return `
 <div style="height: 60px;background-image:linear-gradient(45deg, #233659 325px, #4361c2 10%);display: flex;align-items: center;width: 100%;">
 <img src="../img/glitter.png" style="height: 40px;width: 40px;margin-left: 20px;border-radius: 50%;background-color: white;padding: 5px;">
-<h3 style="color:  white;font-size: 18px;margin-left: 10px;margin-top: 0;margin-bottom: 0;letter-spacing: 1px;">Glitter Docs V1.0</h3>
+<h3 style="color:  white;font-size: 18px;margin-left: 10px;margin-top: 0;margin-bottom: 0;letter-spacing: 1px;">Glitter Docs V2.0.2</h3>
 <div style="flex: auto;"></div>
 <i class="fas fa-bars d-flex d-sm-none" style="color: white;font-size: 20px;height: 100%;display: flex;align-items: center;justify-content: center;margin-right: 15px;" onclick="$('.navBar').toggle();closeNavigation=true;"></i>
 </div>

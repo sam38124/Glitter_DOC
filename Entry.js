@@ -31,7 +31,7 @@ ${text}
         {
             title: '開始', items: [
                 {title: '關於Glitter', link: '../frag/Frag_About.html'},
-                {title: '開發者資訊', link: 'https://www.squarestudio.tw/ncDesign/home?page=home'},
+                {title: '開發者資訊', link: 'https://github.com/sam38124'},
                 {title: '下載與引用', link: '../frag/Frag_Download_Project.html'},
                 {title: '安卓配置', link: '../android/Frag_Sdk_Initial.html'},
                 {title: 'IOS配置', link: '../ios/Frag_Sdk_Initial.html'}

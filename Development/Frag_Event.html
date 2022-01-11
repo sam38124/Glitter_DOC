@@ -42,7 +42,8 @@
           <span style="color: #0062c0;">[fun]</sapn><span>-此事件要執行的程式語法．</span><br><br>
           <span style="color: #0062c0;">[ id ]</sapn><span>-可為空．如帶入的話則只會定義一個為此ID的事件，如創建新的事件則會覆蓋原先ID的事件，.</span><br><br>
   ${glitter.share.code.js(`     //定義你的事件
-     var eventFunction=event(function () {
+     //e返回element組建，event返回事件．
+     var eventFunction=event(function (e,event) {
            alert('Hello World')
        },"事件名稱")
 
@@ -56,7 +57,8 @@
      //或者使用eval呼叫事件
      eval(eventFunction)
      //更改事件方法，因為事件名稱相同，所以會取代原先事件方法
-     eventFunction=event(function () {
+
+     eventFunction=event(function (e,event) {
            alert('Replace Event')
        },"事件名稱")
      }
