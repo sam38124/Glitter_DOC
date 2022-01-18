@@ -44,6 +44,43 @@
           <span style="color: #0062c0;">[view]</sapn><span>-返回你的Html樣板字串.</span><br><br>
             <span style="color: #0062c0;">[event]</sapn><span>-使用\${event(function () {})}來綁定事件.</span><br><br>
              <span style="color: #0062c0;">[dataList]</sapn><span>-將要監聽的物件和變數加入陣列中.</span><br><br>
+             <span><h3 style="color: #2a93b9;">Option1</h3>綁定於樣板字串中.</span><br><br>
+  ${glitter.share.code.js(`var viewData = {text: 'sampleText'}
+
+    lifeCycle.onCreateView=function (){ return
+     \`&lt;div id="myBindId">
+     \${
+     bindView({
+            //你要綁定的DIV
+            bind: 'myBindId',
+            //返回html樣板字串
+            view: function () {
+                return
+                \`&lt;div>
+        &lt;div  onclick="
+\${event(function () {
+                    viewData.text = "hello World"
+                })}
+">點我更改字串&lt;/div>
+&lt;h3>\${viewData.text}&lt;/h3>
+&lt;/div>
+\`
+            },
+            //將要監聽變化的物件變數加入到dataList中
+            dataList:[{obj:viewData,key:"text"}],
+            //當畫面渲染完畢時回調
+            onCreate:function(){}
+        })
+     }
+     &lt;/div>\`;
+     }
+
+     lifeCycle.onCreate=function(){
+
+     }
+  `)}
+<div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+ <span><h3 style="color: #2a93b9;">Option2</h3>在外部進行綁定.</span><br><br>
   ${glitter.share.code.js(`var viewData = {text: 'sampleText'}
 
     lifeCycle.onCreateView=function (){ return
@@ -68,14 +105,20 @@
 \`
             },
             //將要監聽變化的物件變數加入到dataList中
-            dataList:[{obj:viewData,key:"text"}]
+            dataList:[{obj:viewData,key:"text"}],
+            //當畫面渲染完畢時回調
+            onCreate:function(){}
         })
      }
   `)}
 <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+<h3 style="color: #c41b1b;">NotifyDataChange</h3></span>
+  <span style="">你也可以通過呼叫此函式，通知畫面進行重繪．</span><br><br>
+    <span style="color: #2a93b9;">參數:(bindID)</span><br><br>
+      ${glitter.share.code.js(`notifyDataChange(id)
+  `)}
 `
     }
-
 </script>
 </body>
 </html>
