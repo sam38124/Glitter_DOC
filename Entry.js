@@ -41,6 +41,7 @@ ${text}
                 {title: '進入點', link: '../Development/Frag_Entry.html'},
                 {title: '產生頁面', link: '../Development/Frag_View_Paint.html'},
                 {title: '頁面的切換', link: '../Development/Frag_Switch_Page.html'},
+                {title: '頁面控制', link: '../Development/Frag_Page_Getter.html'},
                 {title: '片段與視窗', link: '../Development/Frag_Frag.html'},
                 {title: '資料傳遞', link: '../Development/Frag_DataTransFer.html'},
                 {title: 'MVVM雙向綁定', link: '../Development/Frag_View_Binding.html'},

@@ -1456,7 +1456,16 @@ class Glitter {
         this.createGridAdapter=function (map,finish,doc){
             return createGridAdapter(map,finish,doc)
         }
-
+        //取得Page頁面
+        this.getPage=function (tag){
+            var page=undefined
+            for(var a=0;a<glitter.iframe.length;a++){
+                if(glitter.iframe[a].id===tag){
+                    return  document.getElementById(glitter.iframe[a].pageIndex).contentWindow
+                }
+            }
+            return page
+        }
     }
 
 }
