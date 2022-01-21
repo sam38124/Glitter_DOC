@@ -44,6 +44,7 @@ ${text}
                 {title: '頁面控制', link: '../Development/Frag_Page_Getter.html'},
                 {title: '片段與視窗', link: '../Development/Frag_Frag.html'},
                 {title: '資料傳遞', link: '../Development/Frag_DataTransFer.html'},
+                {title: '資料綁定', link: '../Development/Frag_DataBinding.html'},
                 {title: 'MVVM雙向綁定', link: '../Development/Frag_View_Binding.html'},
                 {title: '事件控制', link: '../Development/Frag_Event.html'},
                 {title: '無限列表', link: '../Development/Frag_InfiniateList.html'}
@@ -53,6 +54,7 @@ ${text}
             title: '原生開發', items: [
                 {title: '開發Glitter插件', link: '../plugins/Develop_My_Plugin.html'},
                 {title: '調用Glitter插件', link: '../plugins/NativeFunction.html'},
+                {title: '裝置資訊', link: '../plugins/DeviceInfo.html'},
                 {title: '資料存取', link: '../plugins/DataManager.html'},
                 {title: '藍芽', link: '../plugins/bluetooth.html'},
                 {title: '資料庫', link: '../plugins/DataBase.html'},
