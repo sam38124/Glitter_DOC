@@ -31,6 +31,7 @@ body{
     -webkit-user-select:text;
     max-width: 800px;
     height: 100%;
+
 }
 @media screen and (max-width: 769px) {
     html{
