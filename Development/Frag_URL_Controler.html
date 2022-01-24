@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+    <link href="../glitterBundle/bootstrap.css" rel="stylesheet">
+    <link href="../fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/xcode.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"></script>
+    <link href="../css/article.css" rel="stylesheet">
+</head>
+<style>
+
+</style>
+<body>
+<script>
+    lifeCycle.onCreate = function () {
+        hljs.highlightAll();
+    }
+
+
+    lifeCycle.onCreateView = function () {
+        // bindView()
+
+        return `
+            <h3 style="font-size: 39px;font-weight: 400;">URL控制器</h3>
+            <h4>控制URL參數內容，用在頁面刷新時判斷需要跳轉的頁面與參數取得．
+            </h4>
+ <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
+  <span><h3 style="color: #c41b1b;">導入</h3></span>
+   <span>在Head中加入Glitter控制實例</span>
+   <br> <br>
+  ${glitter.share.code.js(`   &lt;script src="../glitterBundle/ControlInstance.js">&lt;/script>
+  `)}
+<span><h3 style="color: #c41b1b;">GetUrlParameter</h3></span>
+    <span style="color: #2a93b9;">參數:(tag)</span><br><br>
+          <span style="color: #0062c0;">[tag]</sapn><span>-您要取得參數的標籤名稱．</span><br><br>
+  ${glitter.share.code.js(`  //取得現在的頁面
+  var a=  glitter.getUrlParameter('page')
+  alert(a)
+  `)}
+<div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+ <span><h3 style="color: #c41b1b;">SetUrlParameter</h3></span>
+    <span style="color: #2a93b9;">參數:(tag,value)</span><br><br>
+          <span style="color: #0062c0;">[tag]</sapn><span>-您要設定的參數的標籤名稱．</span><br><br>
+            <span style="color: #0062c0;">[value]</sapn><span>-您要設定的參數的內容．</span><br><br>
+  ${glitter.share.code.js(`  //設定name參數為12345
+  glitter.setUrlParameter('name','12345')
+  `)}
+<div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+`
+    }
+</script>
+</body>
+</html>
+

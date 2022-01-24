@@ -46,6 +46,7 @@ ${text}
                 {title: '資料傳遞', link: '../Development/Frag_DataTransFer.html'},
                 {title: '資料綁定', link: '../Development/Frag_DataBinding.html'},
                 {title: 'MVVM雙向綁定', link: '../Development/Frag_View_Binding.html'},
+                {title: 'URL控制', link: '../Development/Frag_URL_Controler.html'},
                 {title: '事件控制', link: '../Development/Frag_Event.html'},
                 {title: '無限列表', link: '../Development/Frag_InfiniateList.html'}
 

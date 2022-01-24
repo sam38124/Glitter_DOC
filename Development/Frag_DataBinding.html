@@ -23,12 +23,12 @@
     }
     lifeCycle.onCreateView = function () {
         return `
-            <h3 style="font-size: 39px;font-weight: 400;">資料綁定</h3>
+            <h3 style="font-size: 39px;font-weight: 400;">資料監聽</h3>
  <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
   <span><h3 style="color: #c41b1b;">進行綁定</h3></span>
-   <h4>
+   <span>
    你可以將你的物件進行綁定之後，當資料發生任何異動則會自動回調方法!!
-</h4><br>
+</span><br><br>
   ${glitter.share.code.js(`    //宣告mydata的obj
     var myData={name:'1234'}
     //將Function與mydata的name進行綁定
