@@ -57,7 +57,7 @@ ${text}
             ]
         },
         {
-            title: 'Android & IOS插件', items: [
+            title: 'Android & IOS 插件', items: [
                 {title: '開發Glitter插件', link: '../plugins/Develop_My_Plugin.html'},
                 {title: '調用Glitter插件', link: '../plugins/NativeFunction.html'},
                 {title: '裝置資訊', link: '../plugins/DeviceInfo.html'},
