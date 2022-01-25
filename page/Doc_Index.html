@@ -32,29 +32,31 @@
 </style>
 <body >
 <script>
-    var defaultFrag = (glitter.getUrlParameter('frag')) ? (glitter.getUrlParameter('frag')) : '../frag/Frag_About.html'
     var item = glitter.share.naviGation
     lifeCycle.onCreate = function () {
-        item.map(function (data) {
+        var scrollIntoView=undefined
+        item.map(function (data,index1) {
             $('#itemList').append(`<div class="folderClose ${(data.items.filter(function (dd) {
-                return dd.link === defaultFrag
+                return dd.link === glitter.getUrlParameter('frag')
             }).length > 0) ? 'folderOpen' : 'folderOpen'}"  >
 <div class="folder" onclick="$(this).parent().toggleClass('folderOpen');$(this).children('i').toggleClass('open');"><i class="fas fa-folder-open close ${(data.items.filter(function (dd) {
-                return dd.link === defaultFrag
+                return dd.link === glitter.getUrlParameter('frag')
             }).length > 0) ? 'open' : ''}"></i>${data.title}</div>
 ${glitter.print(function () {
                 var html = ''
-                data.items.map(function (data) {
-                    html += `<div class="item ${(data.link === defaultFrag) ? 'doOpen' : ''}" onclick="
+                data.items.map(function (data,index) {
+                    if(data.link === glitter.getUrlParameter('frag')){scrollIntoView=`${index1}_${index}`}
+                    html += `<div id="${index1}_${index}" class="item ${(data.link === glitter.getUrlParameter('frag')) ? 'doOpen' : ''}" onclick="
 ${event(function (e) {
                         if(data.link.indexOf('github')!==-1){
                             glitter.openNewTab('https://github.com/sam38124')
                             return
                         }
 
-                        $('.doOpen').removeClass('doOpen');$(e).addClass('doOpen');
-                        glitter.changeFrag(document.getElementById('frag'),data.link,'doc',{})
+                        // $('.doOpen').removeClass('doOpen');
+                        // $(e).addClass('doOpen');
                         glitter.setUrlParameter('frag',data.link)
+                        glitter.changePage('page/Doc_Index.html', data.title,true, data.link)
                         if(closeNavigation){
                             $('.navBar').toggle();
                         }
@@ -66,8 +68,16 @@ ${event(function (e) {
             })}
 </div>`)
         })
+        if(scrollIntoView){
+
+            setTimeout(function () {
+                $("#itemList").scrollTop($("#"+scrollIntoView).offset().top-50)
+            },1)
+
+        }
+        glitter.changeFrag(document.getElementById('frag'),gBundle, gBundle, {})
         // glitter.changeFrag(document.getElementById("AppSample"), 'https://www.squarestudio.tw/Petstagram/home.html', 'Petstagram', {})
-        glitter.changeFrag(document.getElementById('frag'), (defaultFrag) ? defaultFrag : '../frag/Frag_About.html', 'doc', {})
+
     }
     var closeNavigation=false
     lifeCycle.onCreateView = function () {

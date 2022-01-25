@@ -1,6 +1,7 @@
 "use strict";
 
 function onCreate() {
+
     glitter.share.code = {
         kotlin: function (text) {
             return this.getCode('kotlin', text)
@@ -38,12 +39,13 @@ ${text}
                 {title: '後端配置', link: '../frag/Frag_Back_Initial.html'}
             ]
         }, {
-            title: 'H5開發', items: [
+            title: '前端開發', items: [
                 {title: '進入點', link: '../Development/Frag_Entry.html'},
                 {title: '產生頁面', link: '../Development/Frag_View_Paint.html'},
                 {title: '頁面的切換', link: '../Development/Frag_Switch_Page.html'},
                 {title: '頁面控制', link: '../Development/Frag_Page_Getter.html'},
                 {title: '片段與視窗', link: '../Development/Frag_Frag.html'},
+                {title: '資料存取', link: '../Development/DataManager.html'},
                 {title: '資料傳遞', link: '../Development/Frag_DataTransFer.html'},
                 {title: '資料綁定', link: '../Development/Frag_DataBinding.html'},
                 {title: 'MVVM雙向綁定', link: '../Development/Frag_View_Binding.html'},
@@ -53,7 +55,8 @@ ${text}
             ]
         },{
             title: '後端開發', items: [
-                {title: '取得資料',link:''}
+                {title: '添加API',link:'../background/Frag_Api_Developer.html'},
+                {title: '資料庫控制',link:'../background/Frag_Api_Developer.html'}
             ]
         },
         {
@@ -61,7 +64,6 @@ ${text}
                 {title: '開發Glitter插件', link: '../plugins/Develop_My_Plugin.html'},
                 {title: '調用Glitter插件', link: '../plugins/NativeFunction.html'},
                 {title: '裝置資訊', link: '../plugins/DeviceInfo.html'},
-                {title: '資料存取', link: '../plugins/DataManager.html'},
                 {title: '藍芽', link: '../plugins/bluetooth.html'},
                 {title: '資料庫', link: '../plugins/DataBase.html'},
                 {title: '檔案存取', link: '../plugins/FileManager.html'},
@@ -71,7 +73,7 @@ ${text}
             ]
         }
     ]
-    glitter.setHome('page/Doc_Index.html', 'Doc_Index', {})
+    glitter.setHome('page/Doc_Index.html', 'Doc_Index', (glitter.getUrlParameter('frag')) ? glitter.getUrlParameter('frag') : '../frag/Frag_About.html')
 }
 
 

@@ -12,9 +12,9 @@
         cursor: pointer;
     }
 
-    .item:hover {
-        color: lightcoral !important;
-    }
+    /*.item:hover {*/
+    /*    color: lightcoral !important;*/
+    /*}*/
 
     .open {
         color: lightcoral !important;
@@ -65,9 +65,9 @@
         cursor: pointer;
     }
 
-    .folder:hover {
-        color: lightcoral !important;
-    }
+    /*.folder:hover {*/
+    /*    color: lightcoral !important;*/
+    /*}*/
     .github {
         min-width: 50px;
         width:auto;
@@ -182,10 +182,10 @@
         cursor: pointer;
     }
 
-    .folder:hover {
+    /*.folder:hover {*/
 
-        color: lightcoral !important;
-    }
+    /*    color: lightcoral !important;*/
+    /*}*/
 
     .item {
         height: 30px;
@@ -200,9 +200,9 @@
         cursor: pointer;
     }
 
-    .item:hover {
-        color: lightcoral !important;
-    }
+    /*.item:hover {*/
+    /*    color: lightcoral !important;*/
+    /*}*/
 
     .open {
         color: lightcoral !important;

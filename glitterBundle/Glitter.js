@@ -39,7 +39,8 @@ class Glitter {
         this.deviceTypeEnum = new AppearType();
         this.location = window.location;
         var getUrl = window.location; //公用變數
-
+        //堆棧紀錄
+        this.history = []
         this.publicBeans = {};
         this.share = {};
         this.baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1]; //Html類型
@@ -181,6 +182,7 @@ class Glitter {
         this.changePage = function (link, tag, goBack, obj) {
             var search = setSearchParam(removeSearchParam(window.location.search, "page"), "page", tag)
             try {
+                history.push({tag:tag,callback:function (){glitter.goBack()}})
                 window.history.pushState({}, document.title, search);
             } catch (e) {
             }
@@ -222,7 +224,7 @@ class Glitter {
                     ife = ife.concat(glitter.ifrag[a]);
                 }
             }
-
+            glitter.setUrlParameter('frag',link)
             glitter.ifrag = ife;
             var map = {};
             map.id = 'Frag-' + tag;
@@ -676,7 +678,7 @@ class Glitter {
             //console.log("closeApp")
             switch (glitter.deviceType) {
                 case appearType.Android:
-                   glitter.runJsInterFace("closeAPP",{},function (response){})
+                    glitter.runJsInterFace("closeAPP",{},function (response){})
                     break;
 
                 case appearType.Ios:
@@ -691,6 +693,10 @@ class Glitter {
 
 
         this.goBackOnRootPage = function () {
+            if(glitter.deviceType===glitter.deviceTypeEnum.Web){
+                console.log('window.history.back')
+                window.history.back()
+            }
         }; //返回首頁
 
 
@@ -865,54 +871,6 @@ class Glitter {
             }
         };
         /**
-         * 取得Browser 類型
-         * {android,mac,iphone,desktop}
-         * **/
-
-
-        this.getBrowserDeviceType = function () {
-            var a = navigator.userAgent;
-            var isAndroid = a.indexOf('Android') > -1 || a.indexOf('Adr') > -1; //android终端
-
-            var isiOS = !!a.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-
-            if (isAndroid) {
-                return "android";
-            }
-
-            if (isiOS) {
-                if(glitter.getBrowserFrom()==="pc"){
-                    return "mac";
-                }else{
-                    return "iphone";
-                }
-            }
-
-            return "desktop";
-        };
-        /**
-         * 開啟新視窗
-         * Android and Ios呼叫 ｗｅｂｖｉｅｗ
-         * */
-        this.openNewTab = function (link) {
-            switch (glitter.deviceType) {
-                case glitter.deviceTypeEnum.Web:
-                    window.open(link);
-                    break;
-
-                case glitter.deviceTypeEnum.Android:
-                    window.GL.openNewTab(link);
-                    break;
-
-                case glitter.deviceTypeEnum.Ios:
-                    glitter.runJsInterFace("intentWebview", {
-                        url: link
-                    }, function () {
-                    })
-                    break;
-            }
-        };
-        /**
          * 添加觀察者模式
          * */
         this.addObserver = function (map, obj, callback) {
@@ -959,45 +917,47 @@ class Glitter {
             }
         };
         /**
-         * 添加觀察者模式
-         * 當內容改變及互叫Observer
-         * */
-        this.addObjObserver = function (map, callback) {
-            if (map.GlitterJsonStringConverSion === undefined) {
-                map.GlitterJsonStringConverSion = JSON.parse(JSON.stringify(map));
+         * 取得Browser 類型
+         * {android,mac,iphone,desktop}
+         * **/
+        this.getBrowserDeviceType = function () {
+            var a = navigator.userAgent;
+            var isAndroid = a.indexOf('Android') > -1 || a.indexOf('Adr') > -1; //android终端
+
+            var isiOS = !!a.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            if (isAndroid) {
+                return "android";
             }
-
-            if (map.ObServerCallBack === undefined) {
-                map.ObServerCallBack = [];
-            }
-
-            map.ObServerCallBack = map.ObServerCallBack.concat(callback);
-            var keys = Object.keys(map);
-
-            for (var a = 0; a < keys.length; a++) {
-                let keyVa = keys[a];
-
-                if (keyVa !== 'GlitterJsonStringConverSion' && keyVa !== 'ObServerCallBack') {
-                    Object.defineProperty(map, keyVa, {
-                        get: function () {
-                            return map.GlitterJsonStringConverSion[keyVa];
-                        },
-
-                        set(v) {
-                            map.GlitterJsonStringConverSion[keyVa] = v;
-                            var workSuccess = [];
-                            this.ObServerCallBack.map(function (it) {
-                                try {
-                                    it(map["GlitterJsonStringConverSion"]);
-                                    workSuccess = workSuccess.concat(it);
-                                } catch (e) {
-                                }
-                            });
-                            this.ObServerCallBack = workSuccess;
-                        }
-
-                    });
+            if (isiOS) {
+                if(glitter.getBrowserFrom()==="pc"){
+                    return "mac";
+                }else{
+                    return "iphone";
                 }
+            }
+
+            return "desktop";
+        };
+        /**
+         * 開啟新視窗
+         * Android and Ios呼叫 ｗｅｂｖｉｅｗ
+         * */
+        this.openNewTab = function (link) {
+            switch (glitter.deviceType) {
+                case glitter.deviceTypeEnum.Web:
+                    window.open(link);
+                    break;
+
+                case glitter.deviceTypeEnum.Android:
+                    window.GL.openNewTab(link);
+                    break;
+
+                case glitter.deviceTypeEnum.Ios:
+                    glitter.runJsInterFace("intentWebview", {
+                        url: link
+                    }, function () {
+                    })
+                    break;
             }
         };
         /**
@@ -1089,47 +1049,11 @@ class Glitter {
         /**
          * Text ChangeListener
          * */
-
-
         this.addTextChangeListener = function (e, callback) {
             e.bind('input porpertychange', function () {
                 callback();
             });
         };
-
-        this.toAssetRoot = function (e) {
-            window.GL.toAssetRoot(e);
-        }; //檔案下載
-
-
-        this.downloadFile = function (serverRout, fileName, timeOut, callBack) {
-            let id = glitter.callBackId += 1;
-            glitter.callBackList.set(id, function (result) {
-                callBack(result);
-            });
-
-            switch (glitter.deviceType) {
-                case appearType.Web: {
-                    return;
-                }
-
-                case appearType.Android: {
-                    window.GL.downloadFile(serverRout, fileName, id, timeOut);
-                    return;
-                }
-
-                case appearType.Ios: {
-                    var map = {
-                        fileName: fileName,
-                        rout: serverRout,
-                        callback: id,
-                        timeOut: timeOut
-                    };
-                    window.webkit.messageHandlers.downloadFile.postMessage(JSON.stringify(map));
-                    break;
-                }
-            }
-        }; //重新加載Application
 
 
         this.reloadPage = function () {
@@ -1147,60 +1071,7 @@ class Glitter {
                     location.reload();
                     break;
             }
-        }; //取得檔案
-
-
-        this.getFile = function (fileName, type, callBack) {
-            let id = glitter.callBackId += 1;
-            glitter.callBackList.set(id, callBack);
-
-            switch (glitter.deviceType) {
-                case appearType.Web: {
-                    return;
-                }
-
-                case appearType.Android: {
-                    window.GL.getFile(fileName, type, id);
-                    return;
-                }
-
-                case appearType.Ios: {
-                    var map = {
-                        fileName: fileName,
-                        type: type,
-                        callback: id
-                    };
-                    window.webkit.messageHandlers.getFile.postMessage(JSON.stringify(map));
-                    break;
-                }
-            }
-        }; //判斷檔案是否存在
-
-
-        this.checkFileExists = function (fileName, callBack) {
-            let id = glitter.callBackId += 1;
-            glitter.callBackList.set(id, callBack);
-
-            switch (glitter.deviceType) {
-                case appearType.Web: {
-                    return;
-                }
-
-                case appearType.Android: {
-                    window.GL.checkFileExists(fileName, id);
-                    return;
-                }
-
-                case appearType.Ios: {
-                    var map = {
-                        fileName: fileName,
-                        callback: id
-                    };
-                    window.webkit.messageHandlers.checkFileExists.postMessage(JSON.stringify(map));
-                    break;
-                }
-            }
-        }; //Map資料Copy有則取代
+        };
 
 
         this.copyObj = function (copyTo, original) {
@@ -1392,12 +1263,22 @@ class Glitter {
             $('.c-bottom-sheet__list').css('height', `${hei}`)
         }
         //解析字串中的網址
-        this.urlify = function (text) {
-            var urlRegex = /(https?:\/\/[^\s]+)/g;
-            return text.replace(urlRegex, function (url) {
-                return `<a style="color: dodgerblue;" onclick="glitter.openNewTab('${url}')">${url}</a>`;
+        this.urlify = function (text,open) {
+            return text.replace(/(https?:\/\/[^\s]+)/g, function (url) {
+                if(open){
+                    return  open(url)
+                }else{
+                    return `<a style="color: dodgerblue;" onclick="glitter.openNewTab('${url}')">${url}</a>`;
+                }
+            }).replace(/(http?:\/\/[^\s]+)/g, function (url) {
+                if(open){
+                    return  open(url)
+                }else{
+                    return `<a style="color: dodgerblue;" onclick="glitter.openNewTab('${url}')">${url}</a>`;
+                }
             })
         }
+
         this.print = function (fun) {
             return fun()
         }
@@ -1460,9 +1341,9 @@ class Glitter {
         this.getPage=function (tag){
             var page=undefined
             for(var a=0;a<glitter.iframe.length;a++){
-              if(glitter.iframe[a].id===tag){
-                 return  document.getElementById(glitter.iframe[a].pageIndex).contentWindow
-              }
+                if(glitter.iframe[a].id===tag){
+                    return  document.getElementById(glitter.iframe[a].pageIndex).contentWindow
+                }
             }
             return page
         }
@@ -1595,12 +1476,12 @@ glitterInitial();
 function glitterInitial() {
     if (glitter.deviceType !== glitter.deviceTypeEnum.Android) {
         window.addEventListener("popstate", function (e) {
-            if (glitter.iframe.length === 0) {
+            if (glitter.iframe.length === 1) {
                 window.history.back();
                 return
             }
-            glitter.goBack();
-            if (glitter.iframe.length > 0) {
+            if (glitter.iframe.length > 1) {
+                glitter.goBack();
                 var search = setSearchParam(removeSearchParam(window.location.search, "page"), "page", glitter.iframe[glitter.iframe.length - 1].id)
                 try {
                     window.history.pushState(null, null, search);

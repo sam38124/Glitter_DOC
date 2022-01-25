@@ -23,20 +23,24 @@
     lifeCycle.onCreateView = function () {
         return `
         <h3 style="font-size: 39px;font-weight: 400;">資料存取<br><div style="display: flex;height: 50px;align-items: center;"><span style="font-size: 15px;">\t\tSupport</span><img style="width: 25px;height: 25px;margin-left: 10px;" src="../img/android.png">
-        <img style="width: 25px;height: 25px;margin-left: 5px;" src="../img/ios.png"></div></h3>
-    <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 30px;"></div>
-<h4 style="color: darkred;">無須添加額外插件，導入Glitter即可使用．</h4><br>
- <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-bottom: 20px;"></div>
- <span>存入資料</span>
- <br><br>
+        <img style="width: 25px;height: 25px;margin-left: 5px;" src="../img/ios.png">
+     <i class="fab fa-internet-explorer" style="font-size: 23px;color: dodgerblue;margin-left: 5px;"></i>
+        </div></h3>
+    <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
+    <span>[資料持久化] - 在部分情況下您必須將資料儲存起來，已便下次開啟應用後取得資料並且接續使用．</span>
+       <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 10px;"></div>
+  <h3 style="color: #c41b1b;">存入資料</h3>
+   <span style="color: #0062c0;">[tag]</sapn><span>-存入的tag名稱</span><br><br>
+          <span style="color: #0062c0;">[data]</sapn><span>-資料內容[String類型]</span><br><br>
   ${glitter.share.code.js(` //tag為你要存入資料的參數名稱
       glitter.setPro('tag','hello word',function (response){
             alert(response.result)
         })
 `)}
  <br><br>
-<span>取得資料</span>
- <br><br>
+ <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+  <h3 style="color: #c41b1b;">取得資料</h3>
+  <span style="color: #0062c0;">[tag]</sapn><span>-要取得資料的Tag名稱</span><br><br>
   ${glitter.share.code.js(`  //tag為你要取得資料的參數名稱
        glitter.getPro('tag',function (response) {
         alert(response.data)
