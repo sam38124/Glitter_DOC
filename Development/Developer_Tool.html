@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../glitterBundle/ControlInstance.js"></script>
+    <link href="../glitterBundle/bootstrap.css" rel="stylesheet">
+    <link href="../fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/xcode.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/go.min.js"></script>
+    <link href="../css/article.css" rel="stylesheet">
+</head>
+<body>
+<script>
+    lifeCycle.onCreate = function () {
+        hljs.highlightAll();
+        glitter.print(function (){
+
+        })
+    }
+    lifeCycle.onCreateView = function () {
+        return `
+        <h3 style="font-size: 39px;font-weight: 400;">開發工具<br><div style="display: flex;height: 50px;align-items: center;"><span style="font-size: 15px;">\t\tSupport</span><img style="width: 25px;height: 25px;margin-left: 10px;" src="../img/android.png">
+        <img style="width: 25px;height: 25px;margin-left: 5px;" src="../img/ios.png">
+     <i class="fab fa-internet-explorer" style="font-size: 23px;color: dodgerblue;margin-left: 5px;"></i>
+        </div></h3>
+         <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 0px;"></div>
+  <span><h3 style="color: #c41b1b;">Import</h3></span>
+   <span>在你創建的每個HTML畫面中，皆需於Head中加入Glitter控制實例</span>
+   <br> <br>
+  ${glitter.share.code.js(`   &lt;script src="../glitterBundle/ControlInstance.js">&lt;/script>
+  `)}
+    <div style="height: 1px;width: 100%;background-color: whitesmoke;margin-top: 20px;margin-bottom: 20px;"></div>
+
+  <h3 style="color: #c41b1b;">計時器</h3>
+  <h3 style="color: darkslategray;font-size: 18px;margin-top: 0px;margin-bottom: 10px;">glitter.getClock( )</h3>
+  ${glitter.share.code.js(` //取得計時器
+ var clock=glitter.getClock()
+
+ setTimeout(function () {
+ //會跳出1000毫秒的近似值
+ alert(clock.stop())
+ },1000)
+
+ //使用此函式將計時器歸零
+ clock.zeroing()
+`)}
+ <br>
+ <div style="height: 1px;width: 100%;background-color: lightgray;margin-top: 20px;margin-bottom: 20px;"></div>
+  <h3 style="color: #c41b1b;">函式反回</h3>
+   <h3 style="color: darkslategray;font-size: 18px;margin-top: 0px;margin-bottom: 10px;">glitter.print( )</h3>
+    <h4 style="color: black;font-size: 13px;margin-top: 5px;margin-bottom: 10px;">此函式常用於樣板字串的產生，例如更改HTML區塊內容．</h4>
+  ${glitter.share.code.js(`
+    $('#div').html(\`&lt;h3>\${glitter.print(function () {
+            var data = "1234"
+            //做一些邏輯判斷，更改data內容後再返回
+            if (true) {
+                data = "5678"
+            }
+            return data
+        })}&lt;h3/>\`)
+`)}
+ <br><br>
+
+
+
+`
+
+    }
+
+</script>
+</body>
+</html>

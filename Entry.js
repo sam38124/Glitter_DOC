@@ -52,7 +52,8 @@ ${text}
                 {title: 'URL控制', link: '../Development/Frag_URL_Controler.html'},
                 {title: '事件控制', link: '../Development/Frag_Event.html'},
                 {title: '無限列表', link: '../Development/Frag_InfiniateList.html'},
-                {title: '除錯模式', link: '../Development/Frag_Debug_Mode.html'}
+                {title: '除錯模式', link: '../Development/Frag_Debug_Mode.html'},
+                {title: '開發工具', link: '../Development/Developer_Tool.html'}
             ]
         },{
             title: '後端開發', items: [
