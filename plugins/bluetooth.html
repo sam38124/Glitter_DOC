@@ -176,6 +176,16 @@
         })<br>
 </code>
 </pre><br>
+<span>設定訊息回傳通道</span><br><br>
+<pre>
+<code class="js">
+   glitter.runJsInterFace("Glitter_BLE_SetNotify", {
+            rxChannel:"8D81"
+        }, function (response) {
+            console.log(response.result)
+        })<br>
+</code>
+</pre><br>
 <span>寫入HexString</span><br><br>
 <pre>
 

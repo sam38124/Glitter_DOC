@@ -514,7 +514,6 @@ class Glitter {
         this.goBack = function (tag) {
             if (glitter.dialog.length > 0 && $('#diaPlace').css('display') !== 'none') {
                 var last = glitter.dialog[glitter.dialog.length - 1];
-
                 if (last.cancelable) {
                     glitter.closeDiaLogWithTag(last.id);
                     return;
@@ -572,6 +571,12 @@ class Glitter {
             }
             glitter.changePageListener(glitter.iframe[index].id);
             glitter.setUrlParameter('page',glitter.iframe[index].id)
+            if (glitter.iframe.length > 1) {
+                var search = setSearchParam(removeSearchParam(window.location.search, "page"), "page", glitter.iframe[glitter.iframe.length - 1].id)
+                try {
+                    window.history.pushState(null, null, search);
+                } catch (e) {}
+            }
         }; //添加script內容
 
 
@@ -1476,18 +1481,7 @@ glitterInitial();
 function glitterInitial() {
     if (glitter.deviceType !== glitter.deviceTypeEnum.Android) {
         window.addEventListener("popstate", function (e) {
-            if (glitter.iframe.length === 1) {
-                window.history.back();
-                return
-            }
-            if (glitter.iframe.length > 1) {
-                glitter.goBack();
-                var search = setSearchParam(removeSearchParam(window.location.search, "page"), "page", glitter.iframe[glitter.iframe.length - 1].id)
-                try {
-                    window.history.pushState(null, null, search);
-                } catch (e) {
-                }
-            }
+            glitter.goBack();
         });
     }
 

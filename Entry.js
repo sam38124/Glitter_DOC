@@ -51,12 +51,12 @@ ${text}
                 {title: 'MVVM雙向綁定', link: '../Development/Frag_View_Binding.html'},
                 {title: 'URL控制', link: '../Development/Frag_URL_Controler.html'},
                 {title: '事件控制', link: '../Development/Frag_Event.html'},
-                {title: '無限列表', link: '../Development/Frag_InfiniateList.html'}
+                {title: '無限列表', link: '../Development/Frag_InfiniateList.html'},
+                {title: '除錯模式', link: '../Development/Frag_Debug_Mode.html'}
             ]
         },{
             title: '後端開發', items: [
-                {title: '添加API',link:'../background/Frag_Api_Developer.html'},
-                {title: '資料庫控制',link:'../background/Frag_Api_Developer.html'}
+                {title: '添加API',link:'../background/Frag_Api_Developer.html'}
             ]
         },
         {
